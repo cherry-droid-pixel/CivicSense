@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CivicSense — Admin Dashboard</title>
+
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+<header class="admin-navbar">
+
+    <div class="brand">
+        <div class="brand-icon">C</div>
+
+        <div>
+            <h1>CivicSense</h1>
+            <span>Administration</span>
+        </div>
+    </div>
+
+    <div class="admin-user">
+
+        <div class="admin-user-info">
+            <strong id="adminName">Admin</strong>
+            <span id="adminEmail">admin</span>
+        </div>
+
+        <button id="logoutButton" class="logout-button">
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="admin-container">
+
+    <!-- PAGE HEADER -->
+
+    <section class="page-header">
+
+        <div>
+            <span class="eyebrow">ADMINISTRATION</span>
+
+            <h2>Civic Issues Dashboard</h2>
+
+            <p>
+                Monitor reported civic issues and manage complaint status.
+            </p>
+        </div>
+
+        <button id="refreshButton" class="refresh-button">
+            ↻ Refresh
+        </button>
+
+    </section>
+
+
+    <!-- MESSAGE -->
+
+    <div id="adminMessage" class="admin-message"></div>
+
+
+    <!-- STATISTICS -->
+
+    <section class="stats-grid">
+
+        <div class="stat-card">
+
+            <div class="stat-icon total">
+                📊
+            </div>
+
+            <div>
+                <span>Total Complaints</span>
+                <strong id="totalComplaints">0</strong>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon pending">
+                ⏳
+            </div>
+
+            <div>
+                <span>Pending</span>
+                <strong id="pendingComplaints">0</strong>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon progress">
+                🔄
+            </div>
+
+            <div>
+                <span>In Progress</span>
+                <strong id="progressComplaints">0</strong>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon resolved">
+                ✓
+            </div>
+
+            <div>
+                <span>Resolved</span>
+                <strong id="resolvedComplaints">0</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FILTERS -->
+
+    <section class="complaints-section">
+
+        <div class="section-header">
+
+            <div>
+                <h2>All Complaints</h2>
+
+                <p>
+                    Review and update reported civic issues.
+                </p>
+            </div>
+
+            <select id="statusFilter">
+
+                <option value="">All Statuses</option>
+
+                <option value="PENDING">
+                    Pending
+                </option>
+
+                <option value="IN_PROGRESS">
+                    In Progress
+                </option>
+
+                <option value="RESOLVED">
+                    Resolved
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div id="loadingState" class="loading-state">
+            Loading complaints...
+        </div>
+
+
+        <div id="emptyState" class="empty-state hidden">
+
+            <div class="empty-icon">
+                📋
+            </div>
+
+            <h3>No complaints found</h3>
+
+            <p>
+                There are no complaints matching the selected filter.
+            </p>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table id="complaintsTable">
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Complaint</th>
+
+                        <th>Category</th>
+
+                        <th>Location</th>
+
+                        <th>Priority</th>
+
+                        <th>Citizen</th>
+
+                        <th>Status</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="complaintsTableBody">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- COMPLAINT DETAILS MODAL -->
+
+<div id="complaintModal" class="modal hidden">
+
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <div class="modal-card">
+
+        <button
+            id="closeModalButton"
+            class="modal-close">
+            ×
+        </button>
+
+        <span class="eyebrow">
+            COMPLAINT DETAILS
+        </span>
+
+        <h2 id="modalTitle">
+            Complaint
+        </h2>
+
+        <div class="modal-grid">
+
+            <div>
+                <label>Complaint ID</label>
+                <strong id="modalId">-</strong>
+            </div>
+
+            <div>
+                <label>Status</label>
+                <strong id="modalStatus">-</strong>
+            </div>
+
+            <div>
+                <label>Category</label>
+                <strong id="modalCategory">-</strong>
+            </div>
+
+            <div>
+                <label>Priority</label>
+                <strong id="modalPriority">-</strong>
+            </div>
+
+            <div class="full-width">
+                <label>Description</label>
+                <p id="modalDescription">-</p>
+            </div>
+
+            <div class="full-width">
+                <label>Location</label>
+                <p id="modalLocation">-</p>
+            </div>
+
+            <div>
+                <label>Latitude</label>
+                <strong id="modalLatitude">-</strong>
+            </div>
+
+            <div>
+                <label>Longitude</label>
+                <strong id="modalLongitude">-</strong>
+            </div>
+
+        </div>
+
+        <div class="modal-actions">
+
+            <label for="modalStatusSelect">
+                Update Status
+            </label>
+
+            <select id="modalStatusSelect">
+
+                <option value="PENDING">
+                    Pending
+                </option>
+
+                <option value="IN_PROGRESS">
+                    In Progress
+                </option>
+
+                <option value="RESOLVED">
+                    Resolved
+                </option>
+
+            </select>
+
+            <button
+                id="modalUpdateButton"
+                class="primary-button">
+                Update Status
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="admin.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>CivicSense — Dashboard</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/dashboard.css"
+    >
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <!-- ==========================================
+         SIDEBAR
+    =========================================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-logo">
+                C
+            </div>
+
+            <div class="brand-text">
+                <strong>CivicSense</strong>
+                <span>Community Platform</span>
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-section-title">
+                MAIN MENU
+            </div>
+
+            <a
+                href="dashboard.html"
+                class="nav-item active"
+            >
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a
+                href="issue-map.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">⌖</span>
+                <span>Issue Map</span>
+            </a>
+
+            <a
+                href="report.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">＋</span>
+                <span>Report Issue</span>
+            </a>
+
+            <a
+                href="complaints.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">▤</span>
+                <span>My Complaints</span>
+            </a>
+
+
+            <div class="nav-section-title account-title">
+                ACCOUNT
+            </div>
+
+            <a
+                href="profile.html"
+                class="nav-item"
+            >
+                <span class="nav-icon">◎</span>
+                <span>Profile</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-help">
+
+                <div class="help-icon">
+                    ?
+                </div>
+
+                <div>
+                    <strong>Need help?</strong>
+                    <span>Report an issue anytime.</span>
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="logoutButton"
+                class="sidebar-logout"
+            >
+                <span>↪</span>
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ==========================================
+         MAIN
+    =========================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="topbar-page">
+
+                <span class="topbar-eyebrow">
+                    CITIZEN PORTAL
+                </span>
+
+                <strong class="topbar-title">
+                    Dashboard
+                </strong>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <button
+                    class="notification-button"
+                    type="button"
+                    aria-label="Notifications"
+                >
+                    ♧
+                </button>
+
+
+                <div class="user-mini">
+
+                    <div class="user-avatar">
+                        <span id="userInitial">C</span>
+                    </div>
+
+                    <div class="user-mini-info">
+
+                        <strong id="userName">
+                            Citizen
+                        </strong>
+
+                        <span>
+                            Citizen
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ==========================================
+             DASHBOARD CONTENT
+        =========================================== -->
+
+        <section class="dashboard-content">
+
+
+            <!-- WELCOME -->
+
+            <section class="welcome-section">
+
+                <div class="welcome-copy">
+
+                    <span class="section-kicker">
+                        YOUR COMMUNITY
+                    </span>
+
+                    <h1>
+                        Welcome back,
+                        <span id="welcomeName">
+                            Citizen
+                        </span>
+                        👋
+                    </h1>
+
+                    <p>
+                        Help make your community better.
+                        Track your civic reports and stay informed.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="report.html"
+                    class="primary-button"
+                >
+                    + Report an Issue
+                </a>
+
+            </section>
+
+
+            <!-- ======================================
+                 STATISTICS
+            ======================================= -->
+
+            <section class="stats-grid">
+
+
+                <div class="stat-card stat-total">
+
+                    <div class="stat-icon">
+                        ▤
+                    </div>
+
+                    <div class="stat-info">
+
+                        <span>
+                            Total Reports
+                        </span>
+
+                        <strong id="totalComplaints">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card stat-pending">
+
+                    <div class="stat-icon">
+                        ◷
+                    </div>
+
+                    <div class="stat-info">
+
+                        <span>
+                            Pending
+                        </span>
+
+                        <strong id="pendingComplaints">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card stat-progress">
+
+                    <div class="stat-icon">
+                        ◌
+                    </div>
+
+                    <div class="stat-info">
+
+                        <span>
+                            In Progress
+                        </span>
+
+                        <strong id="progressComplaints">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card stat-resolved">
+
+                    <div class="stat-icon">
+                        ✓
+                    </div>
+
+                    <div class="stat-info">
+
+                        <span>
+                            Resolved
+                        </span>
+
+                        <strong id="resolvedComplaints">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ======================================
+                 DASHBOARD OVERVIEW
+            ======================================= -->
+
+            <section class="dashboard-overview">
+
+
+                <!-- RECENT REPORTS -->
+
+                <div class="dashboard-panel recent-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="section-kicker">
+                                ACTIVITY
+                            </span>
+
+                            <h2>
+                                Recent Reports
+                            </h2>
+
+                            <p>
+                                Your latest civic issues.
+                            </p>
+
+                        </div>
+
+
+                        <a
+                            href="complaints.html"
+                            class="panel-link"
+                        >
+                            View All
+                        </a>
+
+                    </div>
+
+
+                    <div
+                        id="recentComplaints"
+                        class="recent-complaints"
+                    >
+
+                        <div class="loading-state">
+                            Loading reports...
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MAP PREVIEW -->
+
+                <div class="dashboard-panel map-preview-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="section-kicker">
+                                LOCATION
+                            </span>
+
+                            <h2>
+                                Community Map
+                            </h2>
+
+                            <p>
+                                Explore reported civic issues.
+                            </p>
+
+                        </div>
+
+
+                        <a
+                            href="issue-map.html"
+                            class="panel-link"
+                        >
+                            Open Map
+                        </a>
+
+                    </div>
+
+
+                    <div class="map-preview">
+
+                        <div class="map-placeholder">
+
+                            <div class="map-placeholder-icon">
+                                ⌖
+                            </div>
+
+                            <strong>
+                                Civic Issues Near You
+                            </strong>
+
+                            <span>
+                                Open the Issue Map to explore reports.
+                            </span>
+
+                            <a
+                                href="issue-map.html"
+                                class="map-button"
+                            >
+                                Explore Map →
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ======================================
+                 QUICK ACTIONS
+            ======================================= -->
+
+            <section class="quick-actions">
+
+                <a
+                    href="report.html"
+                    class="quick-action-card"
+                >
+
+                    <div class="quick-action-icon">
+                        ＋
+                    </div>
+
+                    <div>
+                        <strong>
+                            Report an Issue
+                        </strong>
+
+                        <span>
+                            Report a civic problem in your area.
+                        </span>
+                    </div>
+
+                    <b>
+                        →
+                    </b>
+
+                </a>
+
+
+                <a
+                    href="complaints.html"
+                    class="quick-action-card"
+                >
+
+                    <div class="quick-action-icon">
+                        ▤
+                    </div>
+
+                    <div>
+                        <strong>
+                            Track Complaints
+                        </strong>
+
+                        <span>
+                            Check the status of your reports.
+                        </span>
+                    </div>
+
+                    <b>
+                        →
+                    </b>
+
+                </a>
+
+
+                <a
+                    href="issue-map.html"
+                    class="quick-action-card"
+                >
+
+                    <div class="quick-action-icon">
+                        ⌖
+                    </div>
+
+                    <div>
+                        <strong>
+                            Explore Issue Map
+                        </strong>
+
+                        <span>
+                            See civic issues around the community.
+                        </span>
+                    </div>
+
+                    <b>
+                        →
+                    </b>
+
+                </a>
+
+            </section>
+
+
+            <!-- FOOTER -->
+
+            <footer class="dashboard-footer">
+
+                <span>
+                    © 2026 CivicSense
+                </span>
+
+                <span>
+                    Built for better communities.
+                </span>
+
+            </footer>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="js/dashboard.js"></script>
+
+</body>
+</html>

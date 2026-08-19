@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CivicSense — Report Issue</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/report.css">
+</head>
+
+<body>
+
+<div class="report-page">
+
+    <!-- SIDEBAR -->
+    <aside class="report-sidebar">
+
+        <div class="report-brand">
+            <div class="report-brand-logo">C</div>
+
+            <div>
+                <strong>CivicSense</strong>
+                <span>Community Platform</span>
+            </div>
+        </div>
+
+
+        <nav class="report-navigation">
+
+            <span class="report-nav-label">
+                MAIN MENU
+            </span>
+
+            <a
+                href="dashboard.html"
+                class="report-nav-item"
+            >
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a
+                href="issue-map.html"
+                class="report-nav-item"
+            >
+                <span>⌖</span>
+                Issue Map
+            </a>
+
+            <a
+                href="report.html"
+                class="report-nav-item active"
+            >
+                <span>＋</span>
+                Report Issue
+            </a>
+
+            <a
+                href="complaints.html"
+                class="report-nav-item"
+            >
+                <span>▤</span>
+                My Complaints
+            </a>
+
+
+            <span class="report-nav-label account-label">
+                ACCOUNT
+            </span>
+
+            <a
+                href="profile.html"
+                class="report-nav-item"
+            >
+                <span>◎</span>
+                Profile
+            </a>
+
+        </nav>
+
+
+        <div class="report-sidebar-bottom">
+
+            <div class="report-help">
+
+                <div class="report-help-icon">
+                    ?
+                </div>
+
+                <div>
+                    <strong>Need help?</strong>
+                    <span>Report an issue anytime.</span>
+                </div>
+
+            </div>
+
+
+            <button
+                id="logoutButton"
+                class="report-logout"
+                type="button"
+            >
+                ↪ &nbsp; Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="report-main">
+
+        <!-- TOPBAR -->
+        <header class="report-topbar">
+
+            <div>
+
+                <span class="report-eyebrow">
+                    CIVICSENSE
+                </span>
+
+                <h1>
+                    Report Issue
+                </h1>
+
+            </div>
+
+
+            <div class="report-user">
+
+                <div
+                    class="report-user-avatar"
+                    id="userInitial"
+                >
+                    C
+                </div>
+
+                <div>
+
+                    <strong id="userName">
+                        Citizen
+                    </strong>
+
+                    <span>
+                        Citizen
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+        <section class="report-content">
+
+            <div class="report-page-heading">
+
+                <div>
+
+                    <span class="report-section-label">
+                        COMMUNITY REPORT
+                    </span>
+
+                    <h2>
+                        Report a Civic Issue
+                    </h2>
+
+                    <p>
+                        Tell us about a problem in your community.
+                        Your report helps create a safer and better locality.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- FORM CARD -->
+            <section class="report-card">
+
+                <div class="report-card-header">
+
+                    <div>
+
+                        <strong>
+                            Issue Details
+                        </strong>
+
+                        <span>
+                            Provide accurate information about the problem.
+                        </span>
+
+                    </div>
+
+                    <div class="report-required">
+                        * Required
+                    </div>
+
+                </div>
+
+
+                <form
+                    id="complaintForm"
+                    novalidate
+                >
+
+                    <!-- MESSAGE -->
+                    <div
+                        id="reportMessage"
+                        class="report-message"
+                        role="alert"
+                    ></div>
+
+
+                    <!-- TITLE -->
+                    <div class="report-form-group">
+
+                        <label for="title">
+                            Issue Title
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            id="title"
+                            name="title"
+                            type="text"
+                            maxlength="160"
+                            placeholder="Example: Large pothole near main road"
+                            autocomplete="off"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- CATEGORY + PRIORITY -->
+                    <div class="report-form-grid">
+
+                        <div class="report-form-group">
+
+                            <label for="category">
+                                Category
+                                <span>*</span>
+                            </label>
+
+                            <select
+                                id="category"
+                                name="category"
+                                required
+                            >
+
+                                <option value="">
+                                    Select category
+                                </option>
+
+                                <option value="ROADS">
+                                    Roads & Potholes
+                                </option>
+
+                                <option value="STREET_LIGHTS">
+                                    Street Lights
+                                </option>
+
+                                <option value="WATER">
+                                    Water & Drainage
+                                </option>
+
+                                <option value="WASTE">
+                                    Waste Management
+                                </option>
+
+                                <option value="TRAFFIC">
+                                    Traffic & Signals
+                                </option>
+
+                                <option value="PUBLIC_SAFETY">
+                                    Public Safety
+                                </option>
+
+                                <option value="PARKS">
+                                    Parks & Public Spaces
+                                </option>
+
+                                <option value="OTHER">
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="report-form-group">
+
+                            <label for="priority">
+                                Priority
+                            </label>
+
+                            <select
+                                id="priority"
+                                name="priority"
+                            >
+
+                                <option value="LOW">
+                                    Low
+                                </option>
+
+                                <option
+                                    value="MEDIUM"
+                                    selected
+                                >
+                                    Medium
+                                </option>
+
+                                <option value="HIGH">
+                                    High
+                                </option>
+
+                                <option value="CRITICAL">
+                                    Critical
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- LOCATION -->
+                    <div class="report-form-group">
+
+                        <label for="location">
+                            Location
+                            <span>*</span>
+                        </label>
+
+                        <div class="report-location-row">
+
+                            <input
+                                id="location"
+                                name="location"
+                                type="text"
+                                maxlength="300"
+                                placeholder="Enter the location of the issue"
+                                required
+                            >
+
+                            <button
+                                id="locationButton"
+                                class="report-location-button"
+                                type="button"
+                            >
+                                ◎ Detect Location
+                            </button>
+
+                        </div>
+
+                        <small id="locationStatus">
+                            You can enter the location manually or detect your current location.
+                        </small>
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+                    <div class="report-form-group">
+
+                        <label for="description">
+                            Description
+                            <span>*</span>
+                        </label>
+
+                        <textarea
+                            id="description"
+                            name="description"
+                            maxlength="5000"
+                            placeholder="Describe what happened, where exactly it is, and any other useful details..."
+                            required
+                        ></textarea>
+
+                        <small>
+                            Please provide enough detail to help authorities understand the issue.
+                        </small>
+
+                    </div>
+
+
+                    <!-- COORDINATES -->
+                    <input
+                        id="latitude"
+                        name="latitude"
+                        type="hidden"
+                    >
+
+                    <input
+                        id="longitude"
+                        name="longitude"
+                        type="hidden"
+                    >
+
+
+                    <!-- IMAGE UPLOAD -->
+                    <div class="form-group image-upload-group">
+
+                        <label for="imageFile">
+                            Issue Image
+                        </label>
+
+                        <input
+                            id="imageFile"
+                            name="imageFile"
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp"
+                        >
+
+                        <small class="form-help">
+                            Upload a clear photo of the civic issue.
+                            JPG, PNG or WEBP.
+                        </small>
+
+                        <div
+                            id="imagePreview"
+                            class="image-preview"
+                            hidden
+                        >
+                            <img
+                                id="previewImage"
+                                src=""
+                                alt="Issue image preview"
+                            >
+                        </div>
+
+                    </div>
+
+
+                    <!-- IMAGE URL -->
+                    <input
+                        id="imageUrl"
+                        name="imageUrl"
+                        type="hidden"
+                    >
+
+
+                    <!-- FOOTER -->
+                    <div class="report-form-footer">
+
+                        <div class="report-form-note">
+                            <span>✓</span>
+
+                            <span>
+                                Your report will be reviewed by the civic team.
+                            </span>
+                        </div>
+
+                        <button
+                            id="complaintButton"
+                            class="report-submit-button"
+                            type="submit"
+                        >
+                            Submit Civic Report
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="js/report.js"></script>
+
+</body>
+</html>

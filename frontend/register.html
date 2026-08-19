@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account — CivicSense</title>
+
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="container nav-content">
+
+        <a href="index.html" class="logo">
+            <span class="logo-icon">C</span>
+            <span>CivicSense</span>
+        </a>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
+        </nav>
+
+    </div>
+</header>
+
+
+<main class="auth-page">
+
+    <div class="auth-container">
+
+        <div class="auth-header">
+
+            <div class="auth-logo">
+                <span class="logo-icon">C</span>
+            </div>
+
+            <h1>Create your CivicSense account</h1>
+
+            <p>
+                Join your community and start reporting civic issues.
+            </p>
+
+        </div>
+
+
+        <div class="auth-card">
+
+            <div id="registerMessage" class="auth-message"></div>
+
+            <form id="registerForm">
+
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        required
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Minimum 6 characters"
+                        autocomplete="new-password"
+                        minlength="6"
+                        required
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        placeholder="Re-enter your password"
+                        autocomplete="new-password"
+                        minlength="6"
+                        required
+                    >
+                </div>
+
+
+                <label class="checkbox-row">
+
+                    <input
+                        type="checkbox"
+                        id="terms"
+                        required
+                    >
+
+                    <span>
+                        I agree to the CivicSense terms and privacy policy.
+                    </span>
+
+                </label>
+
+
+                <button
+                    type="submit"
+                    id="registerButton"
+                    class="btn btn-primary auth-button"
+                >
+                    Create Account
+                </button>
+
+            </form>
+
+
+            <div class="auth-divider">
+                <span>Already have an account?</span>
+            </div>
+
+
+            <a
+                href="login.html"
+                class="btn btn-secondary auth-button"
+            >
+                Sign In
+            </a>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer class="auth-footer">
+
+    <div class="container">
+
+        <p>
+            © 2026 CivicSense. Smart technology for better communities.
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script src="auth.js"></script>
+
+</body>
+</html>

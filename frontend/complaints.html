@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>CivicSense — My Complaints</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/complaints.css"
+    >
+</head>
+
+<body>
+
+<div class="complaints-page">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="complaints-sidebar">
+
+        <div class="complaints-brand">
+
+            <div class="complaints-brand-logo">
+                C
+            </div>
+
+            <div class="complaints-brand-text">
+                <strong>CivicSense</strong>
+                <span>Community Platform</span>
+            </div>
+
+        </div>
+
+
+        <nav class="complaints-navigation">
+
+            <span class="complaints-nav-label">
+                MAIN MENU
+            </span>
+
+            <a
+                href="dashboard.html"
+                class="complaints-nav-item"
+            >
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a
+                href="issue-map.html"
+                class="complaints-nav-item"
+            >
+                <span class="nav-icon">⌖</span>
+                <span>Issue Map</span>
+            </a>
+
+            <a
+                href="report.html"
+                class="complaints-nav-item"
+            >
+                <span class="nav-icon">＋</span>
+                <span>Report Issue</span>
+            </a>
+
+            <a
+                href="complaints.html"
+                class="complaints-nav-item active"
+            >
+                <span class="nav-icon">▤</span>
+                <span>My Complaints</span>
+            </a>
+
+
+            <span class="complaints-nav-label account-label">
+                ACCOUNT
+            </span>
+
+            <a
+                href="profile.html"
+                class="complaints-nav-item"
+            >
+                <span class="nav-icon">◎</span>
+                <span>Profile</span>
+            </a>
+
+        </nav>
+
+
+        <div class="complaints-sidebar-bottom">
+
+            <div class="complaints-help">
+
+                <div class="complaints-help-icon">
+                    ?
+                </div>
+
+                <div>
+                    <strong>Need help?</strong>
+                    <span>Report an issue anytime.</span>
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="logoutButton"
+                class="complaints-logout"
+            >
+                ↪ &nbsp; Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="complaints-main">
+
+        <!-- TOPBAR -->
+
+        <header class="complaints-topbar">
+
+            <div>
+
+                <span class="complaints-eyebrow">
+                    CIVICSENSE
+                </span>
+
+                <h1>
+                    My Complaints
+                </h1>
+
+            </div>
+
+
+            <div class="complaints-user">
+
+                <div
+                    class="complaints-user-avatar"
+                    id="userInitial"
+                >
+                    C
+                </div>
+
+                <div class="complaints-user-details">
+
+                    <strong id="userName">
+                        Citizen
+                    </strong>
+
+                    <span>
+                        Citizen
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             PAGE CONTENT
+        ================================================== -->
+
+        <section class="complaints-content">
+
+
+            <!-- PAGE HEADING -->
+
+            <div class="complaints-page-heading">
+
+                <div>
+
+                    <span class="complaints-section-label">
+                        YOUR ACTIVITY
+                    </span>
+
+                    <h2>
+                        Track Your Civic Reports
+                    </h2>
+
+                    <p>
+                        View the civic issues you have reported
+                        and monitor their progress.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="report.html"
+                    class="complaints-report-button"
+                >
+                    + Report New Issue
+                </a>
+
+            </div>
+
+
+            <!-- =================================================
+                 STATISTICS
+            ================================================== -->
+
+            <div class="complaints-stats-grid">
+
+
+                <div class="complaints-stat-card">
+
+                    <div class="complaints-stat-icon total">
+                        ▤
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Total Reports
+                        </span>
+
+                        <strong id="totalComplaints">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="complaints-stat-card">
+
+                    <div class="complaints-stat-icon pending">
+                        ◷
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Pending
+                        </span>
+
+                        <strong id="pendingComplaints">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="complaints-stat-card">
+
+                    <div class="complaints-stat-icon progress">
+                        ◌
+                    </div>
+
+                    <div>
+
+                        <span>
+                            In Progress
+                        </span>
+
+                        <strong id="progressComplaints">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="complaints-stat-card">
+
+                    <div class="complaints-stat-icon resolved">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Resolved
+                        </span>
+
+                        <strong id="resolvedComplaints">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 TOOLBAR
+            ================================================== -->
+
+            <div class="complaints-toolbar">
+
+                <div>
+
+                    <h3>
+                        Your Reports
+                    </h3>
+
+                    <span id="complaintCountLabel">
+                    </span>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="refreshComplaints"
+                    class="complaints-refresh-button"
+                >
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 MESSAGE
+            ================================================== -->
+
+            <div
+                id="complaintsMessage"
+                class="complaints-message"
+            ></div>
+
+
+            <!-- =================================================
+                 LOADING
+            ================================================== -->
+
+            <div
+                id="complaintsLoading"
+                class="complaints-loading"
+            >
+
+                <div class="loading-spinner"></div>
+
+                <p>
+                    Loading your complaints...
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 COMPLAINTS LIST
+            ================================================== -->
+
+            <div
+                id="complaintsList"
+                class="complaints-list"
+            ></div>
+
+
+            <!-- =================================================
+                 EMPTY STATE
+            ================================================== -->
+
+            <div
+                id="complaintsEmpty"
+                class="complaints-empty"
+                hidden
+            >
+
+                <div class="empty-icon">
+                    ▤
+                </div>
+
+                <h3>
+                    No complaints yet
+                </h3>
+
+                <p>
+                    You haven't reported any civic issues.
+                    Start by reporting an issue in your area.
+                </p>
+
+                <a
+                    href="report.html"
+                    class="complaints-empty-button"
+                >
+                    + Report Your First Issue
+                </a>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================== -->
+
+<script src="js/complaints.js"></script>
+
+</body>
+</html>

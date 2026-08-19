@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CivicSense — Profile</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+
+<body>
+
+<div class="profile-page">
+
+    <!-- SIDEBAR -->
+
+    <aside class="profile-sidebar">
+
+        <div class="profile-brand">
+            <div class="profile-brand-logo">C</div>
+
+            <div>
+                <strong>CivicSense</strong>
+                <span>Community Platform</span>
+            </div>
+        </div>
+
+
+        <nav class="profile-navigation">
+
+            <span class="profile-nav-label">
+                MAIN MENU
+            </span>
+
+            <a
+                href="dashboard.html"
+                class="profile-nav-item"
+            >
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a
+                href="issue-map.html"
+                class="profile-nav-item"
+            >
+                <span>⌖</span>
+                Issue Map
+            </a>
+
+            <a
+                href="report.html"
+                class="profile-nav-item"
+            >
+                <span>＋</span>
+                Report Issue
+            </a>
+
+            <a
+                href="complaints.html"
+                class="profile-nav-item"
+            >
+                <span>▤</span>
+                My Complaints
+            </a>
+
+
+            <span class="profile-nav-label account-label">
+                ACCOUNT
+            </span>
+
+            <a
+                href="profile.html"
+                class="profile-nav-item active"
+            >
+                <span>◎</span>
+                Profile
+            </a>
+
+        </nav>
+
+
+        <div class="profile-sidebar-bottom">
+
+            <div class="profile-help">
+
+                <div class="profile-help-icon">
+                    ?
+                </div>
+
+                <div>
+                    <strong>Need help?</strong>
+                    <span>
+                        Report an issue anytime.
+                    </span>
+                </div>
+
+            </div>
+
+
+            <button
+                id="logoutButton"
+                class="profile-logout"
+                type="button"
+            >
+                ↪ &nbsp; Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="profile-main">
+
+        <!-- TOPBAR -->
+
+        <header class="profile-topbar">
+
+            <div>
+
+                <span class="profile-eyebrow">
+                    CIVICSENSE
+                </span>
+
+                <h1>
+                    My Profile
+                </h1>
+
+            </div>
+
+
+            <div class="profile-user">
+
+                <div
+                    class="profile-user-avatar"
+                    id="userInitial"
+                >
+                    C
+                </div>
+
+                <div>
+
+                    <strong id="topUserName">
+                        Citizen
+                    </strong>
+
+                    <span>
+                        Citizen
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <section class="profile-content">
+
+            <div class="profile-heading">
+
+                <div>
+
+                    <span class="profile-section-label">
+                        ACCOUNT
+                    </span>
+
+                    <h2>
+                        Your Profile
+                    </h2>
+
+                    <p>
+                        Manage your CivicSense account information.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- MESSAGE -->
+
+            <div
+                id="profileMessage"
+                class="profile-message"
+            ></div>
+
+
+            <!-- PROFILE CARD -->
+
+            <section class="profile-card">
+
+                <div class="profile-card-header">
+
+                    <div class="profile-large-avatar"
+                         id="profileAvatar">
+                        C
+                    </div>
+
+                    <div>
+
+                        <h3 id="profileDisplayName">
+                            Citizen
+                        </h3>
+
+                        <p>
+                            CivicSense Citizen
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-divider"></div>
+
+
+                <div class="profile-fields">
+
+                    <div class="profile-field">
+
+                        <label>
+                            Full Name
+                        </label>
+
+                        <div
+                            id="profileName"
+                            class="profile-value"
+                        >
+                            Loading...
+                        </div>
+
+                    </div>
+
+
+                    <div class="profile-field">
+
+                        <label>
+                            Email Address
+                        </label>
+
+                        <div
+                            id="profileEmail"
+                            class="profile-value"
+                        >
+                            Loading...
+                        </div>
+
+                    </div>
+
+
+                    <div class="profile-field">
+
+                        <label>
+                            Phone Number
+                        </label>
+
+                        <div
+                            id="profilePhone"
+                            class="profile-value"
+                        >
+                            Not available
+                        </div>
+
+                    </div>
+
+
+                    <div class="profile-field">
+
+                        <label>
+                            Account Role
+                        </label>
+
+                        <div
+                            id="profileRole"
+                            class="profile-value"
+                        >
+                            Citizen
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-actions">
+
+                    <a
+                        href="dashboard.html"
+                        class="profile-secondary-button"
+                    >
+                        ← Dashboard
+                    </a>
+
+                    <button
+                        id="refreshProfileButton"
+                        class="profile-primary-button"
+                        type="button"
+                    >
+                        ↻ Refresh Profile
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- ACCOUNT INFORMATION -->
+
+            <section class="profile-info-grid">
+
+                <div class="profile-info-card">
+
+                    <div class="profile-info-icon">
+                        ✓
+                    </div>
+
+                    <div>
+                        <strong>
+                            Verified Account
+                        </strong>
+
+                        <span>
+                            Your CivicSense account is active.
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="profile-info-card">
+
+                    <div class="profile-info-icon">
+                        ▤
+                    </div>
+
+                    <div>
+                        <strong>
+                            Civic Reporting
+                        </strong>
+
+                        <span>
+                            Report and track community issues.
+                        </span>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="js/profile.js"></script>
+
+</body>
+</html>

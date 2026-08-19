@@ -1,0 +1,1421 @@
+const API_BASE_URL = "http://127.0.0.1:8080";
+
+
+// ======================================================
+// CURRENT USER
+// ======================================================
+
+function getCurrentUser() {
+    const savedUser = localStorage.getItem("civicSenseUser");
+
+    if (!savedUser) {
+        return null;
+    }
+
+    try {
+        return JSON.parse(savedUser);
+    } catch (error) {
+        console.error("Invalid stored user:", error);
+        localStorage.removeItem("civicSenseUser");
+        return null;
+    }
+}
+
+
+// ======================================================
+// HELPERS
+// ======================================================
+
+function setText(id, value) {
+    const element = document.getElementById(id);
+
+    if (element) {
+        element.textContent = value;
+    }
+}
+
+
+function showReportMessage(element, message, type = "error") {
+    if (!element) return;
+
+    element.textContent = message;
+    element.className = `report-message ${type}`;
+}
+
+
+function escapeHtml(value) {
+    if (value === null || value === undefined) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function formatStatus(status) {
+    if (!status) {
+        return "Pending";
+    }
+
+    return status
+        .replace(/_/g, " ")
+        .toLowerCase()
+        .replace(/\b\w/g, letter => letter.toUpperCase());
+}
+
+
+// ======================================================
+// INITIALIZE DASHBOARD
+// ======================================================
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+    const user = getCurrentUser();
+
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    console.log("Logged-in user:", user);
+
+    setText("userName", user.name || "Citizen");
+    setText("welcomeName", user.name || "Citizen");
+
+    initializeLogout();
+    initializeComplaintForm();
+    initializeLocationButton();
+
+    await verifySession();
+    await loadDashboardStats();
+    await loadMyComplaints();
+});
+
+
+// ======================================================
+// VERIFY SESSION
+// ======================================================
+
+async function verifySession() {
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE_URL}/api/auth/me`,
+            {
+                method: "GET",
+                credentials: "include"
+            }
+        );
+
+        if (response.status === 401) {
+
+            console.warn("Session expired.");
+
+            localStorage.removeItem("civicSenseUser");
+
+            window.location.href = "login.html";
+
+            return false;
+        }
+
+        if (!response.ok) {
+            throw new Error("Unable to verify session.");
+        }
+
+        const user = await response.json();
+
+        console.log("Server session:", user);
+
+        localStorage.setItem(
+            "civicSenseUser",
+            JSON.stringify(user)
+        );
+
+        setText("userName", user.name || "Citizen");
+        setText("welcomeName", user.name || "Citizen");
+
+        return true;
+
+    } catch (error) {
+
+        console.error("Session verification error:", error);
+
+        return false;
+    }
+}
+
+
+// ======================================================
+// LOGOUT
+// ======================================================
+
+function initializeLogout() {
+
+    const logoutButton =
+        document.getElementById("logoutButton");
+
+    if (!logoutButton) return;
+
+    logoutButton.addEventListener("click", async () => {
+
+        try {
+
+            await fetch(
+                `${API_BASE_URL}/api/auth/logout`,
+                {
+                    method: "POST",
+                    credentials: "include"
+                }
+            );
+
+        } catch (error) {
+
+            console.error("Logout error:", error);
+
+        } finally {
+
+            localStorage.removeItem("civicSenseUser");
+
+            window.location.href = "login.html";
+        }
+    });
+}
+
+
+// ======================================================
+// DASHBOARD STATS
+// ======================================================
+
+async function loadDashboardStats() {
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE_URL}/api/complaints/stats`,
+            {
+                method: "GET",
+                credentials: "include"
+            }
+        );
+
+        if (response.status === 401) {
+            window.location.href = "login.html";
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to load statistics (${response.status})`
+            );
+        }
+
+        const data = await response.json();
+
+        console.log("Complaint statistics:", data);
+
+        setText("totalComplaints", data.total ?? 0);
+        setText("pendingComplaints", data.pending ?? 0);
+        setText("progressComplaints", data.inProgress ?? 0);
+        setText("resolvedComplaints", data.resolved ?? 0);
+
+    } catch (error) {
+
+        console.error("Statistics error:", error);
+
+        setText("totalComplaints", "0");
+        setText("pendingComplaints", "0");
+        setText("progressComplaints", "0");
+        setText("resolvedComplaints", "0");
+    }
+}
+
+
+// ======================================================
+// MY COMPLAINTS
+// ======================================================
+
+async function loadMyComplaints() {
+
+    const complaintsList =
+        document.getElementById("complaintsList");
+
+    if (!complaintsList) return;
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE_URL}/api/complaints/my`,
+            {
+                method: "GET",
+                credentials: "include"
+            }
+        );
+
+        if (response.status === 401) {
+            window.location.href = "login.html";
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to load complaints (${response.status})`
+            );
+        }
+
+        const complaints = await response.json();
+
+        console.log("My complaints:", complaints);
+
+        renderComplaints(complaints);
+
+    } catch (error) {
+
+        console.error("Complaint loading error:", error);
+
+        complaintsList.innerHTML = `
+            <div class="empty-state">
+                <p>Unable to load complaints.</p>
+            </div>
+        `;
+    }
+}
+
+
+// ======================================================
+// RENDER COMPLAINTS
+// ======================================================
+
+function renderComplaints(complaints) {
+
+    const complaintsList =
+        document.getElementById("complaintsList");
+
+    if (!complaintsList) return;
+
+    if (!complaints || complaints.length === 0) {
+
+        complaintsList.innerHTML = `
+            <div class="empty-state">
+                <div style="font-size:40px;">📋</div>
+
+                <h3>No complaints yet</h3>
+
+                <p>
+                    You haven't reported any civic issues yet.
+                </p>
+            </div>
+        `;
+
+        return;
+    }
+
+    complaintsList.innerHTML = complaints
+        .map(complaint => {
+
+            const status =
+                complaint.status || "PENDING";
+
+            const priority =
+                complaint.priority || "MEDIUM";
+
+            const category =
+                complaint.category || "General";
+
+            const title =
+                complaint.title || "Untitled complaint";
+
+            const description =
+                complaint.description || "";
+
+            const location =
+                complaint.location ||
+                "Location not provided";
+
+            const date =
+                complaint.createdAt
+                    ? new Date(
+                        complaint.createdAt
+                    ).toLocaleDateString()
+                    : "";
+
+            return `
+                <div class="complaint-card">
+
+                    <div class="complaint-card-header">
+
+                        <div>
+
+                            <h3>
+                                ${escapeHtml(title)}
+                            </h3>
+
+                            <span class="complaint-category">
+                                ${escapeHtml(category)}
+                            </span>
+
+                        </div>
+
+                        <span class="status-badge status-${status
+                            .toLowerCase()
+                            .replace(/_/g, "-")}">
+                            ${formatStatus(status)}
+                        </span>
+
+                    </div>
+
+                    <p class="complaint-description">
+                        ${escapeHtml(description)}
+                    </p>
+
+                    <div class="complaint-meta">
+
+                        <span>
+                            📍 ${escapeHtml(location)}
+                        </span>
+
+                        <span>
+                            ⚡ ${escapeHtml(priority)}
+                        </span>
+
+                        <span>
+                            📅 ${date}
+                        </span>
+
+                    </div>
+
+                </div>
+            `;
+
+        })
+        .join("");
+}
+
+
+// ======================================================
+// COMPLAINT FORM
+// ======================================================
+
+function initializeComplaintForm() {
+
+    const complaintForm =
+        document.getElementById("complaintForm");
+
+    if (!complaintForm) return;
+
+    const complaintButton =
+        document.getElementById("complaintButton");
+
+    const reportMessage =
+        document.getElementById("reportMessage");
+
+    complaintForm.addEventListener(
+        "submit",
+        async event => {
+
+            event.preventDefault();
+
+            const user = getCurrentUser();
+
+            if (!user) {
+
+                window.location.href = "login.html";
+
+                return;
+            }
+
+            const title =
+                document.getElementById("title")
+                    ?.value.trim();
+
+            const category =
+                document.getElementById("category")
+                    ?.value;
+
+            const description =
+                document.getElementById("description")
+                    ?.value.trim();
+
+            const location =
+                document.getElementById("location")
+                    ?.value.trim();
+
+            const priority =
+                document.getElementById("priority")
+                    ?.value || "MEDIUM";
+
+            const latitude =
+                document.getElementById("latitude")
+                    ?.value;
+
+            const longitude =
+                document.getElementById("longitude")
+                    ?.value;
+
+            // -----------------------------
+            // VALIDATION
+            // -----------------------------
+
+            if (!title) {
+
+                showReportMessage(
+                    reportMessage,
+                    "Please enter a complaint title."
+                );
+
+                return;
+            }
+
+            if (!category) {
+
+                showReportMessage(
+                    reportMessage,
+                    "Please select a category."
+                );
+
+                return;
+            }
+
+            if (!description) {
+
+                showReportMessage(
+                    reportMessage,
+                    "Please enter a description."
+                );
+
+                return;
+            }
+
+            if (!location) {
+
+                showReportMessage(
+                    reportMessage,
+                    "Please enter the location."
+                );
+
+                return;
+            }
+
+            // -----------------------------
+            // REQUEST BODY
+            // -----------------------------
+
+            const requestBody = {
+
+                title: title,
+
+                category: category,
+
+                description: description,
+
+                location: location,
+
+                priority: priority,
+
+                latitude: latitude
+                    ? Number(latitude)
+                    : null,
+
+                longitude: longitude
+                    ? Number(longitude)
+                    : null
+            };
+
+            console.log(
+                "Submitting complaint:",
+                requestBody
+            );
+
+            if (complaintButton) {
+
+                complaintButton.disabled = true;
+
+                complaintButton.textContent =
+                    "Submitting...";
+            }
+
+            try {
+
+                const response = await fetch(
+                    `${API_BASE_URL}/api/complaints`,
+                    {
+                        method: "POST",
+
+                        credentials: "include",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(
+                                requestBody
+                            )
+                    }
+                );
+
+                const contentType =
+                    response.headers.get(
+                        "content-type"
+                    ) || "";
+
+                let data = {};
+
+                if (contentType.includes("application/json")) {
+                    data = await response.json();
+                }
+
+                console.log(
+                    "Complaint response:",
+                    data
+                );
+
+                if (response.status === 401) {
+
+                    localStorage.removeItem(
+                        "civicSenseUser"
+                    );
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+                }
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        `Failed to submit complaint (${response.status})`
+                    );
+                }
+
+                showReportMessage(
+                    reportMessage,
+                    "Complaint submitted successfully!",
+                    "success"
+                );
+
+                complaintForm.reset();
+
+                const locationStatus =
+                    document.getElementById(
+                        "locationStatus"
+                    );
+
+                if (locationStatus) {
+                    locationStatus.textContent =
+                        "Location not detected";
+                }
+
+                await loadDashboardStats();
+
+                await loadMyComplaints();
+
+                document
+                    .getElementById("complaints")
+                    ?.scrollIntoView({
+                        behavior: "smooth"
+                    });
+
+            } catch (error) {
+
+                console.error(
+                    "Complaint submission error:",
+                    error
+                );
+
+                showReportMessage(
+                    reportMessage,
+                    error.message ||
+                    "Unable to submit complaint."
+                );
+
+            } finally {
+
+                if (complaintButton) {
+
+                    complaintButton.disabled = false;
+
+                    complaintButton.textContent =
+                        "Submit Civic Report";
+                }
+            }
+        }
+    );
+}
+
+
+// ======================================================
+// LOCATION
+// ======================================================
+
+function initializeLocationButton() {
+
+    const locationButton =
+        document.getElementById("locationButton");
+
+    if (!locationButton) return;
+
+    locationButton.addEventListener(
+        "click",
+        () => {
+
+            const locationStatus =
+                document.getElementById(
+                    "locationStatus"
+                );
+
+            if (!navigator.geolocation) {
+
+                if (locationStatus) {
+                    locationStatus.textContent =
+                        "Geolocation is not supported.";
+                }
+
+                return;
+            }
+
+            if (locationStatus) {
+                locationStatus.textContent =
+                    "Detecting your location...";
+            }
+
+            navigator.geolocation.getCurrentPosition(
+
+                position => {
+
+                    const latitude =
+                        position.coords.latitude;
+
+                    const longitude =
+                        position.coords.longitude;
+
+                    const latitudeInput =
+                        document.getElementById(
+                            "latitude"
+                        );
+
+                    const longitudeInput =
+                        document.getElementById(
+                            "longitude"
+                        );
+
+                    if (latitudeInput) {
+                        latitudeInput.value =
+                            latitude;
+                    }
+
+                    if (longitudeInput) {
+                        longitudeInput.value =
+                            longitude;
+                    }
+
+                    if (locationStatus) {
+
+                        locationStatus.textContent =
+                            `Location detected: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+                    }
+                },
+
+                error => {
+
+                    console.error(
+                        "Geolocation error:",
+                        error
+                    );
+
+                    if (locationStatus) {
+
+                        locationStatus.textContent =
+                            "Unable to detect location. Please enter the location manually.";
+                    }
+                }
+            );
+        }
+    );
+}
+
+
+// ======================================================
+// MAP LOCATION BUTTON
+// ======================================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const mapButton =
+        document.getElementById(
+            "detectMapLocation"
+        );
+
+    if (!mapButton) return;
+
+    mapButton.addEventListener(
+        "click",
+        () => {
+
+            if (!navigator.geolocation) {
+
+                alert(
+                    "Geolocation is not supported."
+                );
+
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                position => {
+
+                    const lat =
+                        position.coords.latitude;
+
+                    const lng =
+                        position.coords.longitude;
+
+                    alert(
+                        `Your location:\nLatitude: ${lat.toFixed(6)}\nLongitude: ${lng.toFixed(6)}`
+                    );
+                },
+                () => {
+
+                    alert(
+                        "Unable to detect your location."
+                    );
+                }
+            );
+        }
+    );
+});
+
+// ======================================================
+// CIVICSENSE — PROFESSIONAL LEAFLET MAP
+// ======================================================
+
+let civicMap = null;
+let civicMapMarkers = [];
+let userLocationMarker = null;
+
+
+// ======================================================
+// INITIALIZE MAP
+// ======================================================
+
+function initializeCivicMap() {
+
+    const mapElement =
+        document.getElementById("civicMap");
+
+    if (!mapElement) {
+        console.warn("Civic map element not found.");
+        return;
+    }
+
+    if (typeof L === "undefined") {
+        console.error("Leaflet is not loaded.");
+        return;
+    }
+
+    // Prevent duplicate map initialization
+    if (civicMap) {
+        setTimeout(() => {
+            civicMap.invalidateSize(true);
+        }, 100);
+        return;
+    }
+
+    civicMap = L.map(
+        "civicMap",
+        {
+            center: [17.3850, 78.4867],
+            zoom: 12,
+            zoomControl: true,
+            scrollWheelZoom: true
+        }
+    );
+
+
+    // ==================================================
+    // OPEN STREET MAP
+    // ==================================================
+
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            maxZoom: 19,
+            minZoom: 5,
+            attribution:
+                '&copy; OpenStreetMap contributors'
+        }
+    ).addTo(civicMap);
+
+
+    console.log(
+        "CivicSense professional map initialized."
+    );
+
+
+    // ==================================================
+    // LOAD CIVIC ISSUES
+    // ==================================================
+
+    loadCivicMapComplaints();
+
+
+    // ==================================================
+    // FIX LEAFLET SIZE
+    // ==================================================
+
+    const refreshMapSize = () => {
+
+        if (!civicMap) {
+            return;
+        }
+
+        civicMap.invalidateSize(true);
+
+    };
+
+
+    setTimeout(refreshMapSize, 100);
+    setTimeout(refreshMapSize, 500);
+    setTimeout(refreshMapSize, 1000);
+        // Keep Leaflet synchronized with the actual container size
+    if (window.ResizeObserver) {
+
+        const mapResizeObserver =
+            new ResizeObserver(() => {
+
+                if (civicMap) {
+                    civicMap.invalidateSize(true);
+                }
+
+            });
+
+        mapResizeObserver.observe(mapElement);
+    }
+
+    // Final correction after all CSS/layout calculations
+    setTimeout(() => {
+
+        if (!civicMap) {
+            return;
+        }
+
+        const width =
+            mapElement.getBoundingClientRect().width;
+
+        const height =
+            mapElement.getBoundingClientRect().height;
+
+        console.log(
+            "Civic map dimensions:",
+            width,
+            "x",
+            height
+        );
+
+        civicMap.invalidateSize(true);
+
+        civicMap.setView(
+            [17.3850, 78.4867],
+            12,
+            {
+                animate: false
+            }
+        );
+
+    }, 1500);
+
+
+    // Handle browser resize
+    window.addEventListener(
+        "resize",
+        refreshMapSize
+    );
+}
+
+
+// ======================================================
+// LOAD COMPLAINTS
+// ======================================================
+
+async function loadCivicMapComplaints() {
+
+    if (!civicMap) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/complaints`,
+                {
+                    method: "GET",
+                    credentials: "include"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            console.warn(
+                "Map complaints request failed:",
+                response.status
+            );
+
+            return;
+        }
+
+
+        const complaints =
+            await response.json();
+
+
+        console.log(
+            "Map complaints:",
+            complaints
+        );
+
+
+        clearCivicMapMarkers();
+
+
+        if (!Array.isArray(complaints)) {
+            return;
+        }
+
+
+        const validPoints = [];
+
+
+        complaints.forEach(
+            complaint => {
+
+                const lat =
+                    Number(
+                        complaint.latitude
+                    );
+
+                const lng =
+                    Number(
+                        complaint.longitude
+                    );
+
+
+                // Skip complaints without coordinates
+                if (
+                    !Number.isFinite(lat) ||
+                    !Number.isFinite(lng)
+                ) {
+                    return;
+                }
+
+
+                // Ignore obviously invalid coordinates
+                if (
+                    lat < -90 ||
+                    lat > 90 ||
+                    lng < -180 ||
+                    lng > 180
+                ) {
+                    return;
+                }
+
+
+                validPoints.push(
+                    [lat, lng]
+                );
+
+
+                const status =
+                    String(
+                        complaint.status ||
+                        "PENDING"
+                    ).toUpperCase();
+
+
+                // ==================================================
+                // STATUS COLORS
+                // ==================================================
+
+                let markerColor =
+                    "#f59e0b";
+
+                let statusText =
+                    "Pending";
+
+
+                if (
+                    status ===
+                    "IN_PROGRESS"
+                ) {
+
+                    markerColor =
+                        "#7c3aed";
+
+                    statusText =
+                        "In Progress";
+                }
+
+
+                if (
+                    status ===
+                    "RESOLVED"
+                ) {
+
+                    markerColor =
+                        "#16a34a";
+
+                    statusText =
+                        "Resolved";
+                }
+
+
+                if (
+                    status ===
+                    "CRITICAL"
+                ) {
+
+                    markerColor =
+                        "#dc2626";
+                }
+
+
+                // ==================================================
+                // MARKER
+                // ==================================================
+
+                const marker =
+                    L.circleMarker(
+                        [lat, lng],
+                        {
+                            radius: 9,
+
+                            fillColor:
+                                markerColor,
+
+                            color:
+                                "#ffffff",
+
+                            weight: 3,
+
+                            opacity: 1,
+
+                            fillOpacity:
+                                0.9
+                        }
+                    );
+
+
+                // ==================================================
+                // POPUP DATA
+                // ==================================================
+
+                const title =
+                    escapeHtml(
+                        complaint.title ||
+                        "Civic Issue"
+                    );
+
+
+                const category =
+                    escapeHtml(
+                        complaint.category ||
+                        "General"
+                    );
+
+
+                const location =
+                    escapeHtml(
+                        complaint.location ||
+                        "Location not provided"
+                    );
+
+
+                const priority =
+                    escapeHtml(
+                        complaint.priority ||
+                        "MEDIUM"
+                    );
+
+
+                const description =
+                    escapeHtml(
+                        complaint.description ||
+                        "No description available."
+                    );
+
+
+                const complaintId =
+                    escapeHtml(
+                        complaint.id ||
+                        "-"
+                    );
+
+
+                marker.bindPopup(`
+
+                    <div class="civic-map-popup">
+
+                        <div class="map-popup-id">
+                            #${complaintId}
+                        </div>
+
+                        <h3>
+                            ${title}
+                        </h3>
+
+                        <div class="map-popup-row">
+                            <strong>Category</strong>
+                            <span>
+                                ${category}
+                            </span>
+                        </div>
+
+                        <div class="map-popup-row">
+                            <strong>Location</strong>
+                            <span>
+                                ${location}
+                            </span>
+                        </div>
+
+                        <div class="map-popup-row">
+                            <strong>Priority</strong>
+                            <span>
+                                ${priority}
+                            </span>
+                        </div>
+
+                        <div class="map-popup-description">
+                            ${description}
+                        </div>
+
+                        <div
+                            class="map-popup-status"
+                            style="
+                                border-color:${markerColor};
+                                color:${markerColor};
+                            "
+                        >
+                            ${statusText}
+                        </div>
+
+                    </div>
+
+                `);
+
+
+                marker.addTo(
+                    civicMap
+                );
+
+
+                civicMapMarkers.push(
+                    marker
+                );
+
+            }
+        );
+
+
+        // ==================================================
+        // DON'T AUTO-ZOOM TOO AGGRESSIVELY
+        // ==================================================
+
+        if (
+            validPoints.length === 1
+        ) {
+
+            civicMap.setView(
+                validPoints[0],
+                14
+            );
+
+        }
+
+
+        if (
+            validPoints.length > 1
+        ) {
+
+            const bounds =
+                L.latLngBounds(
+                    validPoints
+                );
+
+
+            civicMap.fitBounds(
+                bounds,
+                {
+                    padding: [
+                        40,
+                        40
+                    ],
+
+                    maxZoom: 15
+                }
+            );
+
+        }
+
+
+        // Make sure tiles render correctly
+        setTimeout(
+            () => {
+
+                if (civicMap) {
+                    civicMap.invalidateSize(
+                        true
+                    );
+                }
+
+            },
+            300
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Civic map loading error:",
+            error
+        );
+
+    }
+}
+
+
+// ======================================================
+// CLEAR MARKERS
+// ======================================================
+
+function clearCivicMapMarkers() {
+
+    civicMapMarkers.forEach(
+        marker => {
+
+            if (civicMap) {
+
+                civicMap.removeLayer(
+                    marker
+                );
+
+            }
+
+        }
+    );
+
+
+    civicMapMarkers = [];
+}
+
+
+// ======================================================
+// REFRESH MAP
+// ======================================================
+
+function initializeMapRefreshButton() {
+
+    const button =
+        document.getElementById(
+            "refreshMapButton"
+        );
+
+
+    if (!button) {
+        return;
+    }
+
+
+    button.addEventListener(
+        "click",
+        async () => {
+
+            if (button.disabled) {
+                return;
+            }
+
+
+            button.disabled =
+                true;
+
+
+            const originalText =
+                button.textContent;
+
+
+            button.textContent =
+                "↻ Refreshing...";
+
+
+            try {
+
+                await loadCivicMapComplaints();
+
+
+                if (civicMap) {
+
+                    civicMap.invalidateSize(
+                        true
+                    );
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    error
+                );
+
+            } finally {
+
+                button.disabled =
+                    false;
+
+
+                button.textContent =
+                    originalText;
+
+            }
+
+        }
+    );
+}
+
+
+// ======================================================
+// MAP INITIALIZATION
+// ======================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        // Wait for dashboard layout
+        // before Leaflet calculates dimensions.
+
+        requestAnimationFrame(
+            () => {
+
+                requestAnimationFrame(
+                    () => {
+
+                        initializeCivicMap();
+
+                        initializeMapRefreshButton();
+
+                    }
+                );
+
+            }
+        );
+
+    }
+);

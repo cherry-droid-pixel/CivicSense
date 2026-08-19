@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CivicSense — Issue Map</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/map.css">
+</head>
+
+<body>
+
+<div class="map-page">
+
+    <!-- SIDEBAR -->
+    <aside class="map-sidebar">
+
+        <div class="map-brand">
+            <div class="map-brand-logo">C</div>
+
+            <div>
+                <strong>CivicSense</strong>
+                <span>Community Platform</span>
+            </div>
+        </div>
+
+        <nav class="map-navigation">
+
+            <span class="map-nav-label">MAIN MENU</span>
+
+            <a href="dashboard.html" class="map-nav-item">
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a href="issue-map.html" class="map-nav-item active">
+                <span>⌖</span>
+                Issue Map
+            </a>
+
+            <a href="report.html" class="map-nav-item">
+                <span>＋</span>
+                Report Issue
+            </a>
+
+            <a href="complaints.html" class="map-nav-item">
+                <span>▤</span>
+                My Complaints
+            </a>
+
+            <span class="map-nav-label account-label">
+                ACCOUNT
+            </span>
+
+            <a href="profile.html" class="map-nav-item">
+                <span>◎</span>
+                Profile
+            </a>
+
+        </nav>
+
+        <div class="map-sidebar-bottom">
+
+            <div class="map-help">
+                <div class="map-help-icon">?</div>
+
+                <div>
+                    <strong>Need help?</strong>
+                    <span>Report an issue anytime.</span>
+                </div>
+            </div>
+
+            <button id="logoutButton" class="map-logout">
+                ↪ &nbsp; Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="map-main">
+
+        <!-- TOPBAR -->
+        <header class="map-topbar">
+
+            <div>
+                <span class="map-eyebrow">
+                    CIVICSENSE
+                </span>
+
+                <h1>
+                    Issue Map
+                </h1>
+            </div>
+
+            <div class="map-user">
+
+                <div class="map-user-avatar" id="userInitial">
+                    C
+                </div>
+
+                <div>
+                    <strong id="userName">
+                        Citizen
+                    </strong>
+
+                    <span>
+                        Citizen
+                    </span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+        <section class="map-content">
+
+            <div class="map-page-heading">
+
+                <div>
+                    <span class="map-section-label">
+                        COMMUNITY ISSUES
+                    </span>
+
+                    <h2>
+                        Civic Issues Near You
+                    </h2>
+
+                    <p>
+                        Explore reported civic problems across the community.
+                        Select a marker to view issue details.
+                    </p>
+                </div>
+
+                <div class="map-actions">
+
+                    <button
+                        id="detectMapLocation"
+                        class="map-outline-button"
+                        type="button"
+                    >
+                        ◎ My Location
+                    </button>
+
+                    <button
+                        id="refreshMapButton"
+                        class="map-green-button"
+                        type="button"
+                    >
+                        ↻ Refresh
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- MAP CARD -->
+            <section class="map-card">
+
+                <div class="map-card-header">
+
+                    <div>
+                        <strong>Live Issue Map</strong>
+
+                        <span>
+                            Reported civic issues
+                        </span>
+                    </div>
+
+                    <div class="map-status">
+
+                        <span class="map-status-dot"></span>
+
+                        Live
+
+                    </div>
+
+                </div>
+
+
+                <div class="map-container">
+
+                    <div id="civicMap"></div>
+
+                    <div class="map-legend">
+
+                        <strong>Issue Status</strong>
+
+                        <div>
+                            <span class="legend-dot pending"></span>
+                            Pending
+                        </div>
+
+                        <div>
+                            <span class="legend-dot progress"></span>
+                            In Progress
+                        </div>
+
+                        <div>
+                            <span class="legend-dot resolved"></span>
+                            Resolved
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- INFORMATION -->
+            <section class="map-info-grid">
+
+                <div class="map-info-card">
+                    <span class="info-number" id="mapTotalIssues">
+                        0
+                    </span>
+
+                    <div>
+                        <strong>Total Issues</strong>
+                        <span>Reported in the community</span>
+                    </div>
+                </div>
+
+                <div class="map-info-card">
+                    <span class="info-number pending-number" id="mapPendingIssues">
+                        0
+                    </span>
+
+                    <div>
+                        <strong>Pending</strong>
+                        <span>Awaiting action</span>
+                    </div>
+                </div>
+
+                <div class="map-info-card">
+                    <span class="info-number progress-number" id="mapProgressIssues">
+                        0
+                    </span>
+
+                    <div>
+                        <strong>In Progress</strong>
+                        <span>Currently being handled</span>
+                    </div>
+                </div>
+
+                <div class="map-info-card">
+                    <span class="info-number resolved-number" id="mapResolvedIssues">
+                        0
+                    </span>
+
+                    <div>
+                        <strong>Resolved</strong>
+                        <span>Successfully completed</span>
+                    </div>
+                </div>
+
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script src="js/map.js?v=20260819debug1"></script>
+
+</body>
+</html>

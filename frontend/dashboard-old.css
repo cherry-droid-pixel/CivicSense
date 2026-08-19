@@ -1,0 +1,8688 @@
+/* =========================================================
+   CIVICSENSE — TRENDY CITIZEN DASHBOARD
+   ========================================================= */
+
+:root {
+    --dash-primary: #2563eb;
+    --dash-primary-dark: #1d4ed8;
+    --dash-bg: #f4f7fb;
+    --dash-card: #ffffff;
+    --dash-text: #0f172a;
+    --dash-muted: #64748b;
+    --dash-border: #e2e8f0;
+    --dash-green: #16a34a;
+    --dash-orange: #f59e0b;
+    --dash-purple: #7c3aed;
+    --dash-red: #dc2626;
+    --dash-radius: 18px;
+    --dash-shadow: 0 8px 30px rgba(15, 23, 42, 0.07);
+}
+
+body {
+    background:
+        radial-gradient(
+            circle at 0% 0%,
+            rgba(37, 99, 235, 0.08),
+            transparent 30%
+        ),
+        var(--dash-bg);
+    color: var(--dash-text);
+}
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.dashboard-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    min-height: 72px;
+    padding: 0 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border-bottom: 1px solid var(--dash-border);
+}
+
+.dashboard-brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    font-weight: 800;
+    font-size: 19px;
+}
+
+.dashboard-brand::before {
+    content: "C";
+
+    width: 38px;
+    height: 38px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #4f46e5
+        );
+
+    color: white;
+
+    font-weight: 900;
+
+    box-shadow:
+        0 7px 18px rgba(37, 99, 235, 0.25);
+}
+
+.dashboard-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+#userName {
+    font-weight: 700;
+    color: var(--dash-text);
+}
+
+#logoutButton {
+    border: 1px solid var(--dash-border);
+    background: white;
+
+    padding: 9px 15px;
+
+    border-radius: 10px;
+
+    font-weight: 700;
+
+    color: #475569;
+
+    transition: 0.2s ease;
+}
+
+#logoutButton:hover {
+    color: var(--dash-red);
+    border-color: #fecaca;
+    background: #fffafa;
+}
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+.dashboard-container {
+    width: min(1380px, calc(100% - 48px));
+
+    margin: auto;
+
+    padding: 38px 0 70px;
+}
+
+/* =========================================================
+   WELCOME
+   ========================================================= */
+
+.dashboard-container > section:first-child {
+    position: relative;
+    overflow: hidden;
+
+    padding: 34px;
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #f7faff
+        );
+
+    border: 1px solid var(--dash-border);
+
+    box-shadow: var(--dash-shadow);
+
+    margin-bottom: 26px;
+}
+
+.dashboard-container > section:first-child::after {
+    content: "";
+
+    position: absolute;
+
+    width: 250px;
+    height: 250px;
+
+    right: -110px;
+    top: -110px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(37, 99, 235, 0.08);
+}
+
+.dashboard-container > section:first-child h1 {
+    position: relative;
+    z-index: 2;
+
+    font-size: clamp(28px, 4vw, 40px);
+
+    letter-spacing: -1px;
+
+    margin-bottom: 7px;
+}
+
+.dashboard-container > section:first-child p {
+    position: relative;
+    z-index: 2;
+
+    color: var(--dash-muted);
+
+    max-width: 620px;
+}
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+.stats-grid,
+.dashboard-stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 16px;
+
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    position: relative;
+
+    padding: 22px;
+
+    min-height: 125px;
+
+    background: var(--dash-card);
+
+    border: 1px solid var(--dash-border);
+
+    border-radius: var(--dash-radius);
+
+    box-shadow: var(--dash-shadow);
+
+    transition: 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 15px 35px rgba(15, 23, 42, 0.10);
+}
+
+.stat-card::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 18px;
+    bottom: 18px;
+
+    width: 4px;
+
+    border-radius: 0 5px 5px 0;
+
+    background: var(--dash-primary);
+}
+
+.stat-card:nth-child(2)::before {
+    background: var(--dash-orange);
+}
+
+.stat-card:nth-child(3)::before {
+    background: var(--dash-purple);
+}
+
+.stat-card:nth-child(4)::before {
+    background: var(--dash-green);
+}
+
+.stat-card strong {
+    display: block;
+
+    margin-top: 8px;
+
+    font-size: 31px;
+
+    line-height: 1;
+
+    font-weight: 850;
+}
+
+/* =========================================================
+   GENERAL SECTIONS
+   ========================================================= */
+
+.dashboard-section {
+    margin-top: 28px;
+}
+
+.dashboard-section > h2 {
+    font-size: 23px;
+
+    letter-spacing: -0.3px;
+
+    margin-bottom: 5px;
+}
+
+.dashboard-section > p {
+    color: var(--dash-muted);
+
+    margin-bottom: 18px;
+}
+
+/* =========================================================
+   REPORT CARD
+   ========================================================= */
+
+.report-section {
+    padding: 30px;
+
+    background: white;
+
+    border:
+        1px solid var(--dash-border);
+
+    border-radius: 22px;
+
+    box-shadow: var(--dash-shadow);
+}
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+#complaintForm {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+#complaintForm input,
+#complaintForm select,
+#complaintForm textarea {
+    border: 1px solid #dbe2ea;
+
+    background: #f8fafc;
+
+    border-radius: 11px;
+
+    padding: 12px 14px;
+
+    outline: none;
+
+    transition: 0.2s ease;
+}
+
+#complaintForm input:focus,
+#complaintForm select:focus,
+#complaintForm textarea:focus {
+    background: white;
+
+    border-color: var(--dash-primary);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(37, 99, 235, 0.10);
+}
+
+#complaintForm textarea {
+    min-height: 130px;
+}
+
+#complaintButton {
+    grid-column: 1 / -1;
+
+    border: 0;
+
+    padding: 14px 22px;
+
+    border-radius: 12px;
+
+    color: white;
+
+    font-weight: 800;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #4f46e5
+        );
+
+    box-shadow:
+        0 8px 22px
+        rgba(37, 99, 235, 0.23);
+
+    transition: 0.2s ease;
+}
+
+#complaintButton:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 28px
+        rgba(37, 99, 235, 0.30);
+}
+
+/* =========================================================
+   LOCATION
+   ========================================================= */
+
+#locationButton {
+    border: 1px solid #bfdbfe;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    border-radius: 10px;
+
+    padding: 10px 14px;
+
+    font-weight: 700;
+
+    transition: 0.2s ease;
+}
+
+#locationButton:hover {
+    background: #dbeafe;
+}
+
+/* =========================================================
+   MAP
+   ========================================================= */
+
+#civicMap {
+    width: 100%;
+
+    height: 440px;
+
+    min-height: 440px;
+
+    margin-top: 12px;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    border: 1px solid var(--dash-border);
+
+    background:
+        linear-gradient(
+            135deg,
+            #e8f0f7,
+            #f8fafc
+        );
+
+    box-shadow:
+        inset 0 0 0 1px
+        rgba(255,255,255,0.5);
+}
+
+/* =========================================================
+   COMPLAINTS
+   ========================================================= */
+
+#complaintsList {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 17px;
+}
+
+.complaint-card {
+    padding: 21px;
+
+    background: white;
+
+    border: 1px solid var(--dash-border);
+
+    border-radius: var(--dash-radius);
+
+    box-shadow: var(--dash-shadow);
+
+    transition: 0.2s ease;
+}
+
+.complaint-card:hover {
+    transform: translateY(-3px);
+
+    border-color: #cbdcf8;
+
+    box-shadow:
+        0 15px 35px
+        rgba(15, 23, 42, 0.10);
+}
+
+.complaint-card-header {
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 13px;
+}
+
+.complaint-card h3 {
+    font-size: 16px;
+
+    margin-bottom: 5px;
+}
+
+.complaint-description {
+    color: var(--dash-muted);
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    margin-bottom: 15px;
+}
+
+.complaint-meta {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px 15px;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+}
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.status-badge {
+    display: inline-flex;
+
+    padding: 5px 10px;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+.status-pending {
+    color: #a16207;
+
+    background: #fef9c3;
+}
+
+.status-in-progress,
+.status-in_progress {
+    color: #1d4ed8;
+
+    background: #dbeafe;
+}
+
+.status-resolved {
+    color: #15803d;
+
+    background: #dcfce7;
+}
+
+/* =========================================================
+   PRIORITY
+   ========================================================= */
+
+.priority-badge {
+    display: inline-flex;
+
+    padding: 5px 9px;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+.priority-low {
+    color: #475569;
+    background: #f1f5f9;
+}
+
+.priority-medium {
+    color: #a16207;
+    background: #fef9c3;
+}
+
+.priority-high {
+    color: #c2410c;
+    background: #ffedd5;
+}
+
+.priority-critical {
+    color: #b91c1c;
+    background: #fee2e2;
+}
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.empty-state {
+    padding: 45px 25px;
+
+    text-align: center;
+
+    background: white;
+
+    border: 1px dashed #cbd5e1;
+
+    border-radius: 18px;
+
+    color: var(--dash-muted);
+}
+
+.empty-state h3 {
+    color: var(--dash-text);
+
+    margin: 10px 0 5px;
+}
+
+/* =========================================================
+   LEAFLET
+   ========================================================= */
+
+.leaflet-container {
+    width: 100%;
+    height: 100%;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 14px;
+}
+
+.leaflet-popup-content {
+    margin: 14px;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .stats-grid,
+    .dashboard-stats {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    #complaintsList {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .dashboard-navbar {
+        padding: 12px 16px;
+    }
+
+    .dashboard-container {
+        width: calc(100% - 24px);
+
+        padding-top: 25px;
+    }
+
+    .dashboard-container > section:first-child {
+        padding: 25px 20px;
+    }
+
+    .stats-grid,
+    .dashboard-stats {
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 17px;
+    }
+
+    .stat-card strong {
+        font-size: 25px;
+    }
+
+    #complaintForm {
+        grid-template-columns: 1fr;
+    }
+
+    #complaintButton {
+        grid-column: auto;
+    }
+
+    .report-section {
+        padding: 21px 17px;
+    }
+
+    #civicMap {
+        height: 320px;
+        min-height: 320px;
+    }
+}
+
+@media (max-width: 430px) {
+
+    .stats-grid,
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+
+    #civicMap {
+        height: 280px;
+        min-height: 280px;
+    }
+}
+
+/* =========================================================
+   CIVICSENSE — MODERN DASHBOARD OVERRIDES
+   ========================================================= */
+
+/* Main dashboard layout */
+.app-shell {
+    min-height: 100vh;
+    display: flex;
+}
+
+.main-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.dashboard-content {
+    width: min(1500px, 100%);
+    margin: 0 auto;
+    padding: 32px;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    min-height: 100vh;
+    position: sticky;
+    top: 0;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.96);
+    border-right: 1px solid var(--dash-border);
+    box-shadow: 4px 0 24px rgba(15, 23, 42, 0.04);
+}
+
+/* Top bar */
+.topbar {
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    background: rgba(255, 255, 255, 0.88);
+    border-bottom: 1px solid var(--dash-border);
+    backdrop-filter: blur(18px);
+    position: sticky;
+    top: 0;
+    z-index: 900;
+}
+
+.topbar-page {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.topbar-eyebrow {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--dash-primary);
+}
+
+.topbar-title {
+    font-size: 21px;
+    font-weight: 800;
+}
+
+/* Welcome section */
+.welcome-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 36px;
+    margin-bottom: 24px;
+    border-radius: 24px;
+    background:
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(96, 165, 250, 0.25),
+            transparent 28%
+        ),
+        linear-gradient(
+            135deg,
+            #eff6ff,
+            #ffffff 60%
+        );
+    border: 1px solid #dbeafe;
+    box-shadow: var(--dash-shadow);
+}
+
+.section-kicker,
+.panel-kicker {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--dash-primary);
+}
+
+.welcome-copy h1 {
+    margin: 0;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+}
+
+.welcome-copy p {
+    max-width: 650px;
+    margin: 12px 0 0;
+    color: var(--dash-muted);
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+/* Statistics */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 120px;
+    padding: 22px;
+    border: 1px solid var(--dash-border);
+    border-radius: var(--dash-radius);
+    background: var(--dash-card);
+    box-shadow: var(--dash-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.10);
+}
+
+.stat-icon {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 15px;
+    font-size: 22px;
+    font-weight: 800;
+    background: #eff6ff;
+    color: var(--dash-primary);
+}
+
+.pending-icon {
+    background: #fff7ed;
+    color: var(--dash-orange);
+}
+
+.progress-icon {
+    background: #f5f3ff;
+    color: var(--dash-purple);
+}
+
+.resolved-icon {
+    background: #f0fdf4;
+    color: var(--dash-green);
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.stat-info span {
+    color: var(--dash-muted);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.stat-info strong {
+    font-size: 30px;
+    line-height: 1;
+}
+
+/* Map + report */
+.dashboard-main-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(360px, 0.85fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.panel {
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid var(--dash-border);
+    border-radius: 22px;
+    box-shadow: var(--dash-shadow);
+    overflow: hidden;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px 26px;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.panel-header h2 {
+    margin: 0;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+}
+
+.panel-header p {
+    margin: 7px 0 0;
+    color: var(--dash-muted);
+    font-size: 13px;
+}
+
+/* =========================================================
+   REAL LEAFLET MAP
+   ========================================================= */
+
+.map-wrapper {
+    position: relative;
+    padding: 0;
+}
+
+.civic-map {
+    width: 100%;
+    height: 520px;
+    min-height: 420px;
+    background: #e5e7eb;
+    z-index: 1;
+}
+
+.map-legend {
+    position: absolute;
+    left: 18px;
+    bottom: 18px;
+    z-index: 500;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 13px;
+    border: 1px solid rgba(255,255,255,0.8);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.94);
+    box-shadow: 0 8px 25px rgba(15,23,42,0.15);
+    backdrop-filter: blur(10px);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.map-legend > div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legend-dot {
+    width: 9px;
+    height: 9px;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+.pending-dot {
+    background: #f59e0b;
+}
+
+.progress-dot {
+    background: #7c3aed;
+}
+
+.resolved-dot {
+    background: #16a34a;
+}
+
+/* Leaflet cleanup */
+.leaflet-container {
+    font-family: Inter, system-ui, sans-serif;
+    background: #e5e7eb;
+}
+
+.leaflet-control-zoom {
+    border: none !important;
+    box-shadow: 0 6px 20px rgba(15,23,42,0.12) !important;
+}
+
+.leaflet-control-zoom a {
+    border: none !important;
+    color: #0f172a !important;
+}
+
+/* Report form */
+.quick-report-panel {
+    min-width: 0;
+}
+
+.complaint-form {
+    padding: 24px 26px 28px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 7px;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #dbe2ea;
+    border-radius: 12px;
+    background: #f8fafc;
+    color: #0f172a;
+    padding: 12px 14px;
+    outline: none;
+    font: inherit;
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 110px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    background: white;
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 4px rgba(37,99,235,0.10);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.location-input {
+    display: flex;
+    gap: 8px;
+}
+
+.location-input input {
+    flex: 1;
+}
+
+.location-button {
+    width: 48px;
+    flex-shrink: 0;
+    border: 1px solid #dbe2ea;
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    font-size: 18px;
+    transition: .2s ease;
+}
+
+.location-button:hover {
+    background: #eff6ff;
+    border-color: #93c5fd;
+    transform: translateY(-1px);
+}
+
+.location-status {
+    display: block;
+    margin-top: 6px;
+    color: var(--dash-muted);
+    font-size: 11px;
+}
+
+/* Buttons */
+.primary-button,
+.secondary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 17px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.primary-button {
+    border: none;
+    color: white;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    box-shadow: 0 8px 20px rgba(37,99,235,.22);
+}
+
+.primary-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(37,99,235,.30);
+}
+
+.secondary-button {
+    border: 1px solid #dbe2ea;
+    color: #334155;
+    background: white;
+}
+
+.secondary-button:hover {
+    background: #f8fafc;
+    border-color: #bfdbfe;
+}
+
+/* Complaints */
+.complaints-panel {
+    margin-top: 24px;
+}
+
+.complaints-list {
+    padding: 22px;
+}
+
+.complaint-card {
+    padding: 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    background: #fff;
+    margin-bottom: 12px;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.complaint-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(15,23,42,.07);
+}
+
+.complaint-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.complaint-card h3 {
+    margin: 0 0 7px;
+    font-size: 16px;
+}
+
+.complaint-category {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--dash-primary);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.complaint-description {
+    margin: 14px 0;
+    color: #64748b;
+    line-height: 1.6;
+    font-size: 13px;
+}
+
+.complaint-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    color: #64748b;
+    font-size: 12px;
+}
+
+/* Status */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.status-pending {
+    color: #92400e;
+    background: #fef3c7;
+}
+
+.status-in-progress {
+    color: #6b21a8;
+    background: #f3e8ff;
+}
+
+.status-resolved {
+    color: #166534;
+    background: #dcfce7;
+}
+
+/* Footer */
+.dashboard-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 30px 5px;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+/* Mobile */
+@media (max-width: 1100px) {
+    .dashboard-main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .civic-map {
+        height: 460px;
+    }
+}
+
+@media (max-width: 760px) {
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 2000;
+        transform: translateX(-100%);
+        transition: transform .25s ease;
+    }
+
+    .dashboard-content {
+        padding: 20px 15px;
+    }
+
+    .topbar {
+        padding: 0 15px;
+    }
+
+    .welcome-section {
+        padding: 25px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .civic-map {
+        height: 400px;
+        min-height: 350px;
+    }
+
+    .dashboard-footer {
+        flex-direction: column;
+    }
+}
+
+
+
+/* =========================================================
+   CIVICSENSE — FINAL LAYOUT FIX
+   ========================================================= */
+
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    overflow-x: hidden !important;
+}
+
+.app-shell {
+    display: flex !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+
+    width: 250px !important;
+    min-width: 250px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    background: rgba(255,255,255,.94) !important;
+    border-right: 1px solid #e5e7eb !important;
+
+    z-index: 2000 !important;
+}
+
+/* MAIN */
+
+.main-content {
+    margin-left: 250px !important;
+    width: calc(100% - 250px) !important;
+    min-width: 0 !important;
+}
+
+/* TOPBAR */
+
+.topbar {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* CONTENT */
+
+.dashboard-content {
+    width: 100% !important;
+    max-width: 1500px !important;
+    margin: 0 auto !important;
+    padding: 32px 40px 50px !important;
+    box-sizing: border-box !important;
+}
+
+/* HERO */
+
+.welcome-section {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* STATISTICS */
+
+.stats-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 18px !important;
+    width: 100% !important;
+}
+
+/* MAP + REPORT */
+
+.dashboard-main-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.65fr) minmax(360px, .85fr) !important;
+    gap: 20px !important;
+    width: 100% !important;
+    align-items: stretch !important;
+}
+
+/* PANELS */
+
+.panel {
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* =========================================================
+   FINAL MAP FIX
+   ========================================================= */
+
+.map-panel {
+    min-width: 0 !important;
+    overflow: hidden !important;
+}
+
+.map-wrapper {
+    position: relative !important;
+    width: 100% !important;
+    height: 470px !important;
+    min-height: 470px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    border-radius: 0 0 18px 18px !important;
+    background: #e8eef5 !important;
+}
+
+.civic-map {
+    position: relative !important;
+    width: 100% !important;
+    height: 470px !important;
+    min-height: 470px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+    overflow: hidden !important;
+    background: #e8eef5 !important;
+    z-index: 1 !important;
+}
+
+.leaflet-container {
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background: #e8eef5 !important;
+    font-family: Inter, Arial, sans-serif !important;
+}
+
+.leaflet-map-pane {
+    position: absolute !important;
+}
+
+.leaflet-tile-pane {
+    position: absolute !important;
+}
+
+.leaflet-tile-container {
+    position: absolute !important;
+}
+
+.leaflet-tile {
+    max-width: none !important;
+    max-height: none !important;
+}
+
+.leaflet-control-zoom {
+    margin-left: 14px !important;
+    margin-top: 14px !important;
+    z-index: 1000 !important;
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 14px !important;
+}
+
+.leaflet-popup-content {
+    margin: 14px 16px !important;
+}
+
+/* REPORT FORM */
+
+.quick-report-panel {
+    min-width: 0 !important;
+}
+
+.complaint-form {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* COMPLAINTS */
+
+.complaints-panel {
+    width: 100% !important;
+}
+
+.complaints-list {
+    width: 100% !important;
+}
+
+/* FOOTER */
+
+.dashboard-footer {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .sidebar {
+        width: 220px !important;
+        min-width: 220px !important;
+    }
+
+    .main-content {
+        margin-left: 220px !important;
+        width: calc(100% - 220px) !important;
+    }
+
+    .dashboard-content {
+        padding-left: 24px !important;
+        padding-right: 24px !important;
+    }
+
+    .dashboard-main-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .map-wrapper,
+    .civic-map {
+        height: 450px !important;
+        min-height: 450px !important;
+    }
+}
+
+@media (max-width: 800px) {
+
+    .sidebar {
+        transform: translateX(-100%) !important;
+        transition: transform .25s ease !important;
+    }
+
+    .sidebar.open {
+        transform: translateX(0) !important;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
+    .dashboard-content {
+        padding: 22px 16px 40px !important;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .dashboard-main-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 520px) {
+
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .map-wrapper,
+    .civic-map {
+        height: 380px !important;
+        min-height: 380px !important;
+    }
+}
+
+/* =========================================================
+   CIVICSENSE MAP — SAFE LEAFLET SIZING
+   ========================================================= */
+
+.map-wrapper {
+    position: relative !important;
+    width: 100% !important;
+    height: 470px !important;
+    min-height: 470px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+}
+
+.civic-map {
+    width: 100% !important;
+    height: 470px !important;
+    min-height: 470px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.leaflet-container {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+}
+/* =========================================================
+   CIVICSENSE MAP FINAL FIX
+   ========================================================= */
+
+.map-wrapper {
+    position: relative !important;
+    width: 100% !important;
+    height: 470px !important;
+    min-height: 470px !important;
+    overflow: hidden !important;
+}
+
+.civic-map {
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    height: 470px !important;
+    min-height: 470px !important;
+    overflow: hidden !important;
+    background: #dbe7f3 !important;
+}
+
+/* Make Leaflet occupy the entire map */
+.civic-map.leaflet-container {
+    position: relative !important;
+    width: 100% !important;
+    height: 470px !important;
+    overflow: hidden !important;
+}
+
+/* Ensure Leaflet panes are visible */
+.civic-map .leaflet-map-pane {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+}
+
+.civic-map .leaflet-tile-pane {
+    z-index: 200 !important;
+}
+
+.civic-map .leaflet-overlay-pane {
+    z-index: 400 !important;
+}
+
+.civic-map .leaflet-marker-pane {
+    z-index: 600 !important;
+}
+
+.civic-map .leaflet-popup-pane {
+    z-index: 700 !important;
+}
+
+/* Actual OpenStreetMap tiles */
+.civic-map .leaflet-tile {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Keep map controls above tiles */
+.civic-map .leaflet-control-container {
+    position: relative !important;
+    z-index: 1000 !important;
+}
+
+/* Keep our legend above map */
+.map-wrapper .map-legend {
+    z-index: 1100 !important;
+}
+
+
+/* =========================================================
+   CIVICSENSE — MODERN SIDEBAR FINAL
+   ========================================================= */
+
+.sidebar {
+    width: 250px !important;
+    min-width: 250px !important;
+    height: 100vh !important;
+
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    padding: 24px 16px !important;
+    box-sizing: border-box !important;
+
+    background: rgba(255, 255, 255, 0.96) !important;
+    border-right: 1px solid #e2e8f0 !important;
+
+    box-shadow:
+        8px 0 30px rgba(15, 23, 42, 0.05) !important;
+
+    z-index: 2000 !important;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif !important;
+}
+
+/* Sidebar brand */
+
+.sidebar .brand,
+.sidebar .logo,
+.sidebar .sidebar-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+
+    padding: 4px 8px 24px !important;
+
+    margin-bottom: 12px !important;
+
+    border-bottom: 1px solid #eef2f7 !important;
+}
+
+.sidebar .brand strong,
+.sidebar .logo strong,
+.sidebar .sidebar-brand strong {
+    color: #0f172a !important;
+    font-size: 17px !important;
+    font-weight: 800 !important;
+}
+
+/* Sidebar navigation */
+
+.sidebar nav {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+}
+
+.sidebar a {
+    display: flex !important;
+    align-items: center !important;
+
+    min-height: 42px !important;
+
+    padding: 10px 12px !important;
+
+    box-sizing: border-box !important;
+
+    border-radius: 11px !important;
+
+    color: #64748b !important;
+
+    font-size: 13px !important;
+    font-weight: 600 !important;
+
+    text-decoration: none !important;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease !important;
+}
+
+.sidebar a:hover {
+    background: #eff6ff !important;
+    color: #2563eb !important;
+    transform: translateX(2px) !important;
+}
+
+.sidebar a.active,
+.sidebar a[aria-current="page"] {
+    background:
+        linear-gradient(
+            135deg,
+            #eff6ff,
+            #dbeafe
+        ) !important;
+
+    color: #1d4ed8 !important;
+
+    font-weight: 700 !important;
+
+    box-shadow:
+        inset 3px 0 0 #2563eb !important;
+}
+
+/* Sidebar section labels */
+
+.sidebar .section-title,
+.sidebar .nav-title,
+.sidebar h4 {
+    margin: 22px 8px 8px !important;
+
+    color: #94a3b8 !important;
+
+    font-size: 10px !important;
+    font-weight: 800 !important;
+
+    text-transform: uppercase !important;
+
+    letter-spacing: 0.12em !important;
+}
+
+/* Sidebar account section */
+
+.sidebar .account,
+.sidebar .sidebar-account {
+    margin-top: auto !important;
+
+    padding: 14px !important;
+
+    border:
+        1px solid #e2e8f0 !important;
+
+    border-radius: 14px !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8fafc,
+            #ffffff
+        ) !important;
+}
+
+/* Help section */
+
+.sidebar .help,
+.sidebar .help-section {
+    margin-top: 14px !important;
+
+    padding: 14px !important;
+
+    border-radius: 14px !important;
+
+    background: #f8fafc !important;
+
+    border: 1px solid #eef2f7 !important;
+}
+
+.sidebar .help strong,
+.sidebar .help-section strong {
+    color: #0f172a !important;
+    font-size: 12px !important;
+}
+
+/* Logout */
+
+.sidebar button,
+.sidebar .logout,
+.sidebar a.logout {
+    width: 100% !important;
+
+    margin-top: 8px !important;
+
+    padding: 10px 12px !important;
+
+    border: 1px solid #e2e8f0 !important;
+
+    border-radius: 10px !important;
+
+    background: #ffffff !important;
+
+    color: #475569 !important;
+
+    font-size: 12px !important;
+    font-weight: 700 !important;
+
+    cursor: pointer !important;
+
+    transition: all 0.2s ease !important;
+}
+
+.sidebar button:hover,
+.sidebar .logout:hover,
+.sidebar a.logout:hover {
+    background: #fef2f2 !important;
+    border-color: #fecaca !important;
+    color: #dc2626 !important;
+}
+
+/* =========================================================
+   CIVICSENSE — FINAL DESKTOP LAYOUT
+   ========================================================= */
+
+/*
+ * IMPORTANT:
+ * .main-content already reserves space for the fixed sidebar.
+ * Do NOT add another margin-left to .dashboard-content.
+ */
+
+.main-content {
+    width: calc(100% - 250px) !important;
+    margin-left: 250px !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* Dashboard content fills the available main area */
+.dashboard-content {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 32px 40px 50px !important;
+    box-sizing: border-box !important;
+}
+
+/* Top navigation stays inside main content */
+.topbar {
+    width: 100% !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* Hero */
+.welcome-section {
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+}
+
+/* Statistics */
+.stats-grid,
+.dashboard-stats {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* Map + report */
+.dashboard-main-grid {
+    display: grid !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    grid-template-columns:
+        minmax(0, 1.65fr)
+        minmax(360px, 0.85fr) !important;
+    gap: 20px !important;
+    align-items: stretch !important;
+}
+
+/* Panels */
+.panel,
+.map-panel,
+.quick-report-panel,
+.complaints-panel {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+}
+
+/* Activity */
+.complaints-panel,
+.complaints-list,
+#complaintsList {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .sidebar {
+        width: 220px !important;
+        min-width: 220px !important;
+    }
+
+    .main-content {
+        width: calc(100% - 220px) !important;
+        margin-left: 220px !important;
+    }
+
+    .dashboard-content {
+        padding: 24px !important;
+    }
+
+    .dashboard-main-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .stats-grid,
+    .dashboard-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .sidebar {
+        position: relative !important;
+        width: 100% !important;
+        min-width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        border-right: none !important;
+        border-bottom: 1px solid #e2e8f0 !important;
+    }
+
+    .app-shell {
+        display: block !important;
+    }
+
+    .main-content {
+        width: 100% !important;
+        margin-left: 0 !important;
+    }
+
+    .dashboard-content {
+        width: 100% !important;
+        padding: 20px 15px 40px !important;
+    }
+
+    .stats-grid,
+    .dashboard-stats {
+        grid-template-columns: 1fr !important;
+    }
+
+    .dashboard-main-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* =========================================================
+   CIVICSENSE — PROFESSIONAL SIDEBAR
+   Final visual polish — does not affect map/layout
+   ========================================================= */
+
+/* Sidebar shell */
+.sidebar {
+    width: 250px !important;
+    min-width: 250px !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    padding: 0 !important;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #f8fafc 100%
+        ) !important;
+
+    border-right: 1px solid #e2e8f0 !important;
+
+    box-shadow:
+        8px 0 30px rgba(15, 23, 42, 0.045) !important;
+
+    z-index: 2000 !important;
+
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.sidebar-brand {
+    height: 82px !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 12px !important;
+
+    padding: 0 20px !important;
+
+    border-bottom: 1px solid #eef2f7 !important;
+
+    flex-shrink: 0 !important;
+}
+
+.brand-logo {
+    width: 40px !important;
+    height: 40px !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    border-radius: 12px !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #4f46e5
+        ) !important;
+
+    color: #ffffff !important;
+
+    font-size: 17px !important;
+    font-weight: 800 !important;
+
+    box-shadow:
+        0 8px 18px rgba(37, 99, 235, 0.25) !important;
+
+    flex-shrink: 0 !important;
+}
+
+.brand-text {
+    display: flex !important;
+    flex-direction: column !important;
+
+    gap: 3px !important;
+
+    min-width: 0 !important;
+}
+
+.brand-text strong {
+    color: #0f172a !important;
+
+    font-size: 15px !important;
+    font-weight: 800 !important;
+
+    letter-spacing: -0.02em !important;
+
+    line-height: 1.2 !important;
+}
+
+.brand-text span {
+    color: #94a3b8 !important;
+
+    font-size: 10px !important;
+    font-weight: 600 !important;
+
+    letter-spacing: 0.02em !important;
+
+    line-height: 1.2 !important;
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.sidebar-nav {
+    display: flex !important;
+    flex-direction: column !important;
+
+    padding: 22px 12px 12px !important;
+
+    flex: 1 !important;
+}
+
+.nav-label {
+    margin: 0 10px 9px !important;
+
+    color: #94a3b8 !important;
+
+    font-size: 10px !important;
+    font-weight: 800 !important;
+
+    letter-spacing: 0.12em !important;
+
+    line-height: 1.4 !important;
+}
+
+.nav-label-space {
+    margin-top: 25px !important;
+}
+
+/* Navigation item */
+.sidebar-nav .nav-item {
+    position: relative !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    width: 100% !important;
+    min-height: 44px !important;
+
+    box-sizing: border-box !important;
+
+    padding: 0 12px !important;
+
+    margin: 2px 0 !important;
+
+    gap: 11px !important;
+
+    border-radius: 11px !important;
+
+    color: #64748b !important;
+
+    background: transparent !important;
+
+    text-decoration: none !important;
+
+    font-size: 13px !important;
+    font-weight: 600 !important;
+
+    transition:
+        background 0.18s ease,
+        color 0.18s ease,
+        transform 0.18s ease !important;
+}
+
+/* Icon */
+.sidebar-nav .nav-icon {
+    width: 30px !important;
+    height: 30px !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    flex-shrink: 0 !important;
+
+    border-radius: 9px !important;
+
+    color: #64748b !important;
+
+    background: #f1f5f9 !important;
+
+    font-size: 15px !important;
+    font-weight: 700 !important;
+
+    line-height: 1 !important;
+
+    transition:
+        background 0.18s ease,
+        color 0.18s ease !important;
+}
+
+/* Hover */
+.sidebar-nav .nav-item:hover {
+    color: #1d4ed8 !important;
+
+    background: #eff6ff !important;
+
+    transform: translateX(2px) !important;
+}
+
+.sidebar-nav .nav-item:hover .nav-icon {
+    color: #2563eb !important;
+    background: #dbeafe !important;
+}
+
+/* Active */
+.sidebar-nav .nav-item.active {
+    color: #1d4ed8 !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            #eff6ff,
+            #eaf2ff
+        ) !important;
+
+    box-shadow:
+        inset 0 0 0 1px #dbeafe !important;
+
+    font-weight: 700 !important;
+}
+
+.sidebar-nav .nav-item.active::before {
+    content: "" !important;
+
+    position: absolute !important;
+
+    left: 0 !important;
+    top: 8px !important;
+    bottom: 8px !important;
+
+    width: 3px !important;
+
+    border-radius: 0 4px 4px 0 !important;
+
+    background: #2563eb !important;
+}
+
+.sidebar-nav .nav-item.active .nav-icon {
+    color: #2563eb !important;
+
+    background: #dbeafe !important;
+}
+
+/* =========================================================
+   SIDEBAR BOTTOM
+   ========================================================= */
+
+.sidebar-bottom {
+    padding: 15px 12px 18px !important;
+
+    border-top: 1px solid #eef2f7 !important;
+
+    flex-shrink: 0 !important;
+}
+
+/* Help card */
+.sidebar-help {
+    display: flex !important;
+    align-items: flex-start !important;
+
+    gap: 10px !important;
+
+    padding: 12px !important;
+
+    margin-bottom: 12px !important;
+
+    border: 1px solid #e2e8f0 !important;
+
+    border-radius: 13px !important;
+
+    background: #f8fafc !important;
+
+    box-sizing: border-box !important;
+}
+
+.help-icon {
+    width: 28px !important;
+    height: 28px !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    flex-shrink: 0 !important;
+
+    border-radius: 8px !important;
+
+    background: #e0e7ff !important;
+
+    color: #4f46e5 !important;
+
+    font-size: 13px !important;
+    font-weight: 800 !important;
+}
+
+.sidebar-help > div:last-child {
+    display: flex !important;
+    flex-direction: column !important;
+
+    gap: 3px !important;
+
+    min-width: 0 !important;
+}
+
+.sidebar-help strong {
+    color: #334155 !important;
+
+    font-size: 11px !important;
+    font-weight: 700 !important;
+}
+
+.sidebar-help span {
+    color: #94a3b8 !important;
+
+    font-size: 10px !important;
+
+    line-height: 1.4 !important;
+}
+
+/* Logout */
+.sidebar-logout,
+#logoutButton {
+    width: 100% !important;
+    min-height: 42px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    gap: 8px !important;
+
+    padding: 0 14px !important;
+
+    border: 1px solid #e2e8f0 !important;
+
+    border-radius: 11px !important;
+
+    background: #ffffff !important;
+
+    color: #64748b !important;
+
+    font-family: inherit !important;
+
+    font-size: 12px !important;
+    font-weight: 700 !important;
+
+    cursor: pointer !important;
+
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease !important;
+}
+
+.sidebar-logout span,
+#logoutButton span {
+    font-size: 15px !important;
+}
+
+.sidebar-logout:hover,
+#logoutButton:hover {
+    background: #fff5f5 !important;
+
+    border-color: #fecaca !important;
+
+    color: #dc2626 !important;
+}
+
+/* =========================================================
+   SIDEBAR SCROLLBAR
+   ========================================================= */
+
+.sidebar::-webkit-scrollbar {
+    width: 5px !important;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent !important;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #cbd5e1 !important;
+    border-radius: 10px !important;
+}
+
+/* =========================================================
+   MOBILE SIDEBAR
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .sidebar {
+        position: fixed !important;
+
+        width: 250px !important;
+        min-width: 250px !important;
+
+        height: 100vh !important;
+        min-height: 100vh !important;
+
+        transform: translateX(-100%) !important;
+
+        transition: transform 0.25s ease !important;
+    }
+
+    .sidebar.open,
+    .sidebar.active,
+    .sidebar.mobile-open {
+        transform: translateX(0) !important;
+    }
+
+    .sidebar-brand {
+        height: 74px !important;
+    }
+
+    .sidebar-nav {
+        padding-top: 18px !important;
+    }
+}
+
+
+/* =========================================================
+   CIVICSENSE — PROFESSIONAL TOPBAR
+   Final visual polish — isolated from map/layout
+   ========================================================= */
+
+/* Header */
+.topbar {
+    width: 100% !important;
+    height: 72px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    padding: 0 28px !important;
+
+    box-sizing: border-box !important;
+
+    background: rgba(255, 255, 255, 0.96) !important;
+
+    border-bottom: 1px solid #e5e7eb !important;
+
+    box-shadow:
+        0 1px 8px rgba(15, 23, 42, 0.025) !important;
+
+    position: sticky !important;
+    top: 0 !important;
+
+    z-index: 900 !important;
+}
+
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
+
+.mobile-menu-button {
+    width: 38px !important;
+    height: 38px !important;
+
+    display: none !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border: 1px solid #e2e8f0 !important;
+
+    border-radius: 10px !important;
+
+    background: #ffffff !important;
+
+    color: #475569 !important;
+
+    font-size: 17px !important;
+
+    cursor: pointer !important;
+
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease !important;
+}
+
+.mobile-menu-button:hover {
+    background: #eff6ff !important;
+    border-color: #bfdbfe !important;
+    color: #2563eb !important;
+}
+
+/* =========================================================
+   PAGE TITLE
+   ========================================================= */
+
+.topbar-page {
+    display: flex !important;
+    flex-direction: column !important;
+
+    justify-content: center !important;
+
+    gap: 3px !important;
+
+    min-width: 0 !important;
+}
+
+.topbar-eyebrow {
+    display: block !important;
+
+    color: #2563eb !important;
+
+    font-size: 9px !important;
+    font-weight: 800 !important;
+
+    letter-spacing: 0.15em !important;
+
+    line-height: 1.2 !important;
+}
+
+.topbar-title {
+    display: block !important;
+
+    color: #0f172a !important;
+
+    font-size: 17px !important;
+    font-weight: 800 !important;
+
+    letter-spacing: -0.02em !important;
+
+    line-height: 1.25 !important;
+}
+
+/* =========================================================
+   RIGHT SIDE
+   ========================================================= */
+
+.topbar-right {
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 16px !important;
+
+    margin-left: auto !important;
+}
+
+/* =========================================================
+   NOTIFICATION
+   ========================================================= */
+
+.notification-button {
+    position: relative !important;
+
+    width: 40px !important;
+    height: 40px !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    padding: 0 !important;
+
+    border: 1px solid #e2e8f0 !important;
+
+    border-radius: 11px !important;
+
+    background: #ffffff !important;
+
+    color: #64748b !important;
+
+    font-size: 17px !important;
+
+    cursor: pointer !important;
+
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease,
+        transform 0.18s ease !important;
+}
+
+.notification-button:hover {
+    background: #eff6ff !important;
+
+    border-color: #bfdbfe !important;
+
+    color: #2563eb !important;
+
+    transform: translateY(-1px) !important;
+}
+
+/* Notification indicator */
+.notification-dot {
+    position: absolute !important;
+
+    top: 8px !important;
+    right: 8px !important;
+
+    width: 6px !important;
+    height: 6px !important;
+
+    border-radius: 50% !important;
+
+    background: #ef4444 !important;
+
+    border: 2px solid #ffffff !important;
+
+    box-sizing: content-box !important;
+}
+
+/* =========================================================
+   USER MINI PROFILE
+   ========================================================= */
+
+.user-mini {
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 10px !important;
+
+    padding-left: 14px !important;
+
+    border-left: 1px solid #e5e7eb !important;
+}
+
+.user-avatar {
+    width: 38px !important;
+    height: 38px !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    flex-shrink: 0 !important;
+
+    border-radius: 50% !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #4f46e5
+        ) !important;
+
+    color: #ffffff !important;
+
+    font-size: 13px !important;
+    font-weight: 800 !important;
+
+    box-shadow:
+        0 5px 14px rgba(37, 99, 235, 0.22) !important;
+}
+
+.user-mini-info {
+    display: flex !important;
+    flex-direction: column !important;
+
+    gap: 2px !important;
+
+    min-width: 0 !important;
+}
+
+.user-mini-info strong {
+    display: block !important;
+
+    max-width: 150px !important;
+
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+
+    color: #0f172a !important;
+
+    font-size: 12px !important;
+    font-weight: 700 !important;
+
+    line-height: 1.3 !important;
+}
+
+.user-mini-info span {
+    display: block !important;
+
+    color: #94a3b8 !important;
+
+    font-size: 10px !important;
+    font-weight: 600 !important;
+
+    line-height: 1.3 !important;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 760px) {
+
+    .topbar {
+        height: 64px !important;
+
+        padding: 0 16px !important;
+    }
+
+    .mobile-menu-button {
+        display: flex !important;
+    }
+
+    .topbar-page {
+        margin-left: 12px !important;
+    }
+
+    .topbar-eyebrow {
+        font-size: 8px !important;
+    }
+
+    .topbar-title {
+        font-size: 15px !important;
+    }
+
+    .topbar-right {
+        gap: 8px !important;
+    }
+
+    .user-mini {
+        padding-left: 8px !important;
+    }
+
+    .user-mini-info {
+        display: none !important;
+    }
+
+    .user-avatar {
+        width: 34px !important;
+        height: 34px !important;
+    }
+
+    .notification-button {
+        width: 36px !important;
+        height: 36px !important;
+    }
+}
+
+@media (max-width: 430px) {
+
+    .topbar {
+        padding: 0 12px !important;
+    }
+
+    .topbar-page {
+        margin-left: 8px !important;
+    }
+
+    .topbar-eyebrow {
+        display: none !important;
+    }
+
+    .topbar-title {
+        font-size: 14px !important;
+    }
+}
+
+
+/* =========================================================
+   CIVICSENSE — FINAL PROFESSIONAL DESKTOP LAYOUT
+   ========================================================= */
+
+/* ---------- GLOBAL ---------- */
+
+html,
+body {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+}
+
+body {
+    background: #f4f7fb !important;
+    color: #0f172a !important;
+}
+
+
+/* ---------- APP ---------- */
+
+.app-shell {
+    display: flex !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+}
+
+
+/* ---------- SIDEBAR ---------- */
+
+.sidebar {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+
+    width: 220px !important;
+    min-width: 220px !important;
+
+    background: #ffffff !important;
+
+    border-right: 1px solid #e8edf5 !important;
+
+    box-shadow: 2px 0 18px rgba(15, 23, 42, 0.035) !important;
+
+    z-index: 2000 !important;
+}
+
+
+/* ---------- MAIN ---------- */
+
+.main-content {
+    width: calc(100% - 220px) !important;
+    margin-left: 220px !important;
+
+    min-width: 0 !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* ---------- TOPBAR ---------- */
+
+.topbar {
+    height: 64px !important;
+    min-height: 64px !important;
+
+    width: 100% !important;
+
+    padding: 0 28px !important;
+
+    background: rgba(255,255,255,0.96) !important;
+
+    border-bottom: 1px solid #e8edf5 !important;
+
+    box-shadow: none !important;
+
+    box-sizing: border-box !important;
+
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+}
+
+.topbar-title {
+    font-size: 17px !important;
+    font-weight: 800 !important;
+}
+
+.topbar-eyebrow {
+    font-size: 9px !important;
+}
+
+
+/* ---------- CONTENT CONTAINER ---------- */
+
+.dashboard-content {
+    width: 100% !important;
+
+    max-width: 1280px !important;
+
+    margin: 0 auto !important;
+
+    padding: 24px 28px 50px !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* ---------- WELCOME ---------- */
+
+.welcome-section {
+    width: 100% !important;
+
+    min-height: 116px !important;
+
+    padding: 25px 28px !important;
+
+    margin-bottom: 16px !important;
+
+    border-radius: 16px !important;
+
+    border: 1px solid #dbe5f2 !important;
+
+    box-shadow:
+        0 4px 18px rgba(15, 23, 42, 0.045) !important;
+
+    box-sizing: border-box !important;
+}
+
+.welcome-copy h1 {
+    font-size: 27px !important;
+    line-height: 1.15 !important;
+}
+
+.welcome-copy p {
+    font-size: 12px !important;
+    line-height: 1.55 !important;
+    margin-top: 7px !important;
+    max-width: 560px !important;
+}
+
+.welcome-section .primary-button,
+.welcome-section button {
+    min-height: 38px !important;
+    padding: 0 16px !important;
+    font-size: 11px !important;
+}
+
+
+/* ---------- STATISTICS ---------- */
+
+.stats-grid,
+.dashboard-stats {
+    width: 100% !important;
+
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr)) !important;
+
+    gap: 12px !important;
+
+    margin-bottom: 16px !important;
+}
+
+.stat-card {
+    min-height: 76px !important;
+
+    height: 76px !important;
+
+    padding: 14px 16px !important;
+
+    border-radius: 13px !important;
+
+    border: 1px solid #e2e8f0 !important;
+
+    box-shadow:
+        0 3px 12px rgba(15, 23, 42, 0.035) !important;
+
+    gap: 12px !important;
+}
+
+.stat-icon {
+    width: 38px !important;
+    height: 38px !important;
+
+    border-radius: 10px !important;
+
+    font-size: 16px !important;
+}
+
+.stat-info {
+    gap: 3px !important;
+}
+
+.stat-info span {
+    font-size: 10px !important;
+}
+
+.stat-info strong {
+    font-size: 22px !important;
+}
+
+
+/* ---------- MAIN GRID ---------- */
+
+.dashboard-main-grid {
+    width: 100% !important;
+
+    display: grid !important;
+
+    grid-template-columns:
+        minmax(0, 1.55fr)
+        minmax(330px, 0.78fr) !important;
+
+    gap: 14px !important;
+
+    margin: 0 !important;
+
+    align-items: stretch !important;
+}
+
+
+/* ---------- ALL PANELS ---------- */
+
+.panel {
+    width: 100% !important;
+
+    min-width: 0 !important;
+
+    border: 1px solid #e1e7f0 !important;
+
+    border-radius: 16px !important;
+
+    background: #ffffff !important;
+
+    box-shadow:
+        0 4px 18px rgba(15, 23, 42, 0.045) !important;
+
+    overflow: hidden !important;
+}
+
+
+/* ---------- PANEL HEADERS ---------- */
+
+.panel-header {
+    min-height: 70px !important;
+
+    padding: 16px 18px !important;
+
+    box-sizing: border-box !important;
+}
+
+.panel-header h2,
+.panel-header h3 {
+    font-size: 14px !important;
+}
+
+.panel-header p {
+    font-size: 10px !important;
+    margin-top: 4px !important;
+}
+
+.panel-kicker {
+    font-size: 9px !important;
+    margin-bottom: 4px !important;
+}
+
+
+/* ---------- MAP ---------- */
+
+.map-panel {
+    min-width: 0 !important;
+}
+
+.civic-map,
+.civic-map.leaflet-container,
+#civicMap {
+    width: 100% !important;
+
+    height: 330px !important;
+
+    min-height: 330px !important;
+
+    max-height: 330px !important;
+
+    border: 0 !important;
+
+    border-radius: 0 !important;
+
+    overflow: hidden !important;
+}
+
+
+/* ---------- REPORT PANEL ---------- */
+
+.quick-report-panel {
+    min-width: 0 !important;
+}
+
+.quick-report-panel .panel-header {
+    padding-bottom: 14px !important;
+}
+
+
+/* ---------- FORM ---------- */
+
+.quick-report-panel form,
+#complaintForm {
+    padding: 16px 18px 18px !important;
+}
+
+.form-row {
+    gap: 10px !important;
+}
+
+.form-group {
+    margin-bottom: 10px !important;
+}
+
+.form-group label {
+    font-size: 10px !important;
+
+    margin-bottom: 5px !important;
+
+    font-weight: 700 !important;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    min-height: 36px !important;
+
+    height: 36px !important;
+
+    padding: 8px 10px !important;
+
+    border-radius: 8px !important;
+
+    border: 1px solid #d9e1ec !important;
+
+    font-size: 11px !important;
+
+    box-sizing: border-box !important;
+}
+
+.form-group textarea {
+    height: 72px !important;
+
+    min-height: 72px !important;
+
+    resize: vertical !important;
+}
+
+#complaintButton {
+    width: 100% !important;
+
+    min-height: 38px !important;
+
+    height: 38px !important;
+
+    border-radius: 9px !important;
+
+    font-size: 11px !important;
+
+    margin-top: 6px !important;
+}
+
+
+/* ---------- LOCATION ---------- */
+
+.location-row {
+    gap: 7px !important;
+}
+
+
+/* ---------- ACTIVITY ---------- */
+
+.complaints-panel {
+    width: 100% !important;
+
+    margin-top: 14px !important;
+}
+
+.complaints-panel .panel-header {
+    min-height: 70px !important;
+}
+
+.complaints-list,
+#complaintsList {
+    width: 100% !important;
+
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr)) !important;
+
+    gap: 10px !important;
+
+    padding: 14px !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* ---------- COMPLAINT CARDS ---------- */
+
+.complaint-card {
+    min-height: 100px !important;
+
+    padding: 14px !important;
+
+    border-radius: 11px !important;
+
+    border: 1px solid #e4e9f1 !important;
+
+    background: #ffffff !important;
+
+    box-shadow:
+        0 2px 8px rgba(15, 23, 42, 0.025) !important;
+}
+
+.complaint-card h3 {
+    font-size: 11px !important;
+
+    margin-bottom: 3px !important;
+}
+
+.complaint-category {
+    font-size: 9px !important;
+}
+
+.complaint-description {
+    font-size: 10px !important;
+
+    line-height: 1.5 !important;
+
+    margin: 8px 0 !important;
+
+    color: #64748b !important;
+}
+
+.complaint-meta {
+    display: flex !important;
+
+    flex-wrap: wrap !important;
+
+    gap: 8px !important;
+
+    font-size: 9px !important;
+}
+
+
+/* ---------- STATUS ---------- */
+
+.status-badge {
+    font-size: 8px !important;
+
+    padding: 4px 7px !important;
+
+    border-radius: 999px !important;
+}
+
+
+/* ---------- MAP LEGEND ---------- */
+
+.map-legend {
+    font-size: 9px !important;
+
+    padding: 6px 9px !important;
+
+    border-radius: 8px !important;
+}
+
+
+/* ---------- REMOVE EXCESSIVE OUTLINES ---------- */
+
+.dashboard-content > *,
+.dashboard-main-grid > *,
+.panel,
+.stat-card,
+.welcome-section,
+.complaint-card {
+    outline: none !important;
+}
+
+
+/* ---------- DESKTOP LARGE ---------- */
+
+@media (min-width: 1400px) {
+
+    .dashboard-content {
+        max-width: 1320px !important;
+        padding-left: 30px !important;
+        padding-right: 30px !important;
+    }
+
+}
+
+
+/* ---------- TABLET ---------- */
+
+@media (max-width: 1100px) {
+
+    .sidebar {
+        width: 210px !important;
+        min-width: 210px !important;
+    }
+
+    .main-content {
+        width: calc(100% - 210px) !important;
+        margin-left: 210px !important;
+    }
+
+    .dashboard-content {
+        padding: 20px !important;
+    }
+
+    .dashboard-main-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .civic-map,
+    .civic-map.leaflet-container,
+    #civicMap {
+        height: 350px !important;
+        min-height: 350px !important;
+        max-height: 350px !important;
+    }
+
+}
+
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 700px) {
+
+    .sidebar {
+        position: relative !important;
+
+        width: 100% !important;
+
+        min-width: 100% !important;
+
+        height: auto !important;
+
+        min-height: auto !important;
+    }
+
+    .main-content {
+        width: 100% !important;
+
+        margin-left: 0 !important;
+    }
+
+    .dashboard-content {
+        padding: 15px !important;
+    }
+
+    .welcome-section {
+        min-height: auto !important;
+
+        padding: 20px !important;
+    }
+
+    .stats-grid,
+    .dashboard-stats {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    .dashboard-main-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .complaints-list,
+    #complaintsList {
+        grid-template-columns: 1fr !important;
+    }
+
+    .civic-map,
+    .civic-map.leaflet-container,
+    #civicMap {
+        height: 300px !important;
+        min-height: 300px !important;
+        max-height: 300px !important;
+    }
+
+}
+
+
+/* =========================================================
+   CIVICSENSE — FINAL CLEAN LAYOUT
+   STEP 1: APP SHELL / SIDEBAR / TOPBAR
+   ========================================================= */
+
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    min-height: 100% !important;
+    overflow-x: hidden !important;
+}
+
+body {
+    background: #f6faf7 !important;
+    color: #17231b !important;
+}
+
+/* =========================================================
+   APP SHELL
+   ========================================================= */
+
+.app-shell {
+    display: flex !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar {
+    position: fixed !important;
+
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+
+    width: 248px !important;
+    min-width: 248px !important;
+
+    height: 100vh !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    box-sizing: border-box !important;
+
+    background: #ffffff !important;
+
+    border-right: 1px solid #dfe9e2 !important;
+
+    box-shadow:
+        4px 0 20px rgba(30, 70, 45, 0.035) !important;
+
+    z-index: 2000 !important;
+}
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.main-content {
+    width: calc(100% - 248px) !important;
+    min-width: 0 !important;
+
+    margin-left: 248px !important;
+
+    box-sizing: border-box !important;
+}
+
+/* =========================================================
+   TOPBAR
+   ========================================================= */
+
+.topbar {
+    width: 100% !important;
+
+    height: 72px !important;
+    min-height: 72px !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    box-sizing: border-box !important;
+
+    padding: 0 32px !important;
+
+    background: #ffffff !important;
+
+    border-bottom: 1px solid #e2ebe5 !important;
+
+    box-shadow: 0 2px 12px rgba(30, 70, 45, 0.025) !important;
+
+    position: sticky !important;
+    top: 0 !important;
+
+    z-index: 1000 !important;
+}
+
+/* =========================================================
+   PAGE CONTENT
+   ========================================================= */
+
+.dashboard-content {
+    width: 100% !important;
+
+    max-width: none !important;
+
+    margin: 0 !important;
+
+    padding: 32px 36px 56px !important;
+
+    box-sizing: border-box !important;
+}
+
+/* =========================================================
+   CLEAN RESPONSIVE BASE
+   ========================================================= */
+
+@media (min-width: 1500px) {
+
+    .dashboard-content {
+        padding-left: 44px !important;
+        padding-right: 44px !important;
+    }
+
+}
+
+@media (max-width: 1100px) {
+
+    .sidebar {
+        width: 220px !important;
+        min-width: 220px !important;
+    }
+
+    .main-content {
+        width: calc(100% - 220px) !important;
+        margin-left: 220px !important;
+    }
+
+    .dashboard-content {
+        padding: 28px 24px 48px !important;
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    .app-shell {
+        display: block !important;
+    }
+
+    .sidebar {
+        position: relative !important;
+
+        width: 100% !important;
+        min-width: 100% !important;
+
+        height: auto !important;
+        min-height: auto !important;
+
+        border-right: none !important;
+        border-bottom: 1px solid #dfe9e2 !important;
+    }
+
+    .main-content {
+        width: 100% !important;
+        margin-left: 0 !important;
+    }
+
+    .topbar {
+        height: 64px !important;
+        min-height: 64px !important;
+
+        padding: 0 18px !important;
+    }
+
+    .dashboard-content {
+        width: 100% !important;
+
+        padding: 22px 16px 40px !important;
+    }
+
+}
+
+/* =========================================================
+   CIVICSENSE — STEP 2
+   GREEN + WHITE SIDEBAR
+   ========================================================= */
+
+.sidebar {
+    background: #ffffff !important;
+    border-right: 1px solid #dfe9e2 !important;
+    box-shadow: 4px 0 22px rgba(22, 101, 52, 0.04) !important;
+}
+
+/* Brand */
+
+.sidebar-brand {
+    height: 88px !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    padding: 0 24px !important;
+
+    box-sizing: border-box !important;
+
+    border-bottom: 1px solid #edf3ee !important;
+}
+
+.brand-logo {
+    width: 42px !important;
+    height: 42px !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    flex-shrink: 0 !important;
+
+    border-radius: 12px !important;
+
+    background: #15803d !important;
+    color: #ffffff !important;
+
+    font-size: 19px !important;
+    font-weight: 800 !important;
+
+    box-shadow:
+        0 6px 16px rgba(21, 128, 61, 0.18) !important;
+}
+
+.brand-text {
+    margin-left: 12px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    gap: 3px !important;
+}
+
+.brand-text strong {
+    color: #14532d !important;
+
+    font-size: 16px !important;
+    font-weight: 800 !important;
+
+    line-height: 1.1 !important;
+}
+
+.brand-text span {
+    color: #7a8b80 !important;
+
+    font-size: 9px !important;
+    font-weight: 600 !important;
+
+    letter-spacing: 0.02em !important;
+}
+
+/* Navigation */
+
+.sidebar-nav {
+    padding: 24px 14px !important;
+}
+
+.nav-label {
+    margin: 0 10px 10px !important;
+
+    color: #91a097 !important;
+
+    font-size: 9px !important;
+    font-weight: 800 !important;
+
+    letter-spacing: 0.12em !important;
+}
+
+.nav-label-space {
+    margin-top: 28px !important;
+}
+
+/* Navigation item */
+
+.sidebar-nav .nav-item {
+    position: relative !important;
+
+    min-height: 46px !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 12px !important;
+
+    margin-bottom: 5px !important;
+
+    padding: 0 13px !important;
+
+    border-radius: 10px !important;
+
+    color: #52635a !important;
+
+    background: transparent !important;
+
+    border: 1px solid transparent !important;
+
+    text-decoration: none !important;
+
+    font-size: 12px !important;
+    font-weight: 700 !important;
+
+    transition:
+        background .18s ease,
+        color .18s ease,
+        transform .18s ease !important;
+}
+
+.sidebar-nav .nav-item:hover {
+    background: #f0fdf4 !important;
+    color: #166534 !important;
+
+    transform: translateX(2px) !important;
+}
+
+/* Active navigation */
+
+.sidebar-nav .nav-item.active {
+    background: #eaf8ef !important;
+
+    color: #166534 !important;
+
+    border-color: #d7efde !important;
+}
+
+.sidebar-nav .nav-item.active::before {
+    content: "" !important;
+
+    position: absolute !important;
+
+    left: -14px !important;
+    top: 8px !important;
+    bottom: 8px !important;
+
+    width: 3px !important;
+
+    border-radius: 0 4px 4px 0 !important;
+
+    background: #16a34a !important;
+}
+
+/* Icons */
+
+.sidebar-nav .nav-icon {
+    width: 28px !important;
+    height: 28px !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    flex-shrink: 0 !important;
+
+    border-radius: 8px !important;
+
+    background: #f3f7f4 !important;
+
+    color: #64746b !important;
+
+    font-size: 15px !important;
+
+    transition: .18s ease !important;
+}
+
+.sidebar-nav .nav-item:hover .nav-icon,
+.sidebar-nav .nav-item.active .nav-icon {
+    background: #ffffff !important;
+    color: #15803d !important;
+}
+
+/* Sidebar bottom */
+
+.sidebar-bottom {
+    margin-top: auto !important;
+
+    padding: 18px 14px 20px !important;
+
+    border-top: 1px solid #edf3ee !important;
+}
+
+/* Help card */
+
+.sidebar-help {
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 10px !important;
+
+    margin-bottom: 14px !important;
+
+    padding: 12px !important;
+
+    border-radius: 11px !important;
+
+    background: #f5faf6 !important;
+
+    border: 1px solid #e4efe7 !important;
+}
+
+.help-icon {
+    width: 30px !important;
+    height: 30px !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    flex-shrink: 0 !important;
+
+    border-radius: 9px !important;
+
+    background: #dcfce7 !important;
+
+    color: #15803d !important;
+
+    font-weight: 800 !important;
+}
+
+.sidebar-help strong {
+    display: block !important;
+
+    color: #31503b !important;
+
+    font-size: 10px !important;
+}
+
+.sidebar-help span {
+    display: block !important;
+
+    margin-top: 3px !important;
+
+    color: #87958c !important;
+
+    font-size: 8px !important;
+}
+
+/* Logout */
+
+.sidebar-logout {
+    width: 100% !important;
+
+    height: 40px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    gap: 8px !important;
+
+    border: 1px solid #e1e9e3 !important;
+
+    border-radius: 9px !important;
+
+    background: #ffffff !important;
+
+    color: #64746b !important;
+
+    font-size: 10px !important;
+    font-weight: 700 !important;
+
+    cursor: pointer !important;
+
+    transition: .18s ease !important;
+}
+
+.sidebar-logout:hover {
+    background: #fef2f2 !important;
+
+    border-color: #fecaca !important;
+
+    color: #dc2626 !important;
+}
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+    .sidebar-brand {
+        height: 72px !important;
+    }
+
+    .sidebar-nav {
+        padding: 14px !important;
+    }
+
+    .sidebar-bottom {
+        padding: 14px !important;
+    }
+
+}
+
+
+/* =========================================================
+   CIVICSENSE — STEP 3
+   CLEAN GREEN TOPBAR
+   ========================================================= */
+
+.topbar {
+    height: 76px !important;
+    min-height: 76px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    padding: 0 34px !important;
+
+    background: #ffffff !important;
+
+    border-bottom: 1px solid #e3ece6 !important;
+
+    box-shadow:
+        0 2px 14px rgba(22, 101, 52, 0.035) !important;
+
+    box-sizing: border-box !important;
+}
+
+/* Left side */
+
+.topbar-page {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+
+    gap: 4px !important;
+}
+
+.topbar-eyebrow {
+    color: #16a34a !important;
+
+    font-size: 9px !important;
+    font-weight: 800 !important;
+
+    letter-spacing: 0.13em !important;
+}
+
+.topbar-title {
+    color: #17231b !important;
+
+    font-size: 20px !important;
+    font-weight: 800 !important;
+
+    line-height: 1.1 !important;
+}
+
+/* Right side */
+
+.topbar-right {
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 18px !important;
+}
+
+/* Notification */
+
+.notification-button {
+    position: relative !important;
+
+    width: 38px !important;
+    height: 38px !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    border: 1px solid #e2ebe5 !important;
+
+    border-radius: 10px !important;
+
+    background: #ffffff !important;
+
+    color: #64746b !important;
+
+    font-size: 17px !important;
+
+    cursor: pointer !important;
+
+    transition: .18s ease !important;
+}
+
+.notification-button:hover {
+    background: #f0fdf4 !important;
+
+    border-color: #cce8d5 !important;
+
+    color: #15803d !important;
+}
+
+.notification-dot {
+    position: absolute !important;
+
+    top: 7px !important;
+    right: 7px !important;
+
+    width: 6px !important;
+    height: 6px !important;
+
+    border-radius: 50% !important;
+
+    background: #16a34a !important;
+
+    border: 2px solid #ffffff !important;
+}
+
+/* User */
+
+.user-mini {
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 10px !important;
+
+    padding-left: 16px !important;
+
+    border-left: 1px solid #e3ece6 !important;
+}
+
+.user-avatar {
+    width: 38px !important;
+    height: 38px !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    border-radius: 11px !important;
+
+    background: #dcfce7 !important;
+
+    color: #15803d !important;
+
+    font-size: 14px !important;
+    font-weight: 800 !important;
+}
+
+.user-mini-info {
+    display: flex !important;
+    flex-direction: column !important;
+
+    gap: 2px !important;
+
+    min-width: 70px !important;
+}
+
+.user-mini-info strong {
+    color: #24342a !important;
+
+    font-size: 11px !important;
+    font-weight: 800 !important;
+}
+
+.user-mini-info span {
+    color: #8a988f !important;
+
+    font-size: 9px !important;
+}
+
+/* Mobile menu */
+
+.mobile-menu-button {
+    width: 38px !important;
+    height: 38px !important;
+
+    display: none !important;
+
+    place-items: center !important;
+
+    border: 1px solid #dfe9e2 !important;
+
+    border-radius: 9px !important;
+
+    background: #ffffff !important;
+
+    color: #166534 !important;
+
+    cursor: pointer !important;
+}
+
+@media (max-width: 700px) {
+
+    .topbar {
+        height: 68px !important;
+        min-height: 68px !important;
+
+        padding: 0 16px !important;
+    }
+
+    .mobile-menu-button {
+        display: grid !important;
+    }
+
+    .topbar {
+        gap: 12px !important;
+    }
+
+    .topbar-page {
+        flex: 1 !important;
+    }
+
+    .topbar-title {
+        font-size: 17px !important;
+    }
+
+    .topbar-right {
+        gap: 8px !important;
+    }
+
+    .user-mini {
+        padding-left: 8px !important;
+    }
+
+    .user-mini-info {
+        display: none !important;
+    }
+
+}
+
+
+/* =========================================================
+   CIVICSENSE — STEP 4
+   WELCOME + STATISTICS
+   ========================================================= */
+
+/* =========================================================
+   WELCOME SECTION
+   ========================================================= */
+
+.welcome-section {
+    width: 100% !important;
+
+    min-height: 148px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    gap: 30px !important;
+
+    margin: 0 0 22px 0 !important;
+
+    padding: 30px 34px !important;
+
+    box-sizing: border-box !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #f7fcf8 100%
+        ) !important;
+
+    border: 1px solid #e1ebe4 !important;
+
+    border-radius: 18px !important;
+
+    box-shadow:
+        0 5px 20px rgba(22, 101, 52, 0.045) !important;
+}
+
+.welcome-copy {
+    min-width: 0 !important;
+}
+
+.welcome-copy .section-kicker {
+    color: #16a34a !important;
+
+    font-size: 9px !important;
+
+    font-weight: 800 !important;
+
+    letter-spacing: 0.13em !important;
+
+    margin-bottom: 7px !important;
+}
+
+.welcome-copy h1 {
+    margin: 0 !important;
+
+    color: #17231b !important;
+
+    font-size: clamp(26px, 2.5vw, 34px) !important;
+
+    font-weight: 800 !important;
+
+    line-height: 1.15 !important;
+
+    letter-spacing: -0.025em !important;
+}
+
+.welcome-copy p {
+    max-width: 650px !important;
+
+    margin: 9px 0 0 !important;
+
+    color: #718078 !important;
+
+    font-size: 12px !important;
+
+    line-height: 1.65 !important;
+}
+
+/* Welcome action */
+
+.welcome-section .primary-button,
+.welcome-section button {
+    flex-shrink: 0 !important;
+
+    min-height: 42px !important;
+
+    padding: 0 20px !important;
+
+    border: 0 !important;
+
+    border-radius: 9px !important;
+
+    background: #15803d !important;
+
+    color: #ffffff !important;
+
+    font-size: 11px !important;
+
+    font-weight: 800 !important;
+
+    box-shadow:
+        0 5px 14px rgba(21, 128, 61, 0.16) !important;
+
+    transition:
+        transform .18s ease,
+        background .18s ease,
+        box-shadow .18s ease !important;
+}
+
+.welcome-section .primary-button:hover,
+.welcome-section button:hover {
+    background: #166534 !important;
+
+    transform: translateY(-1px) !important;
+
+    box-shadow:
+        0 7px 18px rgba(21, 128, 61, 0.20) !important;
+}
+
+
+/* =========================================================
+   STATISTICS
+   ========================================================= */
+
+.stats-grid,
+.dashboard-stats {
+    width: 100% !important;
+
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr)) !important;
+
+    gap: 16px !important;
+
+    margin: 0 0 24px 0 !important;
+}
+
+/* Individual card */
+
+.stat-card {
+    position: relative !important;
+
+    width: 100% !important;
+
+    min-width: 0 !important;
+
+    min-height: 108px !important;
+
+    height: auto !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    gap: 15px !important;
+
+    padding: 20px !important;
+
+    box-sizing: border-box !important;
+
+    background: #ffffff !important;
+
+    border: 1px solid #e2ebe5 !important;
+
+    border-radius: 14px !important;
+
+    box-shadow:
+        0 4px 16px rgba(22, 101, 52, 0.035) !important;
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        border-color .18s ease !important;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px) !important;
+
+    border-color: #cde5d5 !important;
+
+    box-shadow:
+        0 8px 22px rgba(22, 101, 52, 0.07) !important;
+}
+
+/* Statistic icon */
+
+.stat-icon {
+    width: 44px !important;
+    height: 44px !important;
+
+    flex: 0 0 44px !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    border-radius: 11px !important;
+
+    background: #ecfdf3 !important;
+
+    color: #15803d !important;
+
+    font-size: 18px !important;
+}
+
+/* Individual icon tones */
+
+.pending-icon {
+    background: #fff8e8 !important;
+    color: #b7791f !important;
+}
+
+.progress-icon {
+    background: #f2edff !important;
+    color: #7048c8 !important;
+}
+
+.resolved-icon {
+    background: #eaf9ef !important;
+    color: #15803d !important;
+}
+
+/* Statistic text */
+
+.stat-info {
+    min-width: 0 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    gap: 5px !important;
+}
+
+.stat-info span {
+    color: #7b8a81 !important;
+
+    font-size: 10px !important;
+
+    font-weight: 700 !important;
+
+    line-height: 1.2 !important;
+}
+
+.stat-info strong {
+    color: #17231b !important;
+
+    font-size: 27px !important;
+
+    font-weight: 800 !important;
+
+    line-height: 1 !important;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .welcome-section {
+        padding: 26px !important;
+    }
+
+    .stats-grid,
+    .dashboard-stats {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr)) !important;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .welcome-section {
+        min-height: auto !important;
+
+        flex-direction: column !important;
+
+        align-items: flex-start !important;
+
+        padding: 24px !important;
+
+        gap: 20px !important;
+    }
+
+    .welcome-copy h1 {
+        font-size: 25px !important;
+    }
+
+    .welcome-section .primary-button,
+    .welcome-section button {
+        width: 100% !important;
+    }
+
+    .stats-grid,
+    .dashboard-stats {
+        grid-template-columns: 1fr !important;
+
+        gap: 12px !important;
+    }
+
+    .stat-card {
+        min-height: 92px !important;
+    }
+
+}
+
+
+/* =========================================================
+   CIVICSENSE — STEP 5
+   MAP 35% / REPORT 65%
+   ========================================================= */
+
+/* Main two-column area */
+
+.dashboard-main-grid {
+    width: 100% !important;
+
+    display: grid !important;
+
+    /*
+       MAP     = 35%
+       REPORT  = 65%
+    */
+    grid-template-columns:
+        minmax(0, 35fr)
+        minmax(0, 65fr) !important;
+
+    gap: 20px !important;
+
+    margin: 0 !important;
+
+    align-items: stretch !important;
+}
+
+/* =========================================================
+   PANELS
+   ========================================================= */
+
+.dashboard-main-grid .panel {
+    width: 100% !important;
+
+    min-width: 0 !important;
+
+    box-sizing: border-box !important;
+
+    background: #ffffff !important;
+
+    border: 1px solid #dfe9e2 !important;
+
+    border-radius: 16px !important;
+
+    box-shadow:
+        0 5px 20px rgba(22, 101, 52, 0.045) !important;
+
+    overflow: hidden !important;
+}
+
+/* =========================================================
+   PANEL HEADER
+   ========================================================= */
+
+.dashboard-main-grid .panel-header {
+    min-height: 76px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    padding: 17px 20px !important;
+
+    box-sizing: border-box !important;
+
+    background: #ffffff !important;
+
+    border-bottom: 1px solid #edf3ee !important;
+}
+
+.dashboard-main-grid .panel-kicker {
+    display: block !important;
+
+    margin-bottom: 5px !important;
+
+    color: #16a34a !important;
+
+    font-size: 9px !important;
+
+    font-weight: 800 !important;
+
+    letter-spacing: 0.12em !important;
+}
+
+.dashboard-main-grid .panel-header h2,
+.dashboard-main-grid .panel-header h3 {
+    margin: 0 !important;
+
+    color: #17231b !important;
+
+    font-size: 16px !important;
+
+    font-weight: 800 !important;
+}
+
+.dashboard-main-grid .panel-header p {
+    margin: 5px 0 0 !important;
+
+    color: #829087 !important;
+
+    font-size: 10px !important;
+
+    line-height: 1.4 !important;
+}
+
+/* =========================================================
+   MAP — 35%
+   ========================================================= */
+
+.map-panel {
+    min-width: 0 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/*
+   Important:
+   Don't let the old 330px/470px rules fight
+   with the new map layout.
+*/
+
+.map-panel .civic-map,
+.map-panel .civic-map.leaflet-container,
+.map-panel #civicMap {
+    width: 100% !important;
+
+    height: 420px !important;
+
+    min-height: 420px !important;
+
+    max-height: 420px !important;
+
+    flex: 0 0 420px !important;
+
+    border: 0 !important;
+
+    border-radius: 0 !important;
+
+    background: #edf5ef !important;
+
+    overflow: hidden !important;
+}
+
+/* Leaflet itself */
+
+.map-panel .leaflet-container {
+    font-family: Inter, sans-serif !important;
+}
+
+/* Map controls */
+
+.map-panel .leaflet-control-zoom {
+    border: 1px solid #dce8df !important;
+
+    box-shadow:
+        0 3px 12px rgba(22, 101, 52, 0.08) !important;
+}
+
+.map-panel .leaflet-control-zoom a {
+    color: #166534 !important;
+
+    background: #ffffff !important;
+
+    border-bottom-color: #e4ece6 !important;
+}
+
+.map-panel .leaflet-control-zoom a:hover {
+    background: #f0fdf4 !important;
+
+    color: #15803d !important;
+}
+
+/* =========================================================
+   REPORT — 65%
+   ========================================================= */
+
+.quick-report-panel {
+    min-width: 0 !important;
+
+    display: flex !important;
+
+    flex-direction: column !important;
+}
+
+.quick-report-panel .panel-header {
+    flex: 0 0 auto !important;
+}
+
+/* Form area */
+
+.quick-report-panel form,
+.quick-report-panel #complaintForm {
+    width: 100% !important;
+
+    box-sizing: border-box !important;
+
+    padding: 20px 24px 24px !important;
+}
+
+/* Form rows */
+
+.quick-report-panel .form-row {
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr)) !important;
+
+    gap: 16px !important;
+
+    width: 100% !important;
+}
+
+/* Form group */
+
+.quick-report-panel .form-group {
+    width: 100% !important;
+
+    min-width: 0 !important;
+
+    margin-bottom: 14px !important;
+}
+
+.quick-report-panel .form-group label {
+    display: block !important;
+
+    margin-bottom: 6px !important;
+
+    color: #425249 !important;
+
+    font-size: 10px !important;
+
+    font-weight: 800 !important;
+}
+
+.quick-report-panel .form-group input,
+.quick-report-panel .form-group select,
+.quick-report-panel .form-group textarea {
+    width: 100% !important;
+
+    box-sizing: border-box !important;
+
+    border: 1px solid #d9e5dc !important;
+
+    border-radius: 9px !important;
+
+    background: #ffffff !important;
+
+    color: #1f2d24 !important;
+
+    font-size: 11px !important;
+
+    outline: none !important;
+
+    transition:
+        border-color .18s ease,
+        box-shadow .18s ease,
+        background .18s ease !important;
+}
+
+.quick-report-panel .form-group input,
+.quick-report-panel .form-group select {
+    height: 40px !important;
+
+    min-height: 40px !important;
+
+    padding: 0 12px !important;
+}
+
+.quick-report-panel .form-group textarea {
+    min-height: 92px !important;
+
+    height: 92px !important;
+
+    padding: 10px 12px !important;
+
+    resize: vertical !important;
+}
+
+.quick-report-panel .form-group input:focus,
+.quick-report-panel .form-group select:focus,
+.quick-report-panel .form-group textarea:focus {
+    border-color: #5db77a !important;
+
+    background: #fbfefc !important;
+
+    box-shadow:
+        0 0 0 3px rgba(34, 197, 94, 0.08) !important;
+}
+
+/* Location controls */
+
+.quick-report-panel .location-row {
+    display: flex !important;
+
+    align-items: center !important;
+
+    gap: 8px !important;
+}
+
+.quick-report-panel .location-row input {
+    flex: 1 !important;
+
+    min-width: 0 !important;
+}
+
+/* Location button */
+
+.quick-report-panel #locationButton {
+    flex-shrink: 0 !important;
+
+    min-height: 40px !important;
+
+    padding: 0 13px !important;
+
+    border: 1px solid #cfe4d5 !important;
+
+    border-radius: 9px !important;
+
+    background: #f0fdf4 !important;
+
+    color: #15803d !important;
+
+    font-size: 10px !important;
+
+    font-weight: 800 !important;
+
+    cursor: pointer !important;
+}
+
+.quick-report-panel #locationButton:hover {
+    background: #dcfce7 !important;
+}
+
+/* Submit */
+
+.quick-report-panel #complaintButton {
+    width: 100% !important;
+
+    height: 44px !important;
+
+    min-height: 44px !important;
+
+    margin-top: 5px !important;
+
+    border: none !important;
+
+    border-radius: 9px !important;
+
+    background: #15803d !important;
+
+    color: #ffffff !important;
+
+    font-size: 11px !important;
+
+    font-weight: 800 !important;
+
+    cursor: pointer !important;
+
+    box-shadow:
+        0 5px 14px rgba(21, 128, 61, 0.15) !important;
+
+    transition:
+        background .18s ease,
+        transform .18s ease,
+        box-shadow .18s ease !important;
+}
+
+.quick-report-panel #complaintButton:hover {
+    background: #166534 !important;
+
+    transform: translateY(-1px) !important;
+
+    box-shadow:
+        0 7px 18px rgba(21, 128, 61, 0.20) !important;
+}
+
+.quick-report-panel #complaintButton:disabled {
+    opacity: .65 !important;
+
+    cursor: not-allowed !important;
+
+    transform: none !important;
+}
+
+/* Report message */
+
+.quick-report-panel .report-message {
+    margin-top: 10px !important;
+
+    padding: 9px 11px !important;
+
+    border-radius: 8px !important;
+
+    font-size: 10px !important;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .dashboard-main-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .map-panel .civic-map,
+    .map-panel .civic-map.leaflet-container,
+    .map-panel #civicMap {
+        height: 400px !important;
+
+        min-height: 400px !important;
+
+        max-height: 400px !important;
+
+        flex-basis: 400px !important;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .dashboard-main-grid {
+        grid-template-columns: 1fr !important;
+
+        gap: 16px !important;
+    }
+
+    .quick-report-panel .form-row {
+        grid-template-columns: 1fr !important;
+
+        gap: 0 !important;
+    }
+
+    .quick-report-panel form,
+    .quick-report-panel #complaintForm {
+        padding: 18px 16px 20px !important;
+    }
+
+    .map-panel .civic-map,
+    .map-panel .civic-map.leaflet-container,
+    .map-panel #civicMap {
+        height: 350px !important;
+
+        min-height: 350px !important;
+
+        max-height: 350px !important;
+
+        flex-basis: 350px !important;
+    }
+
+}
+
+
+/* =========================================================
+   CIVICSENSE — STEP 6
+   REPORT PANEL — CLEAN PROPORTIONS
+   ========================================================= */
+
+.quick-report-panel {
+    background: #ffffff !important;
+}
+
+/* Report header */
+
+.quick-report-panel .panel-header {
+    padding: 18px 24px !important;
+    min-height: 74px !important;
+}
+
+/* Form */
+
+.quick-report-panel #complaintForm {
+    display: flex !important;
+    flex-direction: column !important;
+
+    padding: 20px 24px 24px !important;
+
+    box-sizing: border-box !important;
+}
+
+/* Make two-column fields balanced */
+
+.quick-report-panel #complaintForm .form-row {
+    width: 100% !important;
+
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr)) !important;
+
+    gap: 16px !important;
+
+    margin: 0 !important;
+}
+
+/* Each field */
+
+.quick-report-panel #complaintForm .form-group {
+    width: 100% !important;
+
+    margin-bottom: 14px !important;
+}
+
+/* Labels */
+
+.quick-report-panel #complaintForm label {
+    color: #34463a !important;
+
+    font-size: 10px !important;
+
+    font-weight: 700 !important;
+
+    line-height: 1.3 !important;
+}
+
+/* Inputs */
+
+.quick-report-panel #complaintForm input,
+.quick-report-panel #complaintForm select,
+.quick-report-panel #complaintForm textarea {
+    width: 100% !important;
+
+    box-sizing: border-box !important;
+
+    background: #fbfdfb !important;
+
+    border: 1px solid #d9e5dc !important;
+
+    color: #25352b !important;
+
+    font-family: inherit !important;
+}
+
+/* Input/select */
+
+.quick-report-panel #complaintForm input,
+.quick-report-panel #complaintForm select {
+    height: 42px !important;
+
+    min-height: 42px !important;
+
+    padding: 0 12px !important;
+
+    border-radius: 9px !important;
+}
+
+/* Textarea */
+
+.quick-report-panel #complaintForm textarea {
+    height: 86px !important;
+
+    min-height: 86px !important;
+
+    padding: 11px 12px !important;
+
+    border-radius: 9px !important;
+}
+
+/* Placeholder */
+
+.quick-report-panel #complaintForm input::placeholder,
+.quick-report-panel #complaintForm textarea::placeholder {
+    color: #a0ada4 !important;
+}
+
+/* Focus */
+
+.quick-report-panel #complaintForm input:focus,
+.quick-report-panel #complaintForm select:focus,
+.quick-report-panel #complaintForm textarea:focus {
+    border-color: #65b87c !important;
+
+    background: #ffffff !important;
+
+    box-shadow:
+        0 0 0 3px rgba(34, 197, 94, 0.07) !important;
+}
+
+/* Location row */
+
+.quick-report-panel #complaintForm .location-row {
+    display: flex !important;
+
+    width: 100% !important;
+
+    gap: 9px !important;
+}
+
+.quick-report-panel #complaintForm .location-row input {
+    flex: 1 1 auto !important;
+
+    min-width: 0 !important;
+}
+
+.quick-report-panel #complaintForm .location-row button {
+    flex: 0 0 auto !important;
+}
+
+/* Location status */
+
+.quick-report-panel #locationStatus {
+    margin-top: 6px !important;
+
+    color: #7b8b80 !important;
+
+    font-size: 9px !important;
+
+    line-height: 1.4 !important;
+}
+
+/* Submit section */
+
+.quick-report-panel #complaintButton {
+    width: 100% !important;
+
+    height: 44px !important;
+
+    min-height: 44px !important;
+
+    margin-top: 4px !important;
+
+    border: 0 !important;
+
+    border-radius: 9px !important;
+
+    background: #198754 !important;
+
+    color: #ffffff !important;
+
+    font-size: 11px !important;
+
+    font-weight: 800 !important;
+
+    letter-spacing: .01em !important;
+
+    box-shadow:
+        0 5px 14px rgba(25, 135, 84, .14) !important;
+}
+
+.quick-report-panel #complaintButton:hover {
+    background: #157347 !important;
+}
+
+/* =========================================================
+   REPORT MESSAGE
+   ========================================================= */
+
+.quick-report-panel .report-message {
+    width: 100% !important;
+
+    box-sizing: border-box !important;
+
+    margin: 8px 0 0 !important;
+
+    padding: 9px 11px !important;
+
+    border-radius: 8px !important;
+
+    font-size: 10px !important;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .quick-report-panel #complaintForm .form-row {
+        grid-template-columns: 1fr !important;
+
+        gap: 0 !important;
+    }
+
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .quick-report-panel .panel-header {
+        padding: 16px 18px !important;
+    }
+
+    .quick-report-panel #complaintForm {
+        padding: 18px !important;
+    }
+
+    .quick-report-panel #complaintForm input,
+    .quick-report-panel #complaintForm select {
+        height: 40px !important;
+        min-height: 40px !important;
+    }
+
+    .quick-report-panel #complaintForm textarea {
+        height: 80px !important;
+        min-height: 80px !important;
+    }
+
+}
+
+
+/* =========================================================
+   CIVICSENSE — STEP 7
+   GREEN + WHITE SIDEBAR / TOPBAR
+   ========================================================= */
+
+/* ---------- SIDEBAR ---------- */
+
+.sidebar {
+    width: 230px !important;
+    min-width: 230px !important;
+
+    background: #ffffff !important;
+
+    border-right: 1px solid #e4ebe6 !important;
+
+    box-shadow:
+        4px 0 20px rgba(20, 83, 45, 0.035) !important;
+
+    color: #24352b !important;
+}
+
+/* ---------- SIDEBAR BRAND ---------- */
+
+.sidebar-brand {
+    height: 76px !important;
+
+    padding: 0 20px !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 11px !important;
+
+    border-bottom: 1px solid #edf2ee !important;
+}
+
+/* Green logo */
+
+.brand-logo {
+    width: 38px !important;
+    height: 38px !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    border-radius: 10px !important;
+
+    background: #198754 !important;
+
+    color: #ffffff !important;
+
+    font-size: 17px !important;
+    font-weight: 800 !important;
+
+    box-shadow:
+        0 5px 12px rgba(25, 135, 84, 0.16) !important;
+}
+
+.brand-text {
+    display: flex !important;
+    flex-direction: column !important;
+
+    gap: 2px !important;
+}
+
+.brand-text strong {
+    color: #173d28 !important;
+
+    font-size: 14px !important;
+
+    font-weight: 800 !important;
+}
+
+.brand-text span {
+    color: #8a9b90 !important;
+
+    font-size: 8px !important;
+
+    font-weight: 600 !important;
+}
+
+/* ---------- NAVIGATION ---------- */
+
+.sidebar-nav {
+    padding: 22px 12px !important;
+}
+
+/* Section label */
+
+.nav-label {
+    padding: 0 12px !important;
+
+    margin: 0 0 8px !important;
+
+    color: #9aaa9f !important;
+
+    font-size: 9px !important;
+
+    font-weight: 800 !important;
+
+    letter-spacing: .10em !important;
+}
+
+.nav-label-space {
+    margin-top: 24px !important;
+}
+
+/* Navigation item */
+
+.sidebar-nav .nav-item {
+    position: relative !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    width: 100% !important;
+
+    height: 42px !important;
+
+    margin: 3px 0 !important;
+
+    padding: 0 12px !important;
+
+    box-sizing: border-box !important;
+
+    border-radius: 9px !important;
+
+    color: #64746a !important;
+
+    background: transparent !important;
+
+    text-decoration: none !important;
+
+    font-size: 11px !important;
+
+    font-weight: 650 !important;
+
+    transition:
+        background .18s ease,
+        color .18s ease !important;
+}
+
+/* Icons */
+
+.sidebar-nav .nav-icon {
+    width: 30px !important;
+    height: 30px !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    margin-right: 8px !important;
+
+    border-radius: 8px !important;
+
+    color: #809087 !important;
+
+    background: #f5f8f6 !important;
+
+    font-size: 14px !important;
+
+    transition: all .18s ease !important;
+}
+
+/* Hover */
+
+.sidebar-nav .nav-item:hover {
+    background: #f1f8f3 !important;
+
+    color: #176b3c !important;
+}
+
+.sidebar-nav .nav-item:hover .nav-icon {
+    background: #e4f3e8 !important;
+
+    color: #198754 !important;
+}
+
+/* Active */
+
+.sidebar-nav .nav-item.active {
+    background: #e9f6ed !important;
+
+    color: #157347 !important;
+
+    font-weight: 800 !important;
+}
+
+.sidebar-nav .nav-item.active .nav-icon {
+    background: #198754 !important;
+
+    color: #ffffff !important;
+}
+
+/* Active indicator */
+
+.sidebar-nav .nav-item.active::before {
+    content: "" !important;
+
+    position: absolute !important;
+
+    left: 0 !important;
+    top: 8px !important;
+    bottom: 8px !important;
+
+    width: 3px !important;
+
+    border-radius: 0 4px 4px 0 !important;
+
+    background: #198754 !important;
+}
+
+/* ---------- SIDEBAR BOTTOM ---------- */
+
+.sidebar-bottom {
+    margin-top: auto !important;
+
+    padding: 14px 12px 18px !important;
+
+    border-top: 1px solid #edf2ee !important;
+}
+
+/* Help box */
+
+.sidebar-help {
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 9px !important;
+
+    padding: 11px !important;
+
+    margin-bottom: 10px !important;
+
+    border-radius: 10px !important;
+
+    background: #f5faf6 !important;
+
+    border: 1px solid #e4eee7 !important;
+}
+
+.help-icon {
+    width: 27px !important;
+    height: 27px !important;
+
+    flex: 0 0 27px !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    border-radius: 8px !important;
+
+    background: #e2f3e7 !important;
+
+    color: #198754 !important;
+
+    font-size: 12px !important;
+
+    font-weight: 800 !important;
+}
+
+.sidebar-help strong {
+    display: block !important;
+
+    color: #34463a !important;
+
+    font-size: 9px !important;
+}
+
+.sidebar-help span {
+    display: block !important;
+
+    margin-top: 2px !important;
+
+    color: #8a9b90 !important;
+
+    font-size: 8px !important;
+}
+
+/* Logout */
+
+.sidebar-logout {
+    width: 100% !important;
+
+    height: 38px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    gap: 7px !important;
+
+    border: 1px solid #e5ebe7 !important;
+
+    border-radius: 8px !important;
+
+    background: #ffffff !important;
+
+    color: #718078 !important;
+
+    font-size: 10px !important;
+
+    font-weight: 700 !important;
+
+    cursor: pointer !important;
+}
+
+.sidebar-logout:hover {
+    background: #fff7f7 !important;
+
+    color: #dc3545 !important;
+
+    border-color: #f1d6d6 !important;
+}
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.topbar {
+    height: 70px !important;
+    min-height: 70px !important;
+
+    padding: 0 30px !important;
+
+    background: #ffffff !important;
+
+    border-bottom: 1px solid #e6ece8 !important;
+
+    box-shadow:
+        0 2px 12px rgba(20, 83, 45, 0.025) !important;
+}
+
+/* Page information */
+
+.topbar-page {
+    gap: 2px !important;
+}
+
+.topbar-eyebrow {
+    color: #198754 !important;
+
+    font-size: 8px !important;
+
+    font-weight: 800 !important;
+
+    letter-spacing: .13em !important;
+}
+
+.topbar-title {
+    color: #23362a !important;
+
+    font-size: 17px !important;
+
+    font-weight: 800 !important;
+}
+
+/* Right side */
+
+.topbar-right {
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 14px !important;
+}
+
+/* Notification */
+
+.notification-button {
+    width: 34px !important;
+    height: 34px !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    position: relative !important;
+
+    border: 1px solid #e3ebe5 !important;
+
+    border-radius: 9px !important;
+
+    background: #ffffff !important;
+
+    color: #64746a !important;
+
+    font-size: 15px !important;
+}
+
+.notification-button:hover {
+    background: #f3f9f5 !important;
+
+    color: #198754 !important;
+}
+
+/* Notification dot */
+
+.notification-dot {
+    position: absolute !important;
+
+    width: 5px !important;
+    height: 5px !important;
+
+    right: 7px !important;
+    top: 6px !important;
+
+    border-radius: 50% !important;
+
+    background: #198754 !important;
+
+    border: 2px solid #ffffff !important;
+}
+
+/* User */
+
+.user-mini {
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 9px !important;
+
+    padding-left: 12px !important;
+
+    border-left: 1px solid #e8eee9 !important;
+}
+
+.user-avatar {
+    width: 34px !important;
+    height: 34px !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    border-radius: 9px !important;
+
+    background: #e6f4ea !important;
+
+    color: #198754 !important;
+
+    font-size: 12px !important;
+
+    font-weight: 800 !important;
+}
+
+.user-mini-info {
+    display: flex !important;
+    flex-direction: column !important;
+
+    gap: 2px !important;
+}
+
+.user-mini-info strong {
+    color: #34463a !important;
+
+    font-size: 10px !important;
+
+    font-weight: 800 !important;
+}
+
+.user-mini-info span {
+    color: #94a199 !important;
+
+    font-size: 8px !important;
+}
+
+/* =========================================================
+   MAIN AREA ALIGNMENT
+   ========================================================= */
+
+.main-content {
+    width: calc(100% - 230px) !important;
+
+    margin-left: 230px !important;
+}
+
+/* Content should follow sidebar */
+
+.dashboard-content {
+    max-width: none !important;
+
+    width: 100% !important;
+
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .sidebar {
+        width: 210px !important;
+        min-width: 210px !important;
+    }
+
+    .main-content {
+        width: calc(100% - 210px) !important;
+
+        margin-left: 210px !important;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .sidebar {
+        width: 100% !important;
+        min-width: 100% !important;
+
+        position: relative !important;
+    }
+
+    .main-content {
+        width: 100% !important;
+
+        margin-left: 0 !important;
+    }
+
+    .topbar {
+        padding: 0 16px !important;
+    }
+
+    .dashboard-content {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+
+}
+
+
+/* =========================================================
+   CIVICSENSE — STEP 8
+   MAP 35% / REPORT 65%
+   ========================================================= */
+
+/* Main two-column section */
+
+.dashboard-main-grid {
+    width: 100% !important;
+
+    display: grid !important;
+
+    /*
+       MAP   = 35%
+       REPORT = 65%
+    */
+    grid-template-columns:
+        35fr
+        65fr !important;
+
+    gap: 18px !important;
+
+    align-items: stretch !important;
+
+    margin: 0 !important;
+}
+
+
+/* =========================================================
+   MAP PANEL — 35%
+   ========================================================= */
+
+.dashboard-main-grid .map-panel {
+    width: 100% !important;
+
+    min-width: 0 !important;
+
+    overflow: hidden !important;
+
+    border-radius: 16px !important;
+
+    border: 1px solid #e1ebe4 !important;
+
+    background: #ffffff !important;
+}
+
+
+/* Map header */
+
+.map-panel .panel-header {
+    min-height: 68px !important;
+
+    padding: 15px 17px !important;
+
+    background: #ffffff !important;
+
+    border-bottom: 1px solid #edf2ee !important;
+}
+
+
+/* Map */
+
+.map-panel .civic-map,
+.map-panel #civicMap,
+.map-panel .civic-map.leaflet-container {
+    width: 100% !important;
+
+    height: 360px !important;
+
+    min-height: 360px !important;
+
+    max-height: 360px !important;
+
+    display: block !important;
+
+    border: 0 !important;
+
+    border-radius: 0 !important;
+}
+
+
+/* =========================================================
+   REPORT PANEL — 65%
+   ========================================================= */
+
+.dashboard-main-grid .quick-report-panel {
+    width: 100% !important;
+
+    min-width: 0 !important;
+
+    overflow: hidden !important;
+
+    border-radius: 16px !important;
+
+    border: 1px solid #e1ebe4 !important;
+
+    background: #ffffff !important;
+}
+
+
+/* Report header */
+
+.quick-report-panel .panel-header {
+    min-height: 68px !important;
+
+    padding: 15px 20px !important;
+
+    background: #ffffff !important;
+
+    border-bottom: 1px solid #edf2ee !important;
+}
+
+
+/* Report form */
+
+.quick-report-panel form,
+.quick-report-panel #complaintForm {
+    width: 100% !important;
+
+    box-sizing: border-box !important;
+
+    padding: 18px 20px 20px !important;
+}
+
+
+/* Two-column form rows */
+
+.quick-report-panel .form-row {
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr)) !important;
+
+    gap: 14px !important;
+}
+
+
+/* Inputs */
+
+.quick-report-panel input,
+.quick-report-panel select,
+.quick-report-panel textarea {
+    width: 100% !important;
+
+    box-sizing: border-box !important;
+
+    border: 1px solid #dbe5df !important;
+
+    background: #ffffff !important;
+
+    color: #26372d !important;
+
+    border-radius: 8px !important;
+}
+
+
+/* Green focus */
+
+.quick-report-panel input:focus,
+.quick-report-panel select:focus,
+.quick-report-panel textarea:focus {
+    outline: none !important;
+
+    border-color: #198754 !important;
+
+    box-shadow:
+        0 0 0 3px rgba(25, 135, 84, 0.08) !important;
+}
+
+
+/* Labels */
+
+.quick-report-panel label {
+    color: #4d5f54 !important;
+
+    font-size: 10px !important;
+
+    font-weight: 750 !important;
+}
+
+
+/* Textarea */
+
+.quick-report-panel textarea {
+    min-height: 78px !important;
+
+    height: 78px !important;
+
+    resize: vertical !important;
+}
+
+
+/* Submit button */
+
+#complaintButton {
+    width: 100% !important;
+
+    height: 40px !important;
+
+    min-height: 40px !important;
+
+    margin-top: 8px !important;
+
+    border: 0 !important;
+
+    border-radius: 9px !important;
+
+    background: #198754 !important;
+
+    color: #ffffff !important;
+
+    font-size: 11px !important;
+
+    font-weight: 800 !important;
+
+    box-shadow:
+        0 5px 12px rgba(25, 135, 84, 0.14) !important;
+
+    transition: all .18s ease !important;
+}
+
+
+#complaintButton:hover {
+    background: #157347 !important;
+
+    transform: translateY(-1px) !important;
+
+    box-shadow:
+        0 7px 16px rgba(25, 135, 84, 0.18) !important;
+}
+
+
+/* Location button */
+
+.location-row button,
+#locationButton {
+    border: 1px solid #b9ddc6 !important;
+
+    background: #f1f9f3 !important;
+
+    color: #198754 !important;
+
+    border-radius: 8px !important;
+
+    font-size: 10px !important;
+
+    font-weight: 750 !important;
+}
+
+
+.location-row button:hover,
+#locationButton:hover {
+    background: #e4f4e8 !important;
+
+    border-color: #198754 !important;
+}
+
+
+/* =========================================================
+   MAP LEGEND
+   ========================================================= */
+
+.map-panel .map-legend {
+    position: absolute !important;
+
+    left: 12px !important;
+
+    bottom: 12px !important;
+
+    z-index: 900 !important;
+
+    background: rgba(255,255,255,.94) !important;
+
+    border: 1px solid #e1ebe4 !important;
+
+    box-shadow:
+        0 4px 14px rgba(20, 83, 45, .08) !important;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .dashboard-main-grid {
+        grid-template-columns: 1fr !important;
+
+        gap: 16px !important;
+    }
+
+    .map-panel .civic-map,
+    .map-panel #civicMap,
+    .map-panel .civic-map.leaflet-container {
+        height: 340px !important;
+
+        min-height: 340px !important;
+
+        max-height: 340px !important;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .dashboard-main-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .quick-report-panel .form-row {
+        grid-template-columns: 1fr !important;
+    }
+
+    .map-panel .civic-map,
+    .map-panel #civicMap,
+    .map-panel .civic-map.leaflet-container {
+        height: 300px !important;
+
+        min-height: 300px !important;
+
+        max-height: 300px !important;
+    }
+}
+
+
+/* =========================================================
+   CIVICSENSE — STEP 9
+   CLEAN GREEN + WHITE WELCOME SECTION
+   ========================================================= */
+
+.welcome-section {
+    position: relative !important;
+
+    width: 100% !important;
+
+    min-height: 112px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    gap: 24px !important;
+
+    padding: 24px 28px !important;
+
+    margin-bottom: 18px !important;
+
+    box-sizing: border-box !important;
+
+    background: #ffffff !important;
+
+    border: 1px solid #e1ebe4 !important;
+
+    border-radius: 14px !important;
+
+    box-shadow:
+        0 4px 16px rgba(20, 83, 45, 0.045) !important;
+
+    overflow: hidden !important;
+}
+
+
+/* Subtle green accent */
+
+.welcome-section::before {
+    content: "" !important;
+
+    position: absolute !important;
+
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+
+    width: 4px !important;
+
+    background: #198754 !important;
+}
+
+
+/* Remove oversized decorative shape */
+
+.welcome-section::after {
+    display: none !important;
+}
+
+
+/* Welcome text */
+
+.welcome-copy {
+    position: relative !important;
+
+    z-index: 2 !important;
+
+    min-width: 0 !important;
+}
+
+
+.welcome-copy .section-kicker {
+    color: #198754 !important;
+
+    font-size: 9px !important;
+
+    font-weight: 800 !important;
+
+    letter-spacing: .12em !important;
+
+    margin-bottom: 6px !important;
+}
+
+
+.welcome-copy h1 {
+    margin: 0 !important;
+
+    color: #20342a !important;
+
+    font-size: 26px !important;
+
+    line-height: 1.15 !important;
+
+    font-weight: 800 !important;
+
+    letter-spacing: -.025em !important;
+}
+
+
+.welcome-copy p {
+    margin: 7px 0 0 !important;
+
+    max-width: 600px !important;
+
+    color: #718078 !important;
+
+    font-size: 11px !important;
+
+    line-height: 1.55 !important;
+}
+
+
+/* Welcome action */
+
+.welcome-section .primary-button,
+.welcome-section button {
+    position: relative !important;
+
+    z-index: 2 !important;
+
+    flex-shrink: 0 !important;
+
+    height: 38px !important;
+
+    min-height: 38px !important;
+
+    padding: 0 16px !important;
+
+    border: 0 !important;
+
+    border-radius: 8px !important;
+
+    background: #198754 !important;
+
+    color: #ffffff !important;
+
+    font-size: 10px !important;
+
+    font-weight: 800 !important;
+
+    box-shadow:
+        0 5px 12px rgba(25, 135, 84, 0.14) !important;
+}
+
+
+.welcome-section .primary-button:hover,
+.welcome-section button:hover {
+    background: #157347 !important;
+
+    transform: translateY(-1px) !important;
+}
+
+
+/* =========================================================
+   SMALL SCREEN
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .welcome-section {
+        align-items: flex-start !important;
+
+        flex-direction: column !important;
+
+        padding: 22px !important;
+    }
+
+    .welcome-section .primary-button,
+    .welcome-section button {
+        width: 100% !important;
+    }
+
+}
+
+
+/* =========================================================
+   CIVICSENSE — STEP 10
+   CLEAN STATISTICS CARDS
+   ========================================================= */
+
+.stats-grid,
+.dashboard-stats {
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr)) !important;
+
+    gap: 14px !important;
+
+    width: 100% !important;
+
+    margin-bottom: 18px !important;
+}
+
+
+/* ---------- CARD ---------- */
+
+.stat-card {
+    position: relative !important;
+
+    min-width: 0 !important;
+
+    height: 82px !important;
+
+    min-height: 82px !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    gap: 13px !important;
+
+    padding: 14px 16px !important;
+
+    box-sizing: border-box !important;
+
+    background: #ffffff !important;
+
+    border: 1px solid #e2ebe5 !important;
+
+    border-radius: 12px !important;
+
+    box-shadow:
+        0 3px 14px rgba(20, 83, 45, 0.04) !important;
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        border-color .18s ease !important;
+}
+
+
+/* Hover */
+
+.stat-card:hover {
+    transform: translateY(-2px) !important;
+
+    border-color: #cce3d3 !important;
+
+    box-shadow:
+        0 7px 20px rgba(20, 83, 45, 0.07) !important;
+}
+
+
+/* ---------- ICON ---------- */
+
+.stat-icon {
+    width: 38px !important;
+
+    height: 38px !important;
+
+    min-width: 38px !important;
+
+    display: grid !important;
+
+    place-items: center !important;
+
+    border-radius: 9px !important;
+
+    background: #eaf6ee !important;
+
+    color: #198754 !important;
+
+    font-size: 15px !important;
+
+    font-weight: 800 !important;
+}
+
+
+/* Pending */
+
+.pending-icon {
+    background: #fff7e8 !important;
+
+    color: #c98200 !important;
+}
+
+
+/* In progress */
+
+.progress-icon {
+    background: #f0ecff !important;
+
+    color: #7352c7 !important;
+}
+
+
+/* Resolved */
+
+.resolved-icon {
+    background: #e8f7ee !important;
+
+    color: #198754 !important;
+}
+
+
+/* ---------- INFORMATION ---------- */
+
+.stat-info {
+    min-width: 0 !important;
+
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    gap: 3px !important;
+}
+
+
+.stat-info span {
+    color: #7b897f !important;
+
+    font-size: 9px !important;
+
+    font-weight: 700 !important;
+
+    line-height: 1.2 !important;
+}
+
+
+.stat-info strong {
+    color: #26382d !important;
+
+    font-size: 22px !important;
+
+    line-height: 1 !important;
+
+    font-weight: 800 !important;
+}
+
+
+/* Small green indicator */
+
+.stat-card::after {
+    content: "" !important;
+
+    position: absolute !important;
+
+    right: 13px !important;
+
+    top: 13px !important;
+
+    width: 5px !important;
+
+    height: 5px !important;
+
+    border-radius: 50% !important;
+
+    background: #b9d9c3 !important;
+}
+
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 900px) {
+
+    .stats-grid,
+    .dashboard-stats {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr)) !important;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .stats-grid,
+    .dashboard-stats {
+        grid-template-columns: 1fr !important;
+    }
+
+    .stat-card {
+        height: 76px !important;
+
+        min-height: 76px !important;
+    }
+
+}
+
+
+/* =========================================================
+   CIVICSENSE — STEP 11
+   CLEAN MAP PANEL
+   ========================================================= */
+
+/* ---------- MAP PANEL ---------- */
+
+.map-panel {
+    position: relative !important;
+
+    width: 100% !important;
+
+    min-width: 0 !important;
+
+    background: #ffffff !important;
+
+    border: 1px solid #e1ebe4 !important;
+
+    border-radius: 14px !important;
+
+    overflow: hidden !important;
+
+    box-shadow:
+        0 4px 16px rgba(20, 83, 45, 0.045) !important;
+}
+
+
+/* ---------- MAP HEADER ---------- */
+
+.map-panel .panel-header {
+    height: 64px !important;
+
+    min-height: 64px !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: space-between !important;
+
+    padding: 0 17px !important;
+
+    box-sizing: border-box !important;
+
+    background: #ffffff !important;
+
+    border-bottom: 1px solid #edf2ee !important;
+}
+
+
+.map-panel .panel-kicker {
+    margin-bottom: 3px !important;
+
+    color: #198754 !important;
+
+    font-size: 8px !important;
+
+    font-weight: 800 !important;
+
+    letter-spacing: .12em !important;
+}
+
+
+.map-panel .panel-header h2,
+.map-panel .panel-header h3 {
+    margin: 0 !important;
+
+    color: #26382d !important;
+
+    font-size: 14px !important;
+
+    font-weight: 800 !important;
+}
+
+
+.map-panel .panel-header p {
+    margin: 3px 0 0 !important;
+
+    color: #87948c !important;
+
+    font-size: 9px !important;
+}
+
+
+/* ---------- MAP CONTAINER ---------- */
+
+.map-panel .civic-map,
+.map-panel #civicMap,
+.map-panel .civic-map.leaflet-container {
+    position: relative !important;
+
+    width: 100% !important;
+
+    height: 360px !important;
+
+    min-height: 360px !important;
+
+    max-height: 360px !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    background: #edf3ef !important;
+
+    border: 0 !important;
+
+    border-radius: 0 !important;
+
+    overflow: hidden !important;
+}
+
+
+/* ---------- LEAFLET TILE ---------- */
+
+.map-panel .leaflet-tile {
+    display: block !important;
+
+    visibility: visible !important;
+
+    opacity: 1 !important;
+}
+
+
+/* ---------- MAP CONTROLS ---------- */
+
+.map-panel .leaflet-control-zoom {
+    margin-top: 12px !important;
+
+    margin-right: 12px !important;
+
+    border: 1px solid #dce7df !important;
+
+    border-radius: 8px !important;
+
+    overflow: hidden !important;
+
+    box-shadow:
+        0 3px 10px rgba(20, 83, 45, .08) !important;
+}
+
+
+.map-panel .leaflet-control-zoom a {
+    width: 30px !important;
+
+    height: 30px !important;
+
+    line-height: 30px !important;
+
+    color: #476054 !important;
+
+    background: #ffffff !important;
+
+    border: 0 !important;
+}
+
+
+.map-panel .leaflet-control-zoom a:hover {
+    color: #198754 !important;
+
+    background: #f2f8f4 !important;
+}
+
+
+/* ---------- MAP LEGEND ---------- */
+
+.map-panel .map-legend {
+    position: absolute !important;
+
+    left: 12px !important;
+
+    bottom: 12px !important;
+
+    z-index: 1000 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    gap: 8px !important;
+
+    padding: 7px 10px !important;
+
+    background: rgba(255, 255, 255, .95) !important;
+
+    border: 1px solid #dfe9e2 !important;
+
+    border-radius: 8px !important;
+
+    box-shadow:
+        0 4px 14px rgba(20, 83, 45, .08) !important;
+
+    color: #526359 !important;
+
+    font-size: 8px !important;
+}
+
+
+/* ---------- MAP STATUS DOTS ---------- */
+
+.map-panel .legend-dot {
+    width: 7px !important;
+
+    height: 7px !important;
+
+    flex: 0 0 7px !important;
+
+    border-radius: 50% !important;
+}
+
+
+/* ---------- MAP POPUP ---------- */
+
+.map-panel .leaflet-popup-content-wrapper {
+    border-radius: 10px !important;
+
+    box-shadow:
+        0 8px 24px rgba(15, 23, 42, .12) !important;
+}
+
+
+.map-panel .leaflet-popup-content {
+    margin: 12px !important;
+
+    min-width: 190px !important;
+}
+
+
+.civic-map-popup h3 {
+    margin: 4px 0 10px !important;
+
+    color: #26382d !important;
+
+    font-size: 13px !important;
+}
+
+
+.map-popup-id {
+    color: #198754 !important;
+
+    font-size: 8px !important;
+
+    font-weight: 800 !important;
+}
+
+
+.map-popup-row {
+    display: flex !important;
+
+    justify-content: space-between !important;
+
+    gap: 12px !important;
+
+    padding: 5px 0 !important;
+
+    border-bottom: 1px solid #edf2ee !important;
+
+    font-size: 9px !important;
+}
+
+
+.map-popup-row strong {
+    color: #718078 !important;
+}
+
+
+.map-popup-row span {
+    color: #34463a !important;
+
+    text-align: right !important;
+}
+
+
+.map-popup-description {
+    margin-top: 8px !important;
+
+    color: #718078 !important;
+
+    font-size: 9px !important;
+
+    line-height: 1.45 !important;
+}
+
+
+.map-popup-status {
+    display: inline-block !important;
+
+    margin-top: 9px !important;
+
+    padding: 4px 8px !important;
+
+    border: 1px solid !important;
+
+    border-radius: 999px !important;
+
+    font-size: 8px !important;
+
+    font-weight: 800 !important;
+}
+
+
+/* ---------- MAP FOOTER / ACTIONS ---------- */
+
+.map-panel .panel-footer {
+    min-height: 42px !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: space-between !important;
+
+    padding: 0 14px !important;
+
+    border-top: 1px solid #edf2ee !important;
+
+    background: #fbfdfb !important;
+}
+
+
+#refreshMapButton,
+#detectMapLocation {
+    height: 30px !important;
+
+    padding: 0 10px !important;
+
+    border: 1px solid #d7e5dc !important;
+
+    border-radius: 7px !important;
+
+    background: #ffffff !important;
+
+    color: #198754 !important;
+
+    font-size: 9px !important;
+
+    font-weight: 750 !important;
+
+    cursor: pointer !important;
+}
+
+
+#refreshMapButton:hover,
+#detectMapLocation:hover {
+    background: #eef8f1 !important;
+
+    border-color: #b9d9c3 !important;
+}
+
+
+/* ---------- MAP RESPONSIVE ---------- */
+
+@media (max-width: 900px) {
+
+    .map-panel .civic-map,
+    .map-panel #civicMap,
+    .map-panel .civic-map.leaflet-container {
+        height: 340px !important;
+
+        min-height: 340px !important;
+
+        max-height: 340px !important;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .map-panel .civic-map,
+    .map-panel #civicMap,
+    .map-panel .civic-map.leaflet-container {
+        height: 300px !important;
+
+        min-height: 300px !important;
+
+        max-height: 300px !important;
+    }
+
+}
+
+
+/* =========================================================
+   CIVICSENSE — STEP 12
+   CLEAN REPORT ISSUE PANEL
+   ========================================================= */
+
+.quick-report-panel {
+    background: #ffffff !important;
+    border: 1px solid #e1ebe4 !important;
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    box-shadow:
+        0 4px 16px rgba(20, 83, 45, 0.045) !important;
+}
+
+/* ---------- HEADER ---------- */
+
+.quick-report-panel .panel-header {
+    min-height: 64px !important;
+    height: 64px !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    padding: 0 20px !important;
+
+    background: #ffffff !important;
+
+    border-bottom: 1px solid #edf2ee !important;
+}
+
+.quick-report-panel .panel-kicker {
+    margin-bottom: 3px !important;
+
+    color: #198754 !important;
+
+    font-size: 8px !important;
+    font-weight: 800 !important;
+    letter-spacing: .12em !important;
+}
+
+.quick-report-panel .panel-header h2,
+.quick-report-panel .panel-header h3 {
+    margin: 0 !important;
+
+    color: #26382d !important;
+
+    font-size: 14px !important;
+    font-weight: 800 !important;
+}
+
+.quick-report-panel .panel-header p {
+    margin: 3px 0 0 !important;
+
+    color: #87948c !important;
+
+    font-size: 9px !important;
+}
+
+/* ---------- FORM ---------- */
+
+.quick-report-panel form,
+.quick-report-panel #complaintForm {
+    padding: 17px 20px 20px !important;
+
+    box-sizing: border-box !important;
+}
+
+/* ---------- FORM GROUP ---------- */
+
+.quick-report-panel .form-group {
+    margin-bottom: 11px !important;
+}
+
+.quick-report-panel .form-group label {
+    display: block !important;
+
+    margin-bottom: 5px !important;
+
+    color: #536259 !important;
+
+    font-size: 9px !important;
+
+    font-weight: 750 !important;
+}
+
+/* ---------- INPUTS ---------- */
+
+.quick-report-panel .form-group input,
+.quick-report-panel .form-group select,
+.quick-report-panel .form-group textarea {
+    width: 100% !important;
+
+    box-sizing: border-box !important;
+
+    background: #ffffff !important;
+
+    border: 1px solid #dbe5df !important;
+
+    border-radius: 8px !important;
+
+    color: #26382d !important;
+
+    font-family: inherit !important;
+
+    font-size: 10px !important;
+
+    transition:
+        border-color .16s ease,
+        box-shadow .16s ease,
+        background .16s ease !important;
+}
+
+.quick-report-panel .form-group input,
+.quick-report-panel .form-group select {
+    height: 36px !important;
+
+    min-height: 36px !important;
+
+    padding: 0 10px !important;
+}
+
+.quick-report-panel .form-group textarea {
+    height: 72px !important;
+
+    min-height: 72px !important;
+
+    padding: 9px 10px !important;
+
+    line-height: 1.45 !important;
+
+    resize: vertical !important;
+}
+
+/* ---------- FOCUS ---------- */
+
+.quick-report-panel .form-group input:focus,
+.quick-report-panel .form-group select:focus,
+.quick-report-panel .form-group textarea:focus {
+    outline: none !important;
+
+    border-color: #198754 !important;
+
+    background: #ffffff !important;
+
+    box-shadow:
+        0 0 0 3px rgba(25, 135, 84, .07) !important;
+}
+
+/* ---------- PLACEHOLDER ---------- */
+
+.quick-report-panel input::placeholder,
+.quick-report-panel textarea::placeholder {
+    color: #a2ada6 !important;
+}
+
+/* ---------- FORM ROW ---------- */
+
+.quick-report-panel .form-row {
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr)) !important;
+
+    gap: 13px !important;
+
+    width: 100% !important;
+}
+
+/* ---------- LOCATION ---------- */
+
+.quick-report-panel .location-row {
+    display: grid !important;
+
+    grid-template-columns: minmax(0, 1fr) auto !important;
+
+    gap: 8px !important;
+
+    align-items: center !important;
+}
+
+.quick-report-panel #locationButton {
+    height: 36px !important;
+
+    min-height: 36px !important;
+
+    padding: 0 12px !important;
+
+    border: 1px solid #bcdcc7 !important;
+
+    border-radius: 8px !important;
+
+    background: #f1f9f3 !important;
+
+    color: #198754 !important;
+
+    font-size: 9px !important;
+
+    font-weight: 800 !important;
+
+    white-space: nowrap !important;
+
+    cursor: pointer !important;
+}
+
+.quick-report-panel #locationButton:hover {
+    background: #e5f4e9 !important;
+
+    border-color: #198754 !important;
+}
+
+/* Location status */
+
+.quick-report-panel #locationStatus {
+    display: block !important;
+
+    margin-top: 5px !important;
+
+    color: #8a9890 !important;
+
+    font-size: 8px !important;
+}
+
+/* ---------- PRIORITY ---------- */
+
+.quick-report-panel #priority {
+    cursor: pointer !important;
+}
+
+/* ---------- SUBMIT ---------- */
+
+.quick-report-panel #complaintButton {
+    width: 100% !important;
+
+    height: 40px !important;
+
+    min-height: 40px !important;
+
+    margin-top: 5px !important;
+
+    border: none !important;
+
+    border-radius: 8px !important;
+
+    background: #198754 !important;
+
+    color: #ffffff !important;
+
+    font-size: 10px !important;
+
+    font-weight: 800 !important;
+
+    letter-spacing: .01em !important;
+
+    cursor: pointer !important;
+
+    box-shadow:
+        0 5px 12px rgba(25, 135, 84, .14) !important;
+
+    transition:
+        background .18s ease,
+        transform .18s ease,
+        box-shadow .18s ease !important;
+}
+
+.quick-report-panel #complaintButton:hover {
+    background: #157347 !important;
+
+    transform: translateY(-1px) !important;
+
+    box-shadow:
+        0 7px 16px rgba(25, 135, 84, .17) !important;
+}
+
+.quick-report-panel #complaintButton:disabled {
+    opacity: .65 !important;
+
+    cursor: not-allowed !important;
+
+    transform: none !important;
+}
+
+/* ---------- SUCCESS / ERROR MESSAGE ---------- */
+
+.quick-report-panel .report-message {
+    margin-top: 9px !important;
+
+    padding: 8px 10px !important;
+
+    border-radius: 7px !important;
+
+    font-size: 9px !important;
+
+    line-height: 1.4 !important;
+}
+
+.quick-report-panel .report-message.success {
+    background: #edf8f0 !important;
+
+    border: 1px solid #cde8d4 !important;
+
+    color: #187343 !important;
+}
+
+.quick-report-panel .report-message.error {
+    background: #fff5f5 !important;
+
+    border: 1px solid #f0d4d4 !important;
+
+    color: #b42318 !important;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 700px) {
+
+    .quick-report-panel .form-row {
+        grid-template-columns: 1fr !important;
+    }
+
+    .quick-report-panel .location-row {
+        grid-template-columns: 1fr !important;
+    }
+
+    .quick-report-panel #locationButton {
+        width: 100% !important;
+    }
+
+}
+
+/* =========================================================
+   CIVICSENSE — STEP 13
+   CLEAN MY COMPLAINTS SECTION
+   ========================================================= */
+
+.complaints-panel {
+    width: 100% !important;
+
+    margin-top: 18px !important;
+
+    background: #ffffff !important;
+
+    border: 1px solid #e1ebe4 !important;
+
+    border-radius: 14px !important;
+
+    overflow: hidden !important;
+
+    box-shadow:
+        0 4px 16px rgba(20, 83, 45, 0.045) !important;
+}
+
+
+/* ---------- HEADER ---------- */
+
+.complaints-panel .panel-header {
+    min-height: 64px !important;
+
+    height: 64px !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: space-between !important;
+
+    padding: 0 18px !important;
+
+    box-sizing: border-box !important;
+
+    background: #ffffff !important;
+
+    border-bottom: 1px solid #edf2ee !important;
+}
+
+.complaints-panel .panel-kicker {
+    margin-bottom: 3px !important;
+
+    color: #198754 !important;
+
+    font-size: 8px !important;
+
+    font-weight: 800 !important;
+
+    letter-spacing: .12em !important;
+}
+
+.complaints-panel .panel-header h2,
+.complaints-panel .panel-header h3 {
+    margin: 0 !important;
+
+    color: #26382d !important;
+
+    font-size: 14px !important;
+
+    font-weight: 800 !important;
+}
+
+.complaints-panel .panel-header p {
+    margin: 3px 0 0 !important;
+
+    color: #87948c !important;
+
+    font-size: 9px !important;
+}
+
+
+/* ---------- LIST ---------- */
+
+.complaints-list,
+#complaintsList {
+    width: 100% !important;
+
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr)) !important;
+
+    gap: 12px !important;
+
+    padding: 14px !important;
+
+    box-sizing: border-box !important;
+
+    background: #fbfdfb !important;
+}
+
+
+/* ---------- COMPLAINT CARD ---------- */
+
+.complaint-card {
+    position: relative !important;
+
+    min-width: 0 !important;
+
+    padding: 15px !important;
+
+    background: #ffffff !important;
+
+    border: 1px solid #e3ebe5 !important;
+
+    border-radius: 10px !important;
+
+    box-shadow:
+        0 2px 8px rgba(20, 83, 45, 0.025) !important;
+
+    transition:
+        border-color .18s ease,
+        box-shadow .18s ease,
+        transform .18s ease !important;
+}
+
+.complaint-card:hover {
+    transform: translateY(-2px) !important;
+
+    border-color: #cce1d2 !important;
+
+    box-shadow:
+        0 6px 16px rgba(20, 83, 45, 0.06) !important;
+}
+
+
+/* ---------- CARD HEADER ---------- */
+
+.complaint-card-header {
+    display: flex !important;
+
+    align-items: flex-start !important;
+
+    justify-content: space-between !important;
+
+    gap: 12px !important;
+
+    margin-bottom: 8px !important;
+}
+
+.complaint-card-header > div {
+    min-width: 0 !important;
+}
+
+.complaint-card h3 {
+    margin: 0 0 4px !important;
+
+    color: #2d3e34 !important;
+
+    font-size: 11px !important;
+
+    line-height: 1.35 !important;
+
+    font-weight: 800 !important;
+}
+
+
+/* ---------- CATEGORY ---------- */
+
+.complaint-category {
+    display: inline-block !important;
+
+    padding: 3px 6px !important;
+
+    border-radius: 5px !important;
+
+    background: #edf7f0 !important;
+
+    color: #198754 !important;
+
+    font-size: 8px !important;
+
+    font-weight: 750 !important;
+}
+
+
+/* ---------- STATUS ---------- */
+
+.complaint-card .status-badge {
+    flex-shrink: 0 !important;
+
+    padding: 4px 7px !important;
+
+    border-radius: 999px !important;
+
+    font-size: 8px !important;
+
+    font-weight: 800 !important;
+}
+
+
+/* Pending */
+
+.complaint-card .status-pending {
+    background: #fff7e8 !important;
+
+    color: #a66a00 !important;
+}
+
+
+/* In progress */
+
+.complaint-card .status-in-progress {
+    background: #f0ecff !important;
+
+    color: #6f4dbb !important;
+}
+
+
+/* Resolved */
+
+.complaint-card .status-resolved {
+    background: #eaf7ee !important;
+
+    color: #198754 !important;
+}
+
+
+/* ---------- DESCRIPTION ---------- */
+
+.complaint-description {
+    margin: 8px 0 11px !important;
+
+    color: #718078 !important;
+
+    font-size: 9px !important;
+
+    line-height: 1.55 !important;
+
+    display: -webkit-box !important;
+
+    -webkit-line-clamp: 2 !important;
+
+    -webkit-box-orient: vertical !important;
+
+    overflow: hidden !important;
+}
+
+
+/* ---------- META ---------- */
+
+.complaint-meta {
+    display: flex !important;
+
+    flex-wrap: wrap !important;
+
+    align-items: center !important;
+
+    gap: 7px !important;
+
+    padding-top: 9px !important;
+
+    border-top: 1px solid #edf2ee !important;
+
+    color: #87948c !important;
+
+    font-size: 8px !important;
+}
+
+.complaint-meta span {
+    display: inline-flex !important;
+
+    align-items: center !important;
+
+    gap: 3px !important;
+}
+
+
+/* ---------- EMPTY STATE ---------- */
+
+.empty-state {
+    grid-column: 1 / -1 !important;
+
+    padding: 38px 20px !important;
+
+    text-align: center !important;
+
+    background: #ffffff !important;
+
+    border: 1px dashed #d7e4da !important;
+
+    border-radius: 10px !important;
+
+    color: #7c8b82 !important;
+}
+
+.empty-state h3 {
+    margin: 8px 0 4px !important;
+
+    color: #34463a !important;
+
+    font-size: 13px !important;
+}
+
+.empty-state p {
+    margin: 0 !important;
+
+    color: #8c9991 !important;
+
+    font-size: 9px !important;
+}
+
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 800px) {
+
+    .complaints-list,
+    #complaintsList {
+        grid-template-columns: 1fr !important;
+    }
+
+}
+
+
+/* =========================================================
+   CIVICSENSE — FINAL DASHBOARD LAYOUT
+   GREEN / WHITE PROFESSIONAL UI
+   MAP 35% — REPORT 65%
+   ========================================================= */
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+html,
+body {
+    width: 100% !important;
+    min-height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+
+    background: #f6f9f7 !important;
+    color: #17231c !important;
+
+    font-family: Inter, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif !important;
+}
+
+* {
+    box-sizing: border-box !important;
+}
+
+
+/* =========================================================
+   APPLICATION
+   ========================================================= */
+
+.app-shell {
+    width: 100% !important;
+    min-height: 100vh !important;
+
+    display: block !important;
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar {
+    position: fixed !important;
+
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+
+    width: 230px !important;
+    min-width: 230px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    background: #ffffff !important;
+
+    border-right: 1px solid #e3ebe5 !important;
+
+    box-shadow:
+        3px 0 20px rgba(25, 60, 40, 0.035) !important;
+
+    z-index: 3000 !important;
+
+    overflow-y: auto !important;
+}
+
+
+/* Brand */
+
+.sidebar-brand {
+    height: 82px !important;
+    min-height: 82px !important;
+
+    padding: 0 20px !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    border-bottom: 1px solid #edf2ee !important;
+}
+
+.brand-logo {
+    width: 38px !important;
+    height: 38px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 10px !important;
+
+    background: #198754 !important;
+
+    color: #ffffff !important;
+
+    font-size: 16px !important;
+    font-weight: 800 !important;
+
+    box-shadow:
+        0 5px 12px rgba(25, 135, 84, 0.16) !important;
+}
+
+.brand-text {
+    margin-left: 10px !important;
+}
+
+.brand-text strong {
+    display: block !important;
+
+    color: #1e3026 !important;
+
+    font-size: 14px !important;
+    font-weight: 800 !important;
+}
+
+.brand-text span {
+    display: block !important;
+
+    margin-top: 2px !important;
+
+    color: #87948c !important;
+
+    font-size: 9px !important;
+}
+
+
+/* Navigation */
+
+.sidebar-nav {
+    padding: 22px 14px !important;
+}
+
+.nav-label {
+    margin: 0 8px 8px !important;
+
+    color: #91a097 !important;
+
+    font-size: 9px !important;
+    font-weight: 800 !important;
+
+    letter-spacing: .12em !important;
+}
+
+.nav-label-space {
+    margin-top: 22px !important;
+}
+
+.sidebar-nav .nav-item {
+    min-height: 40px !important;
+
+    margin: 3px 0 !important;
+
+    padding: 0 11px !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 10px !important;
+
+    border-radius: 8px !important;
+
+    color: #607067 !important;
+
+    font-size: 11px !important;
+    font-weight: 650 !important;
+
+    text-decoration: none !important;
+
+    transition: all .18s ease !important;
+}
+
+.sidebar-nav .nav-item:hover {
+    background: #f0f8f3 !important;
+
+    color: #198754 !important;
+}
+
+.sidebar-nav .nav-item.active {
+    background: #eaf6ef !important;
+
+    color: #147746 !important;
+
+    font-weight: 750 !important;
+}
+
+.sidebar-nav .nav-icon {
+    width: 22px !important;
+    height: 22px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 6px !important;
+
+    background: #f2f6f3 !important;
+
+    color: #738178 !important;
+
+    font-size: 11px !important;
+}
+
+.sidebar-nav .nav-item.active .nav-icon {
+    background: #198754 !important;
+
+    color: #ffffff !important;
+}
+
+
+/* Bottom */
+
+.sidebar-bottom {
+    margin-top: auto !important;
+
+    padding: 14px !important;
+
+    border-top: 1px solid #edf2ee !important;
+}
+
+.sidebar-help {
+    padding: 11px !important;
+
+    border: 1px solid #e1ebe4 !important;
+
+    border-radius: 9px !important;
+
+    background: #f8fbf9 !important;
+}
+
+.sidebar-help strong {
+    display: block !important;
+
+    color: #425249 !important;
+
+    font-size: 9px !important;
+}
+
+.sidebar-help span {
+    display: block !important;
+
+    margin-top: 3px !important;
+
+    color: #89968e !important;
+
+    font-size: 8px !important;
+
+    line-height: 1.4 !important;
+}
+
+.sidebar-logout {
+    width: 100% !important;
+
+    height: 34px !important;
+
+    margin-top: 9px !important;
+
+    border: 1px solid #dfe8e2 !important;
+
+    border-radius: 7px !important;
+
+    background: #ffffff !important;
+
+    color: #64736a !important;
+
+    font-size: 9px !important;
+
+    font-weight: 700 !important;
+
+    cursor: pointer !important;
+}
+
+.sidebar-logout:hover {
+    background: #fff6f6 !important;
+
+    border-color: #f1caca !important;
+
+    color: #c0392b !important;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.main-content {
+    width: calc(100% - 230px) !important;
+
+    min-height: 100vh !important;
+
+    margin-left: 230px !important;
+
+    padding: 0 !important;
+}
+
+
+/* =========================================================
+   TOPBAR
+   ========================================================= */
+
+.topbar {
+    position: sticky !important;
+
+    top: 0 !important;
+
+    z-index: 1500 !important;
+
+    width: 100% !important;
+
+    height: 70px !important;
+    min-height: 70px !important;
+
+    padding: 0 30px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    background: rgba(255,255,255,.97) !important;
+
+    border-bottom: 1px solid #e4ebe6 !important;
+
+    box-shadow:
+        0 2px 12px rgba(20, 60, 40, .025) !important;
+}
+
+.topbar-page {
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    gap: 2px !important;
+}
+
+.topbar-eyebrow {
+    color: #198754 !important;
+
+    font-size: 9px !important;
+
+    font-weight: 800 !important;
+
+    letter-spacing: .14em !important;
+}
+
+.topbar-title {
+    color: #26362d !important;
+
+    font-size: 15px !important;
+
+    font-weight: 800 !important;
+}
+
+.topbar-right {
+    display: flex !important;
+
+    align-items: center !important;
+
+    gap: 12px !important;
+}
+
+.user-mini {
+    display: flex !important;
+
+    align-items: center !important;
+
+    gap: 9px !important;
+}
+
+.user-avatar {
+    width: 34px !important;
+    height: 34px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 50% !important;
+
+    background: #eaf6ef !important;
+
+    color: #198754 !important;
+
+    font-size: 12px !important;
+
+    font-weight: 800 !important;
+}
+
+.user-mini-info strong {
+    display: block !important;
+
+    color: #33443a !important;
+
+    font-size: 10px !important;
+}
+
+.user-mini-info span {
+    display: block !important;
+
+    margin-top: 2px !important;
+
+    color: #94a098 !important;
+
+    font-size: 8px !important;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.dashboard-content {
+    width: 100% !important;
+
+    max-width: 1440px !important;
+
+    margin: 0 auto !important;
+
+    padding: 26px 30px 50px !important;
+}
+
+
+/* =========================================================
+   WELCOME
+   ========================================================= */
+
+.welcome-section {
+    width: 100% !important;
+
+    min-height: 125px !important;
+
+    margin-bottom: 18px !important;
+
+    padding: 25px 28px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    background:
+        linear-gradient(
+            105deg,
+            #ffffff 0%,
+            #ffffff 65%,
+            #eef8f2 100%
+        ) !important;
+
+    border: 1px solid #dfe9e2 !important;
+
+    border-left: 3px solid #198754 !important;
+
+    border-radius: 14px !important;
+
+    box-shadow:
+        0 5px 18px rgba(20, 70, 45, .045) !important;
+}
+
+.welcome-copy {
+    min-width: 0 !important;
+}
+
+.welcome-copy h1 {
+    margin: 0 !important;
+
+    color: #1d2d24 !important;
+
+    font-size: 26px !important;
+
+    line-height: 1.2 !important;
+
+    font-weight: 800 !important;
+}
+
+.welcome-copy p {
+    margin: 8px 0 0 !important;
+
+    max-width: 600px !important;
+
+    color: #748178 !important;
+
+    font-size: 11px !important;
+
+    line-height: 1.55 !important;
+}
+
+.welcome-section .primary-button,
+.welcome-section button {
+    flex-shrink: 0 !important;
+
+    height: 40px !important;
+
+    padding: 0 17px !important;
+
+    border: 0 !important;
+
+    border-radius: 8px !important;
+
+    background: #198754 !important;
+
+    color: #ffffff !important;
+
+    font-size: 10px !important;
+
+    font-weight: 800 !important;
+
+    box-shadow:
+        0 5px 12px rgba(25,135,84,.15) !important;
+}
+
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+.stats-grid,
+.dashboard-stats {
+    width: 100% !important;
+
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(4, minmax(0,1fr)) !important;
+
+    gap: 14px !important;
+
+    margin-bottom: 18px !important;
+}
+
+.stat-card {
+    min-height: 82px !important;
+
+    padding: 15px 17px !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    background: #ffffff !important;
+
+    border: 1px solid #e1e9e3 !important;
+
+    border-radius: 11px !important;
+
+    box-shadow:
+        0 3px 12px rgba(20,70,45,.035) !important;
+}
+
+.stat-icon {
+    width: 40px !important;
+    height: 40px !important;
+
+    flex-shrink: 0 !important;
+
+    border-radius: 9px !important;
+}
+
+.stat-info span {
+    font-size: 10px !important;
+
+    color: #7b8981 !important;
+}
+
+.stat-info strong {
+    margin-top: 3px !important;
+
+    font-size: 21px !important;
+
+    color: #1e2e25 !important;
+}
+
+
+/* =========================================================
+   MAP + REPORT
+   35% MAP / 65% REPORT
+   ========================================================= */
+
+.dashboard-main-grid {
+    width: 100% !important;
+
+    display: grid !important;
+
+    grid-template-columns:
+        minmax(0, 35fr)
+        minmax(0, 65fr) !important;
+
+    gap: 16px !important;
+
+    align-items: stretch !important;
+
+    margin: 0 !important;
+}
+
+
+/* =========================================================
+   PANELS
+   ========================================================= */
+
+.panel {
+    background: #ffffff !important;
+
+    border: 1px solid #dfe8e2 !important;
+
+    border-radius: 13px !important;
+
+    box-shadow:
+        0 4px 16px rgba(20,70,45,.04) !important;
+
+    overflow: hidden !important;
+}
+
+
+/* =========================================================
+   MAP PANEL
+   ========================================================= */
+
+.map-panel {
+    width: 100% !important;
+
+    display: flex !important;
+
+    flex-direction: column !important;
+}
+
+.map-panel .panel-header {
+    flex-shrink: 0 !important;
+
+    min-height: 76px !important;
+
+    padding: 16px 18px !important;
+}
+
+.map-panel .panel-kicker,
+.quick-report-panel .panel-kicker {
+    color: #198754 !important;
+
+    font-size: 8px !important;
+
+    font-weight: 800 !important;
+
+    letter-spacing: .13em !important;
+}
+
+.map-panel .panel-header h2,
+.map-panel .panel-header h3,
+.quick-report-panel .panel-header h2,
+.quick-report-panel .panel-header h3 {
+    margin: 3px 0 0 !important;
+
+    color: #26372d !important;
+
+    font-size: 14px !important;
+
+    font-weight: 800 !important;
+}
+
+.map-panel .panel-header p,
+.quick-report-panel .panel-header p {
+    margin: 4px 0 0 !important;
+
+    color: #87948c !important;
+
+    font-size: 9px !important;
+}
+
+
+/* Map itself */
+
+#civicMap,
+.civic-map,
+.civic-map.leaflet-container {
+    width: 100% !important;
+
+    height: 360px !important;
+
+    min-height: 360px !important;
+
+    max-height: 360px !important;
+
+    flex: none !important;
+
+    border: 0 !important;
+
+    border-radius: 0 !important;
+}
+
+
+/* =========================================================
+   REPORT PANEL
+   ========================================================= */
+
+.quick-report-panel {
+    width: 100% !important;
+
+    min-width: 0 !important;
+}
+
+.quick-report-panel .panel-header {
+    min-height: 76px !important;
+
+    padding: 16px 20px !important;
+}
+
+.quick-report-panel form,
+.quick-report-panel #complaintForm {
+    width: 100% !important;
+
+    padding: 18px 20px 20px !important;
+}
+
+
+/* Title full width */
+
+.quick-report-panel #title {
+    width: 100% !important;
+}
+
+
+/* Category + priority */
+
+.quick-report-panel .form-row {
+    display: grid !important;
+
+    grid-template-columns:
+        minmax(0,1fr)
+        minmax(0,1fr) !important;
+
+    gap: 16px !important;
+}
+
+
+/* Form labels */
+
+.quick-report-panel .form-group label {
+    display: block !important;
+
+    margin-bottom: 6px !important;
+
+    color: #536259 !important;
+
+    font-size: 10px !important;
+
+    font-weight: 750 !important;
+}
+
+
+/* Inputs */
+
+.quick-report-panel input,
+.quick-report-panel select,
+.quick-report-panel textarea {
+    width: 100% !important;
+
+    border: 1px solid #d7e3da !important;
+
+    border-radius: 8px !important;
+
+    background: #ffffff !important;
+
+    color: #26382d !important;
+
+    font-size: 10px !important;
+}
+
+.quick-report-panel input,
+.quick-report-panel select {
+    height: 40px !important;
+
+    min-height: 40px !important;
+
+    padding: 0 11px !important;
+}
+
+.quick-report-panel textarea {
+    height: 86px !important;
+
+    min-height: 86px !important;
+
+    padding: 10px 11px !important;
+
+    line-height: 1.5 !important;
+}
+
+.quick-report-panel input:focus,
+.quick-report-panel select:focus,
+.quick-report-panel textarea:focus {
+    outline: none !important;
+
+    border-color: #198754 !important;
+
+    box-shadow:
+        0 0 0 3px rgba(25,135,84,.07) !important;
+}
+
+
+/* Location */
+
+.quick-report-panel .location-row {
+    display: grid !important;
+
+    grid-template-columns:
+        minmax(0,1fr)
+        auto !important;
+
+    gap: 8px !important;
+}
+
+.quick-report-panel #locationButton {
+    height: 40px !important;
+
+    min-height: 40px !important;
+
+    width: 42px !important;
+
+    padding: 0 !important;
+
+    border: 1px solid #c8dfcf !important;
+
+    border-radius: 8px !important;
+
+    background: #eff8f2 !important;
+
+    color: #198754 !important;
+}
+
+.quick-report-panel #locationStatus {
+    margin-top: 5px !important;
+
+    color: #8b9990 !important;
+
+    font-size: 8px !important;
+}
+
+
+/* Submit */
+
+.quick-report-panel #complaintButton {
+    width: 100% !important;
+
+    height: 42px !important;
+
+    min-height: 42px !important;
+
+    margin-top: 7px !important;
+
+    border: 0 !important;
+
+    border-radius: 8px !important;
+
+    background: #198754 !important;
+
+    color: #ffffff !important;
+
+    font-size: 10px !important;
+
+    font-weight: 800 !important;
+
+    box-shadow:
+        0 5px 13px rgba(25,135,84,.14) !important;
+}
+
+.quick-report-panel #complaintButton:hover {
+    background: #157347 !important;
+}
+
+
+/* =========================================================
+   ACTIVITY
+   ========================================================= */
+
+.complaints-panel {
+    width: 100% !important;
+
+    margin-top: 18px !important;
+
+    background: #ffffff !important;
+
+    border: 1px solid #dfe8e2 !important;
+
+    border-radius: 13px !important;
+
+    box-shadow:
+        0 4px 16px rgba(20,70,45,.04) !important;
+
+    overflow: hidden !important;
+}
+
+.complaints-panel .panel-header {
+    min-height: 74px !important;
+
+    padding: 16px 18px !important;
+}
+
+.complaints-list,
+#complaintsList {
+    width: 100% !important;
+
+    padding: 14px !important;
+
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(2,minmax(0,1fr)) !important;
+
+    gap: 12px !important;
+
+    background: #fbfdfb !important;
+}
+
+.complaint-card {
+    padding: 15px !important;
+
+    min-height: 112px !important;
+
+    background: #ffffff !important;
+
+    border: 1px solid #e2ebe5 !important;
+
+    border-radius: 9px !important;
+
+    box-shadow:
+        0 2px 8px rgba(20,70,45,.025) !important;
+}
+
+.complaint-card h3 {
+    color: #26372d !important;
+
+    font-size: 11px !important;
+}
+
+.complaint-category {
+    color: #198754 !important;
+
+    background: #edf7f0 !important;
+
+    font-size: 8px !important;
+}
+
+.complaint-description {
+    color: #718078 !important;
+
+    font-size: 9px !important;
+
+    line-height: 1.5 !important;
+}
+
+.complaint-meta {
+    color: #89958e !important;
+
+    font-size: 8px !important;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.dashboard-content > footer {
+    margin-top: 18px !important;
+
+    color: #91a098 !important;
+
+    font-size: 9px !important;
+}
+
+
+/* =========================================================
+   LARGE SCREENS
+   ========================================================= */
+
+@media (min-width: 1600px) {
+
+    .dashboard-content {
+        max-width: 1480px !important;
+
+        padding-left: 34px !important;
+        padding-right: 34px !important;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .sidebar {
+        width: 210px !important;
+        min-width: 210px !important;
+    }
+
+    .main-content {
+        width: calc(100% - 210px) !important;
+
+        margin-left: 210px !important;
+    }
+
+    .dashboard-main-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    #civicMap,
+    .civic-map,
+    .civic-map.leaflet-container {
+        height: 340px !important;
+
+        min-height: 340px !important;
+
+        max-height: 340px !important;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .sidebar {
+        position: relative !important;
+
+        width: 100% !important;
+        min-width: 100% !important;
+
+        height: auto !important;
+    }
+
+    .main-content {
+        width: 100% !important;
+
+        margin-left: 0 !important;
+    }
+
+    .topbar {
+        height: 60px !important;
+
+        min-height: 60px !important;
+
+        padding: 0 15px !important;
+    }
+
+    .dashboard-content {
+        padding: 15px !important;
+    }
+
+    .welcome-section {
+        min-height: auto !important;
+
+        padding: 20px !important;
+
+        flex-direction: column !important;
+
+        align-items: flex-start !important;
+
+        gap: 15px !important;
+    }
+
+    .welcome-copy h1 {
+        font-size: 22px !important;
+    }
+
+    .stats-grid,
+    .dashboard-stats {
+        grid-template-columns:
+            repeat(2,minmax(0,1fr)) !important;
+    }
+
+    .quick-report-panel .form-row {
+        grid-template-columns: 1fr !important;
+    }
+
+    .complaints-list,
+    #complaintsList {
+        grid-template-columns: 1fr !important;
+    }
+
+}
+
+
+/* =========================================================
+   CIVICSENSE — STEP 15
+   FULL WIDTH DASHBOARD
+   ========================================================= */
+
+/* Main area must use all available space */
+
+.main-content {
+    width: calc(100% - 230px) !important;
+    max-width: none !important;
+
+    margin-left: 230px !important;
+    margin-right: 0 !important;
+
+    min-width: 0 !important;
+}
+
+
+/* Dashboard content must NOT be centered into a small column */
+
+.dashboard-content {
+    width: 100% !important;
+
+    max-width: none !important;
+
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    padding: 26px 30px 50px !important;
+
+    min-width: 0 !important;
+}
+
+
+/* Remove old child width restrictions */
+
+.dashboard-content > *,
+.dashboard-content > .welcome-section,
+.dashboard-content > .stats-grid,
+.dashboard-content > .dashboard-stats,
+.dashboard-content > .dashboard-main-grid,
+.dashboard-content > .complaints-panel {
+    width: 100% !important;
+
+    max-width: none !important;
+
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+
+/* Main 35 / 65 grid */
+
+.dashboard-main-grid {
+    width: 100% !important;
+
+    max-width: none !important;
+
+    display: grid !important;
+
+    grid-template-columns:
+        minmax(0, 35fr)
+        minmax(0, 65fr) !important;
+
+    gap: 16px !important;
+}
+
+
+/* Make the two panels fill their columns */
+
+.dashboard-main-grid > .map-panel,
+.dashboard-main-grid > .quick-report-panel {
+    width: 100% !important;
+
+    max-width: none !important;
+
+    min-width: 0 !important;
+}
+
+
+/* Statistics */
+
+.stats-grid,
+.dashboard-stats {
+    width: 100% !important;
+
+    max-width: none !important;
+}
+
+
+/* Welcome */
+
+.welcome-section {
+    width: 100% !important;
+
+    max-width: none !important;
+}
+
+
+/* Complaints */
+
+.complaints-panel {
+    width: 100% !important;
+
+    max-width: none !important;
+}
+
+
+/* =========================================================
+   LARGE SCREEN
+   ========================================================= */
+
+@media (min-width: 1200px) {
+
+    .dashboard-content {
+        padding-left: 30px !important;
+        padding-right: 30px !important;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .sidebar {
+        width: 210px !important;
+        min-width: 210px !important;
+    }
+
+    .main-content {
+        width: calc(100% - 210px) !important;
+
+        margin-left: 210px !important;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .sidebar {
+        position: relative !important;
+
+        width: 100% !important;
+        min-width: 100% !important;
+    }
+
+    .main-content {
+        width: 100% !important;
+
+        margin-left: 0 !important;
+    }
+
+    .dashboard-content {
+        width: 100% !important;
+
+        padding: 18px 15px 40px !important;
+    }
+
+}
+

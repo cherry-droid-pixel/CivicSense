@@ -1,0 +1,1044 @@
+const API_BASE_URL = "http://127.0.0.1:8080";
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    initializeUser();
+
+    initializeLogout();
+
+    initializeReportForm();
+
+    initializeLocation();
+
+});
+
+
+/* =========================================================
+   USER
+   ========================================================= */
+
+function initializeUser() {
+
+    const storedUser =
+        localStorage.getItem("user");
+
+    if (!storedUser) {
+        return;
+    }
+
+    try {
+
+        const user =
+            JSON.parse(storedUser);
+
+        const name =
+            user.name ||
+            user.username ||
+            user.fullName ||
+            "Citizen";
+
+        const userName =
+            document.getElementById("userName");
+
+        const userInitial =
+            document.getElementById("userInitial");
+
+        if (userName) {
+            userName.textContent = name;
+        }
+
+        if (userInitial) {
+            userInitial.textContent =
+                name.charAt(0).toUpperCase();
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "Could not read stored user:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+function initializeLogout() {
+
+    const logoutButton =
+        document.getElementById("logoutButton");
+
+    if (!logoutButton) {
+        return;
+    }
+
+    logoutButton.addEventListener(
+        "click",
+        async () => {
+
+            logoutButton.disabled = true;
+
+            logoutButton.textContent =
+                "Logging out...";
+
+            try {
+
+                await fetch(
+                    `${API_BASE_URL}/api/auth/logout`,
+                    {
+                        method: "POST",
+                        credentials: "include"
+                    }
+                );
+
+            } catch (error) {
+
+                console.warn(
+                    "Logout request failed:",
+                    error
+                );
+
+            } finally {
+
+                localStorage.removeItem("user");
+
+                window.location.href =
+                    "login.html";
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   REPORT FORM
+   ========================================================= */
+
+function initializeReportForm() {
+
+    const form =
+        document.getElementById(
+            "complaintForm"
+        );
+
+    if (!form) {
+        return;
+    }
+
+    form.addEventListener(
+        "submit",
+        handleComplaintSubmit
+    );
+
+}
+
+
+/* =========================================================
+   SUBMIT COMPLAINT
+   ========================================================= */
+
+async function handleComplaintSubmit(event) {
+
+    event.preventDefault();
+
+
+    const form =
+        document.getElementById(
+            "complaintForm"
+        );
+
+    const button =
+        document.getElementById(
+            "complaintButton"
+        );
+
+
+    if (!form || !button) {
+        return;
+    }
+
+
+    clearMessage();
+
+
+    const title =
+        document
+            .getElementById("title")
+            .value
+            .trim();
+
+    const category =
+        document
+            .getElementById("category")
+            .value;
+
+    const description =
+        document
+            .getElementById("description")
+            .value
+            .trim();
+
+    const location =
+        document
+            .getElementById("location")
+            .value
+            .trim();
+
+    const priority =
+        document
+            .getElementById("priority")
+            .value;
+
+    const latitudeValue =
+        document
+            .getElementById("latitude")
+            .value;
+
+    const longitudeValue =
+        document
+            .getElementById("longitude")
+            .value;
+
+    const imageUrl =
+        document
+            .getElementById("imageUrl")
+            .value
+            .trim();
+
+
+    /* =====================================================
+       VALIDATION
+       ===================================================== */
+
+    if (!title) {
+
+        showMessage(
+            "Please enter an issue title.",
+            "error"
+        );
+
+        document
+            .getElementById("title")
+            .focus();
+
+        return;
+    }
+
+
+    if (!category) {
+
+        showMessage(
+            "Please select a category.",
+            "error"
+        );
+
+        document
+            .getElementById("category")
+            .focus();
+
+        return;
+    }
+
+
+    if (!location) {
+
+        showMessage(
+            "Please enter the issue location.",
+            "error"
+        );
+
+        document
+            .getElementById("location")
+            .focus();
+
+        return;
+    }
+
+
+    if (!description) {
+
+        showMessage(
+            "Please describe the issue.",
+            "error"
+        );
+
+        document
+            .getElementById("description")
+            .focus();
+
+        return;
+    }
+
+
+    /* =====================================================
+       LOCATION VALIDATION
+       ===================================================== */
+
+    if (!latitudeValue || !longitudeValue) {
+
+        showMessage(
+            "Please detect your location before submitting the complaint.",
+            "error"
+        );
+
+        button.disabled = false;
+        button.textContent = "Submit Complaint";
+
+        return;
+    }
+
+    const latitude = Number(latitudeValue);
+    const longitude = Number(longitudeValue);
+
+    if (
+        !Number.isFinite(latitude) ||
+        !Number.isFinite(longitude) ||
+        latitude < -90 ||
+        latitude > 90 ||
+        longitude < -180 ||
+        longitude > 180
+    ) {
+
+        showMessage(
+            "Invalid location coordinates. Please detect your location again.",
+            "error"
+        );
+
+        button.disabled = false;
+        button.textContent = "Submit Complaint";
+
+        return;
+    }
+
+
+    /* =====================================================
+       REQUEST BODY
+       ===================================================== */
+
+    const requestBody = {
+
+        title: title,
+
+        category: category,
+
+        description: description,
+
+        location: location,
+
+        priority: priority || "MEDIUM",
+
+        latitude: latitude,
+
+        longitude: longitude,
+
+        imageUrl:
+            imageUrl || null
+
+    };
+
+
+    console.log(
+        "Submitting complaint:",
+        requestBody
+    );
+
+
+    /* =====================================================
+       SUBMIT
+       ===================================================== */
+
+    button.disabled = true;
+
+    button.textContent =
+        "Submitting...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE_URL}/api/complaints`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    credentials: "include",
+
+                    body:
+                        JSON.stringify(
+                            requestBody
+                        )
+                }
+            );
+
+
+        const rawText =
+            await response.text();
+
+
+        let data = null;
+
+
+        try {
+
+            data =
+                rawText
+                    ? JSON.parse(rawText)
+                    : null;
+
+        } catch {
+
+            data = null;
+
+        }
+
+
+        if (!response.ok) {
+
+            const errorMessage =
+                data?.message ||
+                data?.error ||
+                rawText ||
+                `Request failed (${response.status})`;
+
+            throw new Error(
+                errorMessage
+            );
+        }
+
+
+        console.log(
+            "Complaint created:",
+            data
+        );
+
+
+        showMessage(
+            "Your civic issue has been reported successfully.",
+            "success"
+        );
+
+
+        form.reset();
+
+
+        /*
+         * Restore default priority after reset.
+         */
+
+        const prioritySelect =
+            document.getElementById(
+                "priority"
+            );
+
+        if (prioritySelect) {
+
+            prioritySelect.value =
+                "MEDIUM";
+
+        }
+
+
+        /*
+         * Reset coordinates.
+         */
+
+        document
+            .getElementById("latitude")
+            .value = "";
+
+        document
+            .getElementById("longitude")
+            .value = "";
+
+
+        /*
+         * Reset location status.
+         */
+
+        const locationStatus =
+            document.getElementById(
+                "locationStatus"
+            );
+
+        if (locationStatus) {
+
+            locationStatus.textContent =
+                "You can enter the location manually or detect your current location.";
+
+        }
+
+
+        /*
+         * Scroll to success message.
+         */
+
+        const message =
+            document.getElementById(
+                "reportMessage"
+            );
+
+        if (message) {
+
+            message.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Complaint submission error:",
+            error
+        );
+
+
+        showMessage(
+            error.message ||
+            "Unable to submit the complaint. Please try again.",
+            "error"
+        );
+
+
+    } finally {
+
+        button.disabled = false;
+
+        button.textContent =
+            "Submit Civic Report";
+
+    }
+
+}
+
+
+/* =========================================================
+   LOCATION
+   ========================================================= */
+
+function initializeLocation() {
+
+    const button =
+        document.getElementById(
+            "locationButton"
+        );
+
+    if (!button) {
+        return;
+    }
+
+
+    button.addEventListener(
+        "click",
+        detectCurrentLocation
+    );
+
+}
+
+
+/* =========================================================
+   DETECT LOCATION
+   ========================================================= */
+
+function detectCurrentLocation() {
+
+    const button =
+        document.getElementById(
+            "locationButton"
+        );
+
+    const status =
+        document.getElementById(
+            "locationStatus"
+        );
+
+
+    if (!navigator.geolocation) {
+
+        setLocationStatus(
+            "Geolocation is not supported by this browser.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Detecting...";
+
+
+    setLocationStatus(
+        "Requesting your current location...",
+        "loading"
+    );
+
+
+    navigator.geolocation.getCurrentPosition(
+
+        async position => {
+
+            const latitude =
+                position.coords.latitude;
+
+            const longitude =
+                position.coords.longitude;
+
+
+            document
+                .getElementById("latitude")
+                .value = latitude;
+
+            document
+                .getElementById("longitude")
+                .value = longitude;
+
+
+            /*
+             * We already have the exact coordinates.
+             * Try to obtain a readable address using
+             * OpenStreetMap's reverse geocoding service.
+             */
+
+            try {
+
+                const address =
+                    await reverseGeocode(
+                        latitude,
+                        longitude
+                    );
+
+
+                if (address) {
+
+                    document
+                        .getElementById("location")
+                        .value = address;
+
+                    setLocationStatus(
+                        "Location detected successfully.",
+                        "success"
+                    );
+
+                } else {
+
+                    document
+                        .getElementById("location")
+                        .value =
+                            `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+
+                    setLocationStatus(
+                        "Coordinates detected. Please verify the location.",
+                        "success"
+                    );
+
+                }
+
+            } catch (error) {
+
+                console.warn(
+                    "Reverse geocoding failed:",
+                    error
+                );
+
+
+                document
+                    .getElementById("location")
+                    .value =
+                        `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+
+
+                setLocationStatus(
+                    "Coordinates detected. Please enter or verify the location name.",
+                    "success"
+                );
+
+            }
+
+
+            button.disabled = false;
+
+            button.textContent =
+                "◎ Detect Location";
+
+        },
+
+
+        error => {
+
+            console.error(
+                "Geolocation error:",
+                error
+            );
+
+
+            let message =
+                "Unable to detect your location.";
+
+
+            if (
+                error.code ===
+                error.PERMISSION_DENIED
+            ) {
+
+                message =
+                    "Location permission was denied. Please allow location access in your browser.";
+
+            } else if (
+                error.code ===
+                error.POSITION_UNAVAILABLE
+            ) {
+
+                message =
+                    "Your current location is unavailable.";
+
+            } else if (
+                error.code ===
+                error.TIMEOUT
+            ) {
+
+                message =
+                    "Location detection timed out. Please try again.";
+
+            }
+
+
+            setLocationStatus(
+                message,
+                "error"
+            );
+
+
+            button.disabled = false;
+
+            button.textContent =
+                "◎ Detect Location";
+
+        },
+
+        {
+            enableHighAccuracy: true,
+
+            timeout: 15000,
+
+            maximumAge: 0
+        }
+
+    );
+
+}
+
+
+/* =========================================================
+   REVERSE GEOCODING
+   ========================================================= */
+
+async function reverseGeocode(
+    latitude,
+    longitude
+) {
+
+    const url =
+        "https://nominatim.openstreetmap.org/reverse" +
+        `?format=jsonv2&lat=${encodeURIComponent(latitude)}` +
+        `&lon=${encodeURIComponent(longitude)}`;
+
+
+    const response =
+        await fetch(url, {
+            headers: {
+                "Accept":
+                    "application/json"
+            }
+        });
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            `Reverse geocoding failed (${response.status})`
+        );
+
+    }
+
+
+    const data =
+        await response.json();
+
+
+    if (
+        data &&
+        data.display_name
+    ) {
+
+        return data.display_name;
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+function showMessage(
+    message,
+    type
+) {
+
+    const element =
+        document.getElementById(
+            "reportMessage"
+        );
+
+
+    if (!element) {
+        return;
+    }
+
+
+    element.textContent =
+        message;
+
+
+    element.className =
+        `report-message ${type}`;
+
+}
+
+
+function clearMessage() {
+
+    const element =
+        document.getElementById(
+            "reportMessage"
+        );
+
+
+    if (!element) {
+        return;
+    }
+
+
+    element.textContent = "";
+
+    element.className =
+        "report-message";
+
+}
+
+
+/* =========================================================
+   LOCATION STATUS
+   ========================================================= */
+
+function setLocationStatus(
+    message,
+    type
+) {
+
+    const element =
+        document.getElementById(
+            "locationStatus"
+        );
+
+
+    if (!element) {
+        return;
+    }
+
+
+    element.textContent =
+        message;
+
+
+    if (type === "success") {
+
+        element.style.color =
+            "#166534";
+
+    } else if (type === "error") {
+
+        element.style.color =
+            "#b91c1c";
+
+    } else {
+
+        element.style.color =
+            "#6b7280";
+
+    }
+
+}
+
+
+/* =========================================================
+   CIVICSENSE IMAGE UPLOAD
+   ========================================================= */
+
+async function uploadComplaintImage() {
+
+    const fileInput =
+        document.getElementById("imageFile");
+
+    const imageUrlInput =
+        document.getElementById("imageUrl");
+
+    if (!fileInput || !fileInput.files.length) {
+        return null;
+    }
+
+    const file =
+        fileInput.files[0];
+
+    console.log(
+        "Uploading complaint image:",
+        file.name,
+        file.type,
+        file.size
+    );
+
+    const formData =
+        new FormData();
+
+    formData.append(
+        "file",
+        file
+    );
+
+    const response =
+        await fetch(
+            `${API_BASE_URL}/api/uploads/image`,
+            {
+                method: "POST",
+                credentials: "include",
+                body: formData
+            }
+        );
+
+    const rawText =
+        await response.text();
+
+    if (!response.ok) {
+
+        console.error(
+            "Image upload failed:",
+            rawText
+        );
+
+        throw new Error(
+            "Image upload failed"
+        );
+    }
+
+    const result =
+        JSON.parse(rawText);
+
+    console.log(
+        "Image uploaded:",
+        result
+    );
+
+    if (imageUrlInput) {
+
+        imageUrlInput.value =
+            result.imageUrl || "";
+    }
+
+    return result.imageUrl;
+}
+
+
+/* =========================================================
+   IMAGE PREVIEW
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const fileInput =
+            document.getElementById(
+                "imageFile"
+            );
+
+        const preview =
+            document.getElementById(
+                "imagePreview"
+            );
+
+        if (!fileInput || !preview) {
+            return;
+        }
+
+        fileInput.addEventListener(
+            "change",
+            function () {
+
+                preview.innerHTML = "";
+
+                if (!fileInput.files.length) {
+                    return;
+                }
+
+                const file =
+                    fileInput.files[0];
+
+                if (!file.type.startsWith("image/")) {
+
+                    preview.textContent =
+                        "Please select an image.";
+
+                    fileInput.value = "";
+
+                    return;
+                }
+
+                const img =
+                    document.createElement("img");
+
+                img.src =
+                    URL.createObjectURL(file);
+
+                img.alt =
+                    "Issue preview";
+
+                img.style.maxWidth =
+                    "250px";
+
+                img.style.maxHeight =
+                    "200px";
+
+                img.style.marginTop =
+                    "10px";
+
+                img.style.borderRadius =
+                    "10px";
+
+                preview.appendChild(img);
+            }
+        );
+    }
+);
